@@ -1,0 +1,19 @@
+#hometitle {
+    font-family: archivo-black, sans-serif;
+    font-weight: 400;
+    font-size: 120px;
+    font-style: normal;
+  }
+  
+  #hometitle2 {
+    font-family: archivo-black, sans-serif;
+    font-weight: 390;
+    font-size: 90px;
+    font-style: normal; 
+  }
+  
+  #causes, #mission {
+    font-family: archivo-black, sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }

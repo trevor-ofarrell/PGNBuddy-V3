@@ -29,8 +29,9 @@ async function lichessUpload(req, res) {
       .collection('pgns')
       .add({
         name: pgn_name,
-        gameString: game_string,
+        pgn_id: game_string,
         folder: pgn_folder,
+        pgn: response.data,
       });
     return (response.data)
   }

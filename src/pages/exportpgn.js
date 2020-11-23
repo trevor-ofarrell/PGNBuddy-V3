@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from '@material-ui/core';
 import { Face, Fingerprint } from '@material-ui/icons'
 import { useState, useEffect } from 'react';
@@ -41,12 +41,24 @@ export default function ExportPGN() {
     const [name, setName] = useState("");
     const [gameString, setGameString] = useState("");
     const [folder, setFolder] = useState("");
+    const form = useRef(null)
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(form.current)
-        fetch('/api/lichessupload', {method: 'POST', body: data})
-            .then(res =+ res.json)
+        const data = {
+            "name": name,
+            "folder": folder,
+            "game_string": gameString,
+        }
+        fetch('/api/lichessupload', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+            .then(function(response) {
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error); 
+            });
+            
+        console.log(JSON.stringify(data))
     }
        
     return (

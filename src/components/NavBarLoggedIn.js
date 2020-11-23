@@ -1,6 +1,4 @@
 import React from "react";
-import Link from "next/link";
-
 // Material UI
 import {
   fade,
@@ -26,6 +24,8 @@ import {
   Notifications as NotificationsIcon,
   MoreHoriz as MoreIcon,
 } from "@material-ui/icons";
+
+import { firebaseClient } from '../../firebaseClient';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ResponsiveAppBar = () => {
+export const NavBarLoggedIn = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -211,24 +211,22 @@ export const ResponsiveAppBar = () => {
           <Button color="inherit" className={classes.minbutton}>
               home
             </Button>
-            <Link href='/dashboard'>
-                <Button color="inherit" className={classes.minbutton}>
-                dashboard
-                </Button>
-            </Link>
+            <Button color="inherit" className={classes.minbutton}>
+              dashboard
+            </Button>
             <Button color="inherit" className={classes.minbutton}>
               more
             </Button>
-            <Link href='/login'>
-              <Button color="inherit" className={classes.borderbutton}>
-                Login
-              </Button>
-            </Link>
-            <Link href='/signup'>
-              <Button color="inherit" className={classes.orangebutton}>
-                Sign up
-              </Button>
-            </Link>
+            <Button
+                color="inherit"
+                className={classes.orangebutton}
+                onClick={async () => {
+                    await firebaseClient.auth().signOut();
+                    window.location.href = '/';
+                }}
+            >
+                Log Out
+            </Button>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

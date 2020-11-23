@@ -17,25 +17,27 @@ async function lichessUpload(req, res) {
       game_string = game_string.slice(0,8)
     }
     const pgn_folder = req.body.folder
+    const user_data = req.body.user_data
     const iframeLink = "https:lichess.org/embed" + game_string + "?theme=auto&bg=auto"
     const response = await axios.get("https://lichess.org/game/export/" + game_string + "?pgnInJson=true");
     if (response) {
       const responseData = response.data
       console.log("res received", response.data)
+      console.log(user_data)
+      fire.firestore()
+        .collection('pgns')
+        .add({
+          name: pgn_name,
+          pgn_id: game_string,
+          folder: pgn_folder,
+          pgn: response.data,
+          user_data: user_data,
+        });
+      return res.status(200).end()
     } else {
-      responseData = {}
+      return res.status(405).end()
     }
-    fire.firestore()
-      .collection('pgns')
-      .add({
-        name: pgn_name,
-        pgn_id: game_string,
-        folder: pgn_folder,
-        pgn: response.data,
-      });
-    return (response.data)
   }
-  return ("1")
 }
 
 export default lichessUpload;

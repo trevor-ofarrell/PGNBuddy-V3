@@ -8,7 +8,7 @@ if (typeof window !== 'undefined' && !firebaseClient.apps.length) {
     projectId: "pgnbuddy",
     storageBucket: 'pgnbuddy.appspot.com',
     messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
+    appId: process.env.APP_ID, 
   };
 
   firebaseClient.initializeApp(CLIENT_CONFIG);

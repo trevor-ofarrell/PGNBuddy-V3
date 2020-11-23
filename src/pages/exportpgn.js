@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from '@material-ui/core';
-import { Face, Fingerprint } from '@material-ui/icons'
 import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link'
 import fire from '../../fire-config';
-import Axios from 'axios';
+import nookies from 'nookies';
+import { firebaseAdmin } from '../../firebaseAdmin';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,10 +33,28 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         color: 'white'
     }
-
 }));
 
-export default function ExportPGN() {
+export const getServerSideProps = async (ctx) => {
+    try {
+      const cookies = nookies.get(ctx);
+      const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+      const { uid, email } = token;
+      return {
+        props: {"id": uid, "email": email},
+      };
+    } catch (err) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/login',
+        },
+        props: {},
+      };
+    }
+  };
+
+const ExportPGN = (props) => {
     const classes = useStyles();
     const [name, setName] = useState("");
     const [gameString, setGameString] = useState("");
@@ -49,6 +67,7 @@ export default function ExportPGN() {
             "name": name,
             "folder": folder,
             "game_string": gameString,
+            "user_data": {"id": props.id, "email": props.email},
         }
         fetch('/api/lichessupload', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
             .then(function(response) {
@@ -124,3 +143,5 @@ export default function ExportPGN() {
         </form>
     );
 }
+
+export default ExportPGN;

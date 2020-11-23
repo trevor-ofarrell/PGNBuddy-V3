@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link'
 import fire from '../../fire-config';
+import Axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,24 +44,13 @@ export default function ExportPGN() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
-        fire.firestore()
-          .collection('pgns')
-          .add({
-            name: name,
-            gameString: gameString,
-            folder: folder,
-          });    
-        setTitle('');
-        setContent('');    
-        setNotification('PGN saved to database');    
-        setTimeout(() => {
-          setNotification('')
-        }, 2000)
+        const data = new FormData(form.current)
+        fetch('/api/lichessupload', {method: 'POST', body: data})
+            .then(res =+ res.json)
     }
        
     return (
-        <div className={classes.root}>
+        <form ref={form} className={classes.root}>
             <Grid container className={classes.mask}>
                 <Grid item xs={1} sm={1} md={3} lg={4}/>
                 <Grid item xs={10} sm={10} md={6} lg={4}>
@@ -119,24 +109,6 @@ export default function ExportPGN() {
                 </Grid>
                 <Grid item xs={1} sm={1} md={3} lg={4}/>
             </Grid>
-        </div>
+        </form>
     );
 }
-
-export async function getStaticProps() {
-    // Call an external API endpoint to get posts.
-    // You can use any data fetching library
-
-    const res = await fetch()
-    const posts = await res.json()
-  
-    // By returning { props: posts }, the Blog component
-    // will receive `posts` as a prop at build time
-    return {
-      props: {
-        posts,
-      },
-    }
-}
-  
-export default Blog

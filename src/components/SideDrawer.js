@@ -72,14 +72,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const SideDrawer = (props, windows) => {
   const { window } = windows;
-  const {id, email} = props
+  const {id, email, user} = props
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  async function Del() {
-    const res = await fetch("http://127.0.0.1:5001/nothingyet");
-  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -96,7 +92,7 @@ export const SideDrawer = (props, windows) => {
             </Link>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
-            <Button onClick={Del} className={classes.options} variant="outlined">
+            <Button className={classes.options} variant="outlined">
                 Clear DB
             </Button>
           </Grid>
@@ -162,7 +158,7 @@ export const SideDrawer = (props, windows) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <Accordian id={props.id} email={props.email}/>
+        <Accordian id={id} email={email} user={user}/>
       </main>
     </div>
   );

@@ -90,6 +90,7 @@ export const Accordian = (props) => {
 
   const getTodos = () => {
     console.log(props.id)
+    console.log(props.user)
     fire.firestore().collection('pgns').where("user_id", "==", props.id)
       .get()
       .then(querySnapshot => {

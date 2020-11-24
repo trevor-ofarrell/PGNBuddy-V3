@@ -5,11 +5,12 @@ import { firebaseClient } from '../../firebaseClient';
 import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next';
 import { Grid, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import fire from '../../fire-config';
 import {
     NavBarLoggedIn,
     SideDrawer,
 } from "../components"
+
 import { useAuth } from '../../auth';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,8 +39,10 @@ export const getServerSideProps = async (ctx) => {
     const cookies = nookies.get(ctx);
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     const { uid, email } = token;
+    let user = fire.auth().currentUser;
+
     return {
-      props: { "id": uid, "email": email},
+      props: { "id": uid, "email": email, "user": user},
     };
   } catch (err) {
     return {

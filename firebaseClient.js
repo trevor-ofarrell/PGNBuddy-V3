@@ -3,12 +3,13 @@ import 'firebase/auth';
 
 if (typeof window !== 'undefined' && !firebaseClient.apps.length) {
   const CLIENT_CONFIG = {
+    apiKey: process.env.NEXT_PUBLIC_API_KEY,
     authDomain: 'pgnbuddy.firebaseapp.com',
     databaseURL: 'https://pgnbuddy.firebaseio.com',
     projectId: "pgnbuddy",
     storageBucket: 'pgnbuddy.appspot.com',
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID, 
+    messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_APP_ID, 
   };
 
   firebaseClient.initializeApp(CLIENT_CONFIG);

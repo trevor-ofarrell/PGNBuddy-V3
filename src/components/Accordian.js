@@ -7,6 +7,7 @@ import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { color } from '@material-ui/system';
+import fire from '../../fire-config';
 
 const Accordion = withStyles({
   root: {
@@ -72,34 +73,45 @@ const useStyles = makeStyles((theme) => ({
 export const Accordian = () => {
     const classes = useStyles();
     const [gameData, setGameData] = useState({});
-
+    const [pgns, setPgns] = useState([])
     const [expanded, setExpanded] = React.useState('panel1');
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
   
-    async function fetchData() {
-      const res = await fetch("http://127.0.0.1:5001/mydatabase", {credentials: 'include'});
-      res
-        .json()
-        .then(res => setGameData(res))
-    }
-  
-    useEffect(() => {
-      fetchData();
-    }, []);
+    useEffect( () => {
+      let mounted = true;
+      if (mounted) {
+        getTodos()
+      }
+      return () => mounted = false;
+    }, [])
+
+  const getTodos = () => {
+    fire.firestore().collection('pgns').get()
+      .then(querySnapshot => {
+      querySnapshot.forEach( doc => {
+        setPgns(prev => ([...prev, doc.data()]))
+      })
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
+  }
+
+
 
     return gameData && (
         <div className={classes.root}>
-            {gameData.pgnlist ? gameData.pgnlist.map((item, index) => (
+            {pgns.length !== 0 ? pgns.map((pgn, index) => (
               <Accordion TransitionProps={{ unmountOnExit: true }} key={index} expanded={expanded === 'panel' + String(index)} onChange={handleChange('panel' + String(index))}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                  <Typography className={classes.text}>{JSON.stringify(item.name)}</Typography>
+                  <Typography className={classes.text}>{pgn.name}</Typography>
                 </AccordionSummary>
               <AccordionDetails>
                 <Typography className={classes.text}>
-                  {JSON.stringify(item.game)}
+                  {pgn.pgn}
                 </Typography>
               </AccordionDetails>
             </Accordion>

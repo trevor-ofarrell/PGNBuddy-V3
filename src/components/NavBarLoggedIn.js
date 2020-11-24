@@ -27,6 +27,8 @@ import {
 
 import { firebaseClient } from '../../firebaseClient';
 
+import Link from "next/link"
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -208,9 +210,11 @@ export const NavBarLoggedIn = () => {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <Button color="inherit" className={classes.minbutton}>
-              home
-            </Button>
+            <Link href='/'>
+              <Button color="inherit" className={classes.minbutton}>
+                home
+              </Button>
+            </Link>
             <Button color="inherit" className={classes.minbutton}>
               dashboard
             </Button>

@@ -6,16 +6,24 @@ async function lichessUpload(req, res) {
     let pgn_name = req.body.name    
     let game_string = req.body.game_string
     console.log([pgn_name, game_string])
-    if (game_string.slice(0,7) === 'lichess') {
-      game_string = game_string.slice(12,0)
-    }else if (game_string.slice(0,5) === 'https') {
+    console.log(game_string.slice(0,7))
+    if (game_string.slice(0,7) == 'lichess') {
+      game_string = game_string.slice(7,0)
+      console.log("game string 1" + game_string)
+    }else if (game_string.slice(0,5) == 'https') {
+      console.log(game_string.slice(0,5))
       game_string = game_string.slice(20,0)
-    }else if (game_string.slice(0,5) === 'http:') {
+      console.log("game string 2" + game_string)
+    }else if (game_string.slice(0,5) == 'http:') {
+      console.log(game_string.slice(0,5))
       game_string = game_string.slice(20,0)
+      console.log("game string 3" + game_string)
     }
     if (game_string.length !== 8) {
       game_string = game_string.slice(0,8)
+      console.log("game string 4" + game_string)
     }
+    console.log("this is the g string: " + game_string)
     let pgn_folder = req.body.folder
     let user_data = req.body.user_data
     let iframeLink = "https:lichess.org/embed" + game_string + "?theme=auto&bg=auto"

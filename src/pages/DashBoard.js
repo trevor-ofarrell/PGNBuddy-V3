@@ -39,7 +39,7 @@ export const getServerSideProps = async (ctx) => {
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     const { uid, email } = token;
     return {
-      props: { message: `Your email is ${email} and your UID is ${uid}.` },
+      props: { "id": uid, "email": email},
     };
   } catch (err) {
     return {
@@ -52,7 +52,7 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const dashboard = () => {
+const dashboard = (props) => {
     const classes = useStyles()
     return (
     <Box className={classes.root}>
@@ -60,7 +60,7 @@ const dashboard = () => {
         <Grid container>
             <Grid item xs={12} md={12} lg={12}>
                 <Box>
-                    <SideDrawer/>
+                    <SideDrawer id={props.id} email={props.email}/>
                 </Box>
             </Grid>
         </Grid>

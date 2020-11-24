@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 //   <iframe src={item.frame} width="760" height="500" frameborder="0" />
 
-export const Accordian = () => {
+export const Accordian = (props) => {
     const classes = useStyles();
     const [gameData, setGameData] = useState({});
     const [pgns, setPgns] = useState([])
@@ -89,7 +89,9 @@ export const Accordian = () => {
     }, [])
 
   const getTodos = () => {
-    fire.firestore().collection('pgns').get()
+    console.log(props.id)
+    fire.firestore().collection('pgns').where("user_id", "==", props.id)
+      .get()
       .then(querySnapshot => {
       querySnapshot.forEach( doc => {
         setPgns(prev => ([...prev, doc.data()]))

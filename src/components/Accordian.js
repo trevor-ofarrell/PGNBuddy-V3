@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { color } from '@material-ui/system';
 import fire from '../../fire-config';
+import { Paper, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from '@material-ui/core';
 
 const Accordion = withStyles({
   root: {
@@ -68,8 +69,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-//   <iframe src={item.frame} width="760" height="500" frameborder="0" />
-
 export const Accordian = (props) => {
     const classes = useStyles();
     const [gameData, setGameData] = useState({});
@@ -113,9 +112,16 @@ export const Accordian = (props) => {
                   <Typography className={classes.text}>{pgn.name}</Typography>
                 </AccordionSummary>
               <AccordionDetails>
-                <Typography className={classes.text}>
-                  {pgn.pgn}
-                </Typography>
+                <Grid container>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <iframe src={pgn.iframe} loading="lazy" width="600" height="397" frameborder="0"/>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Typography className={classes.text}>
+                      {pgn.pgn}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </AccordionDetails>
             </Accordion>
             )) : <CircularProgress disableShrink size="40vh" thickness={1.5} className={classes.loading}/> }

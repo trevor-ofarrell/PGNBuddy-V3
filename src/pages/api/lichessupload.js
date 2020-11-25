@@ -26,7 +26,7 @@ async function lichessUpload(req, res) {
     console.log("this is the g string: " + game_string)
     let pgn_folder = req.body.folder
     let user_data = req.body.user_data
-    let iframeLink = "https:lichess.org/embed" + game_string + "?theme=auto&bg=auto"
+    let iframeLink = "https:lichess.org/embed/" + game_string + "?theme=wood4&bg=dark"
     let response = await axios.get("https://lichess.org/game/export/" + game_string + "?pgnInJson=true");
     if (response) {
       let responseData = response.data
@@ -42,6 +42,7 @@ async function lichessUpload(req, res) {
           user_data: user_data,
           user_id: user_data.id,
           user_email: user_data.email,
+          iframe: iframeLink,
         });
       return res.status(200).end()
     } else {

@@ -57,6 +57,7 @@ async function exportAll(req, res) {
                 user_email: user_data.email,
                 iframe: iframeLink,
               });
+            console.log("PGN SAVED")
           })
           fs.unlink(`tmp/${username}-games.ndjson`, (err) => {
             if (err) {

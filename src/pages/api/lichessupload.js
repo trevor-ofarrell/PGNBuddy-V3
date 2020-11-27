@@ -33,7 +33,7 @@ async function lichessUpload(req, res) {
       console.log("res received", response.data)
       console.log(user_data)
       fire.firestore()
-        .collection('pgns')
+        .collection(`${user_data.id}-pgns`)
         .add({
           name: pgn_name,
           pgn_id: game_string,

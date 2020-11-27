@@ -43,7 +43,7 @@ async function exportAll(req, res) {
               opening = "No known opening"
             }
             fire.firestore()
-              .collection('pgns')
+              .collection(`${user_data.id}-pgns`)
               .add({
                 name: opening + '-' + obj.variant + '-' + obj.speed + ' id: ' + obj.id ,
                 pgn_id: obj.id,

@@ -198,14 +198,16 @@ export const ResponsiveAppBar = () => {
         }}
       >
         <Toolbar>
-          <Typography
-            className={classes.title}
-            variant="h4"
-            noWrap
-            style={{ color: "white", fontWeight: "bold" }}
-          >
-            PGNBuddy
-          </Typography>
+          <Link href='/dashboard'>
+            <Typography
+              className={classes.title}
+              variant="h4"
+              noWrap
+              style={{ color: "white", fontWeight: "bold" }}
+            >
+              PGNBuddy
+            </Typography>
+          </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
           <Button color="inherit" className={classes.minbutton}>

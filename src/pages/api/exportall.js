@@ -1,16 +1,16 @@
 import fire from '../../../fire-config';
 const axios = require('axios');
 const fs = require('fs');
-var ndjson = require( "ndjson" );
+const ndjson = require( "ndjson" );
 
 async function exportAll(req, res) {
   if (req.method === 'POST') {
     let username = req.body.username
-    let unix = Math.round(+new Date()/1000);
     let startDate = new Date(req.body.startDate).getTime();
     let endDate = new Date(req.body.endDate).getTime();
     let user_data = req.body.user_data
     console.log(startDate, endDate)
+
     let response = await axios.get(
       "https://lichess.org/api/games/user/" + username,
       { params: {
@@ -23,15 +23,18 @@ async function exportAll(req, res) {
         },
       }
     );
+
     if (response) {
       let responseData = response.data
       console.log(response.data)
-      fs.writeFile(`tmp/${username}-games.json`, response.data, function(err) {
+
+      fs.writeFile(`tmp/${username}-games.ndjson`, response.data, function(err) {
         if(err) {
             return console.log(err);
         }
         console.log("The file was saved!");
-        fs.createReadStream(`tmp/${username}-games.json`)
+
+        fs.createReadStream(`tmp/${username}-games.ndjson`)
           .pipe(ndjson.parse())
           .on('data', function(obj) {
             console.log(obj)
@@ -54,7 +57,7 @@ async function exportAll(req, res) {
                 user_email: user_data.email,
                 iframe: iframeLink,
               });
-        })
+          })
     });
       return res.status(200).end()
     } else {

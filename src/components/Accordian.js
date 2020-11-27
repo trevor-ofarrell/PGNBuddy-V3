@@ -52,6 +52,14 @@ const AccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
+ const Circle = withStyles({
+  circleIndeterminate: {
+    animation: 'none',
+    strokeDasharray: '80px, 200px',
+    strokeDashoffset: '0px'
+  }
+})(CircularProgress);
+
 const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: 'scroll',
@@ -114,7 +122,7 @@ export const Accordian = (props) => {
               <AccordionDetails>
                 <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <iframe src={pgn.iframe} loading="lazy" width="600" height="397" frameborder="0"/>
+                  <iframe src={pgn.iframe} loading="lazy" width="600" height="397" frameBorder="0"/>
                   </Grid>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography className={classes.text}>
@@ -124,7 +132,7 @@ export const Accordian = (props) => {
                 </Grid>
               </AccordionDetails>
             </Accordion>
-            )) : <CircularProgress disableShrink size="40vh" thickness={1.5} className={classes.loading}/> }
+            )) : <Circle size="40vh" thickness={1.5} className={classes.loading}/> }
         </div>
     )
 }

@@ -38,7 +38,7 @@ async function exportAll(req, res) {
           .pipe(ndjson.parse())
           .on('data', function(obj) {
             console.log(obj)
-            let iframeLink = "https:lichess.org/embed/" + obj.id + "?theme=wood4&bg=dark"
+            let iframeLink = "https://lichess.org/embed/" + obj.id + "?theme=wood4&bg=dark"
             let opening = ""
             if (obj.opening) {
               opening = obj.opening.name

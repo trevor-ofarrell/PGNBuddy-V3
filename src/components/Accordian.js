@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: 'scroll',
     overflowX: 'hidden',
-    height: '89vh',
+    height: '90vh',
   },
   text: {
     color: 'white',

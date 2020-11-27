@@ -63,6 +63,7 @@ const AccordionDetails = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: 'scroll',
+    overflowX: 'hidden',
     height: '89vh',
   },
   text: {

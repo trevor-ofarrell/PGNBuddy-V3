@@ -25,7 +25,6 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    marginTop: '1vh'
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
@@ -68,9 +67,9 @@ const useStyles = makeStyles((theme) => ({
   options: {
       width: '95%',
       height: '9.7vh',
-      margin: '.5em',
       color: 'white',
-      borderColor: 'white'
+      borderColor: 'white',
+      marginBottom: '1em',
   }
 }));
 

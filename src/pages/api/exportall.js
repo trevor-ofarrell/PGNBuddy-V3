@@ -58,6 +58,12 @@ async function exportAll(req, res) {
                 iframe: iframeLink,
               });
           })
+          fs.unlink(`tmp/${username}-games.ndjson`, (err) => {
+            if (err) {
+              console.error(err)
+              return
+            }
+          })
     });
       return res.status(200).end()
     } else {

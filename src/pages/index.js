@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "center",
   },
   home: {
-      padding: '4em'
   }
 }));
 

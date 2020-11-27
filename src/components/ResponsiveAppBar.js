@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFFFFF",
   },
   appbar: {
-    height: '5vh',
+    height: '4vh',
   },
   borderbutton: {
     borderWidth: 2,

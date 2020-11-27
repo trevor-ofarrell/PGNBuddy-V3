@@ -20,3 +20,4 @@ if (typeof window !== 'undefined' && !firebaseClient.apps.length) {
 }
 
 export { firebaseClient };
+

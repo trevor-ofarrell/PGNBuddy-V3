@@ -57,13 +57,17 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    paddingTop: theme.spacing(3),
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingBottom: theme.spacing(3),
   },
   sidedrawer: {
+    marginLeft: '1em',
   },
   options: {
       width: '95%',
-      height: '10vh',
+      height: '9.7vh',
       margin: '.5em',
       color: 'white',
       borderColor: 'white'
@@ -92,8 +96,20 @@ export const SideDrawer = (props, windows) => {
             </Link>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options} variant="outlined">
-                Clear DB
+          <Link href="/exportall">
+              <Button className={classes.options} variant="outlined">
+                  Export PGNs by date
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <Button className={classes.options}  variant="outlined" >
+                Primary
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <Button className={classes.options}  variant="outlined" >
+                Primary
             </Button>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>

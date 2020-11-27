@@ -27,7 +27,7 @@ const login = (_props) => {
           await firebaseClient
             .auth()
             .createUserWithEmailAndPassword(email, pass);
-          window.location.href = '/';
+          window.location.href = '/dashboard';
         }}
       >
         Create account
@@ -35,7 +35,7 @@ const login = (_props) => {
       <button
         onClick={async () => {
           await firebaseClient.auth().signInWithEmailAndPassword(email, pass);
-          window.location.href = '/';
+          window.location.href = '/dashboard';
         }}
       >
         Log in

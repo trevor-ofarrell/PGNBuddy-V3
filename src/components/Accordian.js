@@ -55,7 +55,7 @@ const AccordionDetails = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: 'scroll',
-    height: '91.5vh',
+    height: '89vh',
   },
   text: {
     color: 'white',
@@ -73,7 +73,7 @@ export const Accordian = (props) => {
     const classes = useStyles();
     const [gameData, setGameData] = useState({});
     const [pgns, setPgns] = useState([])
-    const [expanded, setExpanded] = React.useState('panel1');
+    const [expanded, setExpanded] = React.useState('');
 
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);

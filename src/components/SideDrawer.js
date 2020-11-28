@@ -34,32 +34,23 @@ const useStyles = makeStyles((theme) => ({
       marginTop: '8vh'
     },
   },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
     marginTop: '8vh',
-    background: '#121212',
-
+    backgroundColor: 'transparent',
   },
   content: {
     flexGrow: 1,
     paddingTop: theme.spacing(3),
     paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingBottom: theme.spacing(3),
+    paddingRight: theme.spacing(2.5),
+    paddingBottom: theme.spacing(4),
   },
   sidedrawer: {
     marginLeft: '1em',
@@ -70,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
       color: 'white',
       borderColor: 'white',
       marginBottom: '1em',
+      background: 'linear-gradient(180deg, rgba(166, 166, 166, 0.662) 0%, rgba(53, 53, 53, 0.714) 32%, rgba(0, 0, 0, 0.858) 100%)',
   }
 }));
 

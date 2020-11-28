@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     mask: {
-        background: 'linear-gradient(180deg, rgba(156, 146, 156, 0.462) 20%, rgba(53, 53, 53, 0.414) 62%, rgba(0, 0, 0, 0.758) 90%)',
+        background: 'linear-gradient(180deg, rgba(156, 146, 156, 0.662) 20%, rgba(53, 53, 53, 0.714) 62%, rgba(0, 0, 0, 0.858) 90%)',
         width: '100vw',
         height: '100vh',
     },

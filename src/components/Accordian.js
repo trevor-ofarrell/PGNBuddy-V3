@@ -12,7 +12,7 @@ import { Paper, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from
 
 const Accordion = withStyles({
   root: {
-    background: 'linear-gradient(180deg, rgba(166, 166, 166, 0.462) 0%, rgba(53, 53, 53, 0.414) 22%, rgba(0, 0, 0, 0.758) 100%)',
+    background: 'linear-gradient(180deg, rgba(50, 50, 50, 0.85) 25%, rgba(33, 33, 33, 0.95) 50%, rgba(0, 0, 0, 0.958) 100%)',
     border: '1px solid rgba(0, 0, 0, .125)',
     boxShadow: 'none',
     '&:not(:last-child)': {
@@ -31,7 +31,6 @@ const Accordion = withStyles({
 const AccordionSummary = withStyles({
   root: {
     backgroundColor: 'rgba(0, 0, 0, .03)',
-    borderBottom: '1px solid rgba(0, 0, 0, .125)',
     marginBottom: -1,
     minHeight: 56,
     '&$expanded': {
@@ -62,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: 'scroll',
     overflowX: 'hidden',
-    height: '90vh',
+    height: '89vh',
   },
   text: {
     color: 'white',
@@ -73,7 +72,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '32vw',
     marginTop: '30vh',
     color: 'white'
-  }
+  },
+  iframe: {
+    width: '45vw',
+    height: '55vh',
+  },
 }))
 
 export const Accordian = (props) => {
@@ -114,23 +117,42 @@ export const Accordian = (props) => {
     return gameData && (
         <div className={classes.root}>
             {pgns.length !== 0 ? pgns.map((pgn, index) => (
-              <Accordion TransitionProps={{ unmountOnExit: true }} key={index} expanded={expanded === 'panel' + String(index)} onChange={handleChange('panel' + String(index))}>
+              <Accordion
+                TransitionProps={{ unmountOnExit: true }}
+                key={index}
+                expanded={expanded === 'panel' + String(index)}
+                onChange={handleChange('panel' + String(index))}
+              >
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                   <Typography className={classes.text}>{pgn.name}</Typography>
                 </AccordionSummary>
-              <AccordionDetails>
-                <Grid container>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                  <iframe src={pgn.iframe} loading="lazy" width="600" height="397" frameBorder="0"/>
+                <AccordionDetails>
+                  <Grid container>
+                    <Grid item xs={12} sm={12} md={12} lg={8}>
+                      <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={4}>
+                      <Typography className={classes.text}>
+                        {pgn.pgn}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        {pgn.pgn}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        {pgn.pgn}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        {pgn.pgn}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <Typography className={classes.text}>
+                        {pgn.pgn}
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Typography className={classes.text}>
-                      {pgn.pgn}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
+                </AccordionDetails>
+              </Accordion>
             )) : <Circle size="40vh" thickness={1.5} className={classes.loading}/> }
         </div>
     )

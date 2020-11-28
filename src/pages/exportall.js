@@ -17,21 +17,27 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh',
     },
     mask: {
-        background: 'linear-gradient(180deg, rgba(156, 146, 156, 0.462) 20%, rgba(53, 53, 53, 0.414) 62%, rgba(0, 0, 0, 0.758) 90%)',
+        background: 'linear-gradient(180deg, rgba(156, 146, 156, 0.662) 20%, rgba(53, 53, 53, 0.714) 62%, rgba(0, 0, 0, 0.858) 90%)',
         width: '100vw',
         height: '100vh',
     },
     card: {
         marginTop: '40vh',
-        background: 'linear-gradient(180deg, rgba(156, 146, 156, 0.462) 20%, rgba(53, 53, 53, 0.414) 62%, rgba(0, 0, 0, 0.758) 90%)',
+        background: 'linear-gradient(180deg, rgba(50, 50, 50, 0.462) 20%, rgba(33, 33, 33, 0.414) 62%, rgba(0, 0, 0, 0.758) 90%)',
 
     },
     textfield: {
-        width: '100%'
+        width: '100%',
+        color: 'white'
     },
     button: {
         width: '100%',
         color: 'white'
+    },
+    label: {
+        color: 'white',
+        background: 'white'
+
     }
 }));
 
@@ -100,6 +106,9 @@ const exportAll = (props) => {
                                     className={classes.textfield}
                                     onChange={(event) => {setUsername(event.target.value)}}
                                     value={username}
+                                    InputLabelProps={{
+                                        root: classes.label
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -111,6 +120,7 @@ const exportAll = (props) => {
                                     className={classes.textfield}
                                     onChange={(event) => {setStart(event.target.value)}}
                                     value={start}
+                                    color="primary"
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12}>

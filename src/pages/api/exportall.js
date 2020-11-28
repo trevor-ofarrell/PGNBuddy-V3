@@ -17,6 +17,7 @@ async function exportAll(req, res) {
           opening: "true",
           since: startDate,
           until: endDate,
+          max: 250,
         },
         headers: {
           "Accept": "application/x-ndjson" 

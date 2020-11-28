@@ -54,9 +54,7 @@ const AccordionDetails = withStyles((theme) => ({
 
  const Circle = withStyles({
   circleIndeterminate: {
-    animation: 'none',
-    strokeDasharray: '80px, 200px',
-    strokeDashoffset: '0px'
+   
   }
 })(CircularProgress);
 

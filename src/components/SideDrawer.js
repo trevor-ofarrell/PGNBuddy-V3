@@ -51,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2.5),
     paddingBottom: theme.spacing(4),
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: theme.spacing(0),
+      paddingRight: theme.spacing(0),
+    },
   },
   sidedrawer: {
     marginLeft: '1em',
@@ -64,8 +68,8 @@ const useStyles = makeStyles((theme) => ({
       background: 'linear-gradient(180deg, rgba(166, 166, 166, 0.662) 0%, rgba(53, 53, 53, 0.714) 32%, rgba(0, 0, 0, 0.858) 100%)',
   },
   menuicon: {
-    width: '5vw',
-    marginTop: "47vh"
+    width: '4vw',
+    marginTop: "47vh",
   }
 }));
 

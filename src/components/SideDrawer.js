@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       width: drawerWidth,
       flexShrink: 0,
       maxHeight: '92vh',
@@ -121,7 +121,7 @@ export const SideDrawer = (props, windows) => {
       <CssBaseline />
       <nav className={classes.drawer} aria-label="options menu">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden mdUp implementation="css">
+        <Hidden lgUp implementation="css">
         <Button className={classes.menuicon} onClick={handleDrawerToggle}>
             <MenuOpenIcon style={{fill: '#ffffff'}}/>
         </Button>
@@ -141,7 +141,7 @@ export const SideDrawer = (props, windows) => {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden smDown implementation="css">
+        <Hidden mdDown implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper,

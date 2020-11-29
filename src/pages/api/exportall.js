@@ -71,6 +71,7 @@ async function exportAll(req, res) {
                 winner: winner,
                 opening: opening,
                 clock: obj.clock,
+                players: obj.players,
               });
             console.log("PGN SAVED")
           })

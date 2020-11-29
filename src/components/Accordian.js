@@ -64,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     color: 'white',
+    [theme.breakpoints.up('md')]: {
+      fontSize: '19px'
+    }
   },
   loading: {
     justifyContent: 'center',
@@ -73,11 +76,19 @@ const useStyles = makeStyles((theme) => ({
     color: 'white'
   },
   iframe: {
-    width: '45vw',
+    width: '62vw',
     height: '55vh',
+    [theme.breakpoints.down('lg')]: {
+      width: '56vw',
+      height: '60vh',
+    },
     [theme.breakpoints.down('md')]: {
-      width: '70vw',
-      height: '33vh',
+      width: '88vw',
+      height: '48vh',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '88vw',
+      height: '45vh',
     },
   },
 }))
@@ -131,31 +142,40 @@ export const Accordian = (props) => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={8}>
+                    <Grid item xs={12} sm={12} md={12} lg={9} xl={9}>
                       <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={4}>
+                    <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
                       <Typography className={classes.text}>
-                        Event: {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
+                        <b>Event: </b> {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
                       </Typography>
                       <Typography className={classes.text}>
-                        Variant: {pgn.variant}
+                        <b>Variant: </b> {pgn.variant}
                       </Typography>
                       <Typography className={classes.text}>
-                        Winner: {pgn.winner}
+                        <b>Winner: </b> {pgn.winner}
                       </Typography>
                       <Typography className={classes.text}>
-                        Game status: {pgn.status}
+                        <b>Black: </b> {pgn.players.black.user.name} {pgn.players.black.rating}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        <b>White: </b> {pgn.players.white.user.name} {pgn.players.white.rating}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        <b>Rating difference: </b> {pgn.players.white.ratingDiff}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        <b>Game status: </b> {pgn.status}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                       <br/>
                       <Typography className={classes.text}>
-                        Moves: {pgn.moves}
+                        <b>Moves: </b> {pgn.moves}
                       </Typography>
                       <br/>
                       <Typography className={classes.text}>
-                        PGN: {pgn.pgn}
+                        <b>PGN: </b> {pgn.pgn}
                       </Typography>
                     </Grid>
                   </Grid>

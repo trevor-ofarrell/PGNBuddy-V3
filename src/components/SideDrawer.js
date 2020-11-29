@@ -60,6 +60,11 @@ const useStyles = makeStyles((theme) => ({
       borderColor: 'white',
       marginBottom: '1em',
       background: 'linear-gradient(180deg, rgba(166, 166, 166, 0.662) 0%, rgba(53, 53, 53, 0.714) 32%, rgba(0, 0, 0, 0.858) 100%)',
+      [theme.breakpoints.down('sm')]: {
+        background: 'linear-gradient(180deg, rgba(146, 146, 146, 0.892) 0%, rgba(53, 53, 53, 0.954) 32%, rgba(0, 0, 0, 1) 100%)',
+        marginBottom: '0.6em',
+        width: '100%',
+      }
   },
   menuicon: {
     width: '4vw',

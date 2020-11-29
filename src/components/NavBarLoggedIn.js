@@ -108,7 +108,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100px",
   },
   orangebutton: {
-    backgroundColor: "orange",
+    border: '2px',
+    borderColor: "white",
+    color: 'white',
     width: "100px",
   },
 }));

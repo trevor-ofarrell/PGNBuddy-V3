@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     marginTop: '8vh',
     backgroundColor: 'transparent',
-    border: 'none'
+    border: 'none',
+    boxShadow: 'none'
   },
   content: {
     flexGrow: 1,
@@ -57,11 +58,10 @@ const useStyles = makeStyles((theme) => ({
       width: '95%',
       height: '10.14vh',
       color: 'white',
-      borderColor: 'white',
       marginBottom: '1em',
-      background: 'linear-gradient(180deg, rgba(166, 166, 166, 0.662) 0%, rgba(53, 53, 53, 0.714) 32%, rgba(0, 0, 0, 0.858) 100%)',
+      background: 'linear-gradient(to right, #303030, #121212)',
       [theme.breakpoints.down('sm')]: {
-        background: 'linear-gradient(180deg, rgba(146, 146, 146, 0.892) 0%, rgba(53, 53, 53, 0.954) 32%, rgba(0, 0, 0, 1) 100%)',
+        background: 'linear-gradient(to right, #303030, #121212)',
         marginBottom: '0.6em',
         width: '100%',
       }
@@ -88,45 +88,25 @@ export const SideDrawer = (props, windows) => {
       <Grid container>
           <Grid item xs={12} sm={12} lg={12}>
             <Link href="/exportpgn">
-              <Button className={classes.options} variant="outlined">
+              <Button className={classes.options} >
                   Export PGN from Lichess
               </Button>
             </Link>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
-              <Button className={classes.options} variant="outlined">
+              <Button className={classes.options}>
                   Export PGNs by date
               </Button>
             </Link>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
+            <Button className={classes.options}>
                 Primary
             </Button>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
-                Primary
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
-                Primary
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
-                Primary
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
-                Primary
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
+            <Button className={classes.options}>
                 Primary
             </Button>
           </Grid>

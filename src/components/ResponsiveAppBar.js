@@ -238,9 +238,8 @@ export const ResponsiveAppBar = () => {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              color="inherit"
             >
-              <MoreIcon />
+              <MoreIcon style={{fill: '#ffffff'}} />
             </IconButton>
           </div>
         </Toolbar>

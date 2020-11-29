@@ -18,6 +18,7 @@ async function exportAll(req, res) {
           since: startDate,
           until: endDate,
           max: 100,
+          pgnInJson: "true",
         },
         headers: {
           "Accept": "application/x-ndjson" 
@@ -41,22 +42,35 @@ async function exportAll(req, res) {
             console.log(obj)
             let iframeLink = "https://lichess.org/embed/" + obj.id + "?theme=wood4&bg=dark"
             let opening = ""
+            let winner = ""
             if (obj.opening) {
               opening = obj.opening.name
             } else {
               opening = "No known opening"
             }
+            if (obj.winner) {
+              winner = obj.winner
+            } else {
+              winner = `No winner. Game was a ${obj.status}`
+            }
             fire.firestore()
               .collection(`${user_data.id}-pgns`)
               .add({
-                name: opening + '-' + obj.variant + '-' + obj.speed + ' id: ' + obj.id ,
+                name: opening + ' - ' + obj.variant + ' - ' + obj.speed + ' id: ' + obj.id ,
                 pgn_id: obj.id,
                 folder: `lichess upload ${new Date}`,
-                pgn: obj.moves,
-                user_data: user_data,
+                pgn: obj.pgn,
+                moves: obj.moves,
                 user_id: user_data.id,
                 user_email: user_data.email,
                 iframe: iframeLink,
+                rated: obj.rated,
+                variant: obj.variant,
+                speed: obj.speed,
+                status: obj.status,
+                winner: winner,
+                opening: opening,
+                clock: obj.clock,
               });
             console.log("PGN SAVED")
           })

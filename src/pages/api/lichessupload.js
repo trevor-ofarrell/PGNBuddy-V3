@@ -57,7 +57,6 @@ async function lichessUpload(req, res) {
           folder: pgn_folder,
           pgn: response.data.pgn,
           moves: response.data.moves,
-          user_data: user_data,
           user_id: user_data.id,
           user_email: user_data.email,
           iframe: iframeLink,

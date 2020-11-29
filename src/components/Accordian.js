@@ -136,21 +136,26 @@ export const Accordian = (props) => {
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={4}>
                       <Typography className={classes.text}>
-                        {}
+                        Event: {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.variant}
+                        Variant: {pgn.variant}
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.speed}
+                        Winner: {pgn.winner}
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.status}
+                        Game status: {pgn.status}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <br/>
                       <Typography className={classes.text}>
-                        {pgn.pgn}
+                        Moves: {pgn.moves}
+                      </Typography>
+                      <br/>
+                      <Typography className={classes.text}>
+                        PGN: {pgn.pgn}
                       </Typography>
                     </Grid>
                   </Grid>

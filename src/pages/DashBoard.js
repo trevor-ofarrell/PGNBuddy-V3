@@ -23,7 +23,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100vw',
-    maxHeight: '100%',
+    height: '100vh',
     overflow: 'hidden',
     backgroundImage: 'url("/checkmate.jpeg")',
     backgroundRepeat: "no-repeat",

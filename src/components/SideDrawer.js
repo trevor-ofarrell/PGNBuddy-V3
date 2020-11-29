@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
   options: {
       width: '95%',
-      height: '9.7vh',
+      height: '10.14vh',
       color: 'white',
       borderColor: 'white',
       marginBottom: '1em',

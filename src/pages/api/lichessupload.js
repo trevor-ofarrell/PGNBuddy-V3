@@ -35,7 +35,16 @@ async function lichessUpload(req, res) {
     let user_data = req.body.user_data
     let iframeLink = "https://lichess.org/embed/" + game_string + "?theme=wood4&bg=dark"
 
-    let response = await axios.get("https://lichess.org/game/export/" + game_string + "?pgnInJson=true");
+    let response = await axios.get(
+      "https://lichess.org/game/export/" + game_string,
+      { params: {
+          pgnInJson: "true",
+        },
+        headers: {
+          "Accept": "application/json" 
+        },
+      }
+    );
 
     if (response) {
       let responseData = response.data
@@ -46,11 +55,20 @@ async function lichessUpload(req, res) {
           name: pgn_name,
           pgn_id: game_string,
           folder: pgn_folder,
-          pgn: response.data,
+          pgn: response.data.pgn,
+          moves: response.data.moves,
           user_data: user_data,
           user_id: user_data.id,
           user_email: user_data.email,
           iframe: iframeLink,
+          rated: response.data.rated,
+          variant: response.data.variant,
+          speed: response.data.speed,
+          status: response.data.status,
+          winner: response.data.winner,
+          opening: response.data.opening,
+          clock: response.data.clock,
+    
         });
       return res.status(200).end()
     } else {

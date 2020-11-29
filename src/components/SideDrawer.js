@@ -15,7 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Button, Grid } from '@material-ui/core';
-
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import {Accordian} from './Accordian'
 
 import Link from 'next/link'
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0,
       maxHeight: '92vh',
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     paddingTop: theme.spacing(3),
-    paddingLeft: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2.5),
     paddingBottom: theme.spacing(4),
   },
@@ -62,6 +62,10 @@ const useStyles = makeStyles((theme) => ({
       borderColor: 'white',
       marginBottom: '1em',
       background: 'linear-gradient(180deg, rgba(166, 166, 166, 0.662) 0%, rgba(53, 53, 53, 0.714) 32%, rgba(0, 0, 0, 0.858) 100%)',
+  },
+  menuicon: {
+    width: '5vw',
+    marginTop: "47vh"
   }
 }));
 
@@ -132,10 +136,13 @@ export const SideDrawer = (props, windows) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
+
+        <Hidden mdUp implementation="css">
+        <Button className={classes.menuicon} onClick={handleDrawerToggle}>
+            <MenuOpenIcon style={{fill: '#ffffff'}}/>
+        </Button>
           <Drawer
             container={container}
             variant="temporary"
@@ -152,7 +159,7 @@ export const SideDrawer = (props, windows) => {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden xsDown implementation="css">
+        <Hidden smDown implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper,

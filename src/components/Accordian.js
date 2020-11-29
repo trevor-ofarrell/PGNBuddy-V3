@@ -76,6 +76,10 @@ const useStyles = makeStyles((theme) => ({
   iframe: {
     width: '45vw',
     height: '55vh',
+    [theme.breakpoints.down('md')]: {
+      width: '70vw',
+      height: '33vh',
+    },
   },
 }))
 
@@ -133,16 +137,16 @@ export const Accordian = (props) => {
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={4}>
                       <Typography className={classes.text}>
-                        {pgn.pgn}
+                        {}
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.pgn}
+                        {pgn.variant}
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.pgn}
+                        {pgn.speed}
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.pgn}
+                        {pgn.status}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>

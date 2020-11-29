@@ -22,8 +22,8 @@ import {
 import {
   AccountCircle,
   Notifications as NotificationsIcon,
-  MoreHoriz as MoreIcon,
 } from "@material-ui/icons";
+import MenuIcon from '@material-ui/icons/Menu';
 
 import { firebaseClient } from '../../firebaseClient';
 
@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     height: '5vh',
+    backgroundColor: 'transparent',
   },
   borderbutton: {
     borderWidth: 2,
@@ -166,24 +167,30 @@ export const NavBarLoggedIn = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <Link href='/'>
+          <Button color="inherit">
+            Home
+          </Button>
+        </Link>
+      </MenuItem>
+      <MenuItem>
+        <Link href='/dashboard'>
+          <Button color="inherit">
+            Dashboard
+          </Button>
+        </Link>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
+        <Button
+            color="inherit"
+            onClick={async () => {
+                await firebaseClient.auth().signOut();
+                window.location.href = '/';
+            }}
         >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+            Log Out
+        </Button>
+      </MenuItem>           
     </Menu>
   );
 
@@ -218,9 +225,6 @@ export const NavBarLoggedIn = () => {
             <Button color="inherit" className={classes.minbutton}>
               dashboard
             </Button>
-            <Button color="inherit" className={classes.minbutton}>
-              more
-            </Button>
             <Button
                 color="inherit"
                 className={classes.orangebutton}
@@ -240,7 +244,7 @@ export const NavBarLoggedIn = () => {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              <MenuIcon style={{fill: '#ffffff'}} />
             </IconButton>
           </div>
         </Toolbar>

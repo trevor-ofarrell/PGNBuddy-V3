@@ -1,20 +1,13 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Button, Grid } from '@material-ui/core';
+import {
+  CssBaseline,
+  Drawer,
+  Hidden,
+  makeStyles,
+  useTheme,
+  Button,
+  Grid,
+} from '@material-ui/core';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import {Accordian} from './Accordian'
 
@@ -44,10 +37,11 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     marginTop: '8vh',
     backgroundColor: 'transparent',
+    border: 'none'
   },
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(3.2),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2.5),
     paddingBottom: theme.spacing(4),
@@ -140,9 +134,8 @@ export const SideDrawer = (props, windows) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <nav className={classes.drawer} aria-label="options menu">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-
         <Hidden mdUp implementation="css">
         <Button className={classes.menuicon} onClick={handleDrawerToggle}>
             <MenuOpenIcon style={{fill: '#ffffff'}}/>

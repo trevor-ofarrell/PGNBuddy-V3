@@ -13,7 +13,6 @@ import { Paper, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from
 const Accordion = withStyles({
   root: {
     background: 'linear-gradient(180deg, rgba(50, 50, 50, 0.85) 25%, rgba(33, 33, 33, 0.95) 50%, rgba(0, 0, 0, 0.958) 100%)',
-    border: '1px solid rgba(0, 0, 0, .125)',
     boxShadow: 'none',
     '&:not(:last-child)': {
       borderBottom: 0,

@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100vw',
     height: '100vh',
     overflow: 'hidden',
-    backgroundImage: 'url("/checkmate.jpeg")',
+    backgroundImage: 'url("/darkbg.png")',
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",        

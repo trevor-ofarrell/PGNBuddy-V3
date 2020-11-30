@@ -224,9 +224,11 @@ export const NavBarLoggedIn = () => {
                 home
               </Button>
             </Link>
-            <Button color="inherit" className={classes.minbutton}>
-              dashboard
-            </Button>
+            <Link href='/dashboard'>
+              <Button color="inherit" className={classes.minbutton}>
+                dashboard
+              </Button>
+            </Link>
             <Button
                 color="inherit"
                 className={classes.orangebutton}

@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
       height: '10.14vh',
       color: 'white',
       marginBottom: '1em',
+      opacity: '0.8',
       background: 'linear-gradient(to right, #303030, #121212)',
       [theme.breakpoints.down('sm')]: {
         background: 'linear-gradient(to right, #303030, #121212)',

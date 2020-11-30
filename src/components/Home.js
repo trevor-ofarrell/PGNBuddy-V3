@@ -26,14 +26,14 @@ const useStyles = makeStyles((theme) => ({
     },
     home: {
         border: '3px',
-        margin: '3em',
+        margin: '2.9em',
         fontFamily: 'Roboto, sans-serif',
         fontWeight: 'bold',
         fontSize: '3.2em',
         color: 'white',
     },
     cta: {
-        marginTop: '3em',
+        marginTop: '5em',
         marginLeft: '9.5vw',
         padding: '2em',
         width: '100%',
@@ -56,7 +56,7 @@ export const Home = () => {
                 <Grid container>
                     <Grid item xs={12} md={12} lg={12} xl={12}>
                         <div className={classes.home}>
-                            Store, view, analyze, edit your PGN files from any device, add annotations and comments, import games from lichess using the lichess.org API
+                            Store, view, analyze, and edit your PGN files from anywhere, on any device, import games from lichess using the lichess.org API, or upload from your files.
                         </div>
                     </Grid>
                     <Grid item xs={4} md={4} lg={4} xl={4}/>

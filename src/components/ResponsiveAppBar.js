@@ -21,11 +21,9 @@ import {
 } from "@material-ui/core";
 
 // Material icons
-import {
-  AccountCircle,
-  Notifications as NotificationsIcon,
-  MoreHoriz as MoreIcon,
-} from "@material-ui/icons";
+import MenuIcon from '@material-ui/icons/Menu';
+
+import { firebaseClient } from '../../firebaseClient';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -164,24 +162,29 @@ export const ResponsiveAppBar = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <Link href='/'>
+          <Button color="inherit">
+            Home
+          </Button>
+        </Link>
+      </MenuItem>
+      <MenuItem>
+        <Link href='/dashboard'>
+          <Button color="inherit">
+            Dashboard
+          </Button>
+        </Link>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
+        <Button
+            color="inherit"
+            onClick={async () => {
+                window.location.href = '/login';
+            }}
         >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+            Log In
+        </Button>
+      </MenuItem>           
     </Menu>
   );
 
@@ -210,27 +213,25 @@ export const ResponsiveAppBar = () => {
           </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <Button color="inherit" className={classes.minbutton}>
-              home
-            </Button>
+          <Link href='/'>
+              <Button color="inherit" className={classes.minbutton}>
+                home
+              </Button>
+            </Link>
             <Link href='/dashboard'>
-                <Button color="inherit" className={classes.minbutton}>
+              <Button color="inherit" className={classes.minbutton}>
                 dashboard
-                </Button>
+              </Button>
             </Link>
-            <Button color="inherit" className={classes.minbutton}>
-              more
+            <Button
+              color="inherit"
+              className={classes.minbutton}
+              onClick={async () => {
+                window.location.href = '/login';
+              }}
+            >
+                  Log In
             </Button>
-            <Link href='/login'>
-              <Button color="inherit" className={classes.borderbutton}>
-                Login
-              </Button>
-            </Link>
-            <Link href='/signup'>
-              <Button color="inherit" className={classes.orangebutton}>
-                Sign up
-              </Button>
-            </Link>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -239,7 +240,7 @@ export const ResponsiveAppBar = () => {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
             >
-              <MoreIcon style={{fill: '#ffffff'}} />
+              <MenuIcon style={{fill: '#ffffff'}} />
             </IconButton>
           </div>
         </Toolbar>

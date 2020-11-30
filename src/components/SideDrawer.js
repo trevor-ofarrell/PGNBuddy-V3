@@ -1,20 +1,13 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Button, Grid } from '@material-ui/core';
+import {
+  CssBaseline,
+  Drawer,
+  Hidden,
+  makeStyles,
+  useTheme,
+  Button,
+  Grid,
+} from '@material-ui/core';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import {Accordian} from './Accordian'
 
@@ -27,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       width: drawerWidth,
       flexShrink: 0,
       maxHeight: '92vh',
@@ -43,11 +36,17 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
     marginTop: '8vh',
-    backgroundColor: 'transparent',
+    background: 'transparent',
+    border: 'none',
+    boxShadow: 'none',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: 'rgba(12, 12, 12, 0.875)',
+      paddingRight: '1.75vw',
+    },
   },
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(3.2),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2.5),
     paddingBottom: theme.spacing(4),
@@ -61,11 +60,16 @@ const useStyles = makeStyles((theme) => ({
   },
   options: {
       width: '95%',
-      height: '9.7vh',
+      height: '10.14vh',
       color: 'white',
-      borderColor: 'white',
       marginBottom: '1em',
-      background: 'linear-gradient(180deg, rgba(166, 166, 166, 0.662) 0%, rgba(53, 53, 53, 0.714) 32%, rgba(0, 0, 0, 0.858) 100%)',
+      opacity: '0.8',
+      background: 'linear-gradient(to right, #303030, #121212)',
+      [theme.breakpoints.down('sm')]: {
+        background: 'linear-gradient(to right, #303030, #121212)',
+        marginBottom: '0.6em',
+        width: '100%',
+      }
   },
   menuicon: {
     width: '4vw',
@@ -89,45 +93,25 @@ export const SideDrawer = (props, windows) => {
       <Grid container>
           <Grid item xs={12} sm={12} lg={12}>
             <Link href="/exportpgn">
-              <Button className={classes.options} variant="outlined">
+              <Button className={classes.options} >
                   Export PGN from Lichess
               </Button>
             </Link>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
-              <Button className={classes.options} variant="outlined">
+              <Button className={classes.options}>
                   Export PGNs by date
               </Button>
             </Link>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
+            <Button className={classes.options}>
                 Primary
             </Button>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
-                Primary
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
-                Primary
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
-                Primary
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
-                Primary
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}  variant="outlined" >
+            <Button className={classes.options}>
                 Primary
             </Button>
           </Grid>
@@ -140,10 +124,9 @@ export const SideDrawer = (props, windows) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <nav className={classes.drawer} aria-label="options menu">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-
-        <Hidden mdUp implementation="css">
+        <Hidden lgUp implementation="css">
         <Button className={classes.menuicon} onClick={handleDrawerToggle}>
             <MenuOpenIcon style={{fill: '#ffffff'}}/>
         </Button>
@@ -163,7 +146,7 @@ export const SideDrawer = (props, windows) => {
             {drawer}
           </Drawer>
         </Hidden>
-        <Hidden smDown implementation="css">
+        <Hidden mdDown implementation="css">
           <Drawer
             classes={{
               paper: classes.drawerPaper,

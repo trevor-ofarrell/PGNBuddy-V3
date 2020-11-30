@@ -17,3 +17,20 @@
     font-weight: 300;
     font-style: normal;
   }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: blue orange;
+  }
+  
+  /* Works on Chrome/Edge/Safari */
+  *::-webkit-scrollbar {
+    width: 15px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #303030;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #121212;
+    border-radius: 20px;
+  }

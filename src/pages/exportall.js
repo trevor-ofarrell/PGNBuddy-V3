@@ -10,21 +10,19 @@ import { firebaseAdmin } from '../../firebaseAdmin';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundImage: 'url("/checkmate.jpeg")',
+        backgroundImage: 'url("/darkbg.png")',
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: '100vh',
     },
     mask: {
-        background: 'linear-gradient(180deg, rgba(156, 146, 156, 0.662) 20%, rgba(53, 53, 53, 0.714) 62%, rgba(0, 0, 0, 0.858) 90%)',
         width: '100vw',
         height: '100vh',
     },
     card: {
         marginTop: '40vh',
-        background: 'linear-gradient(180deg, rgba(50, 50, 50, 0.462) 20%, rgba(33, 33, 33, 0.414) 62%, rgba(0, 0, 0, 0.758) 90%)',
-
+        background: 'linear-gradient(180deg, rgba(120, 120, 120, 0.562) 20%, rgba(83, 83, 83, 0.814) 62%, rgba(30, 30, 30, 0.958) 90%)',
     },
     textfield: {
         width: '100%',
@@ -84,10 +82,8 @@ const exportAll = (props) => {
             });
             
         console.log(JSON.stringify(data))
-        return{redirect: {
-            permanent: false,
-            destination: '/dashboard',
-        }}
+        window.location.href = '/dashboard';
+        return
     }
        
     return (

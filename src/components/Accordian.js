@@ -13,11 +13,9 @@ import { Paper, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from
 const Accordion = withStyles({
   root: {
     background: 'linear-gradient(180deg, rgba(50, 50, 50, 0.85) 25%, rgba(33, 33, 33, 0.95) 50%, rgba(0, 0, 0, 0.958) 100%)',
-    border: '1px solid rgba(0, 0, 0, .125)',
     boxShadow: 'none',
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
+    scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
+    scrollbarWidth: 40,
     '&:before': {
       display: 'none',
     },
@@ -59,12 +57,20 @@ const AccordionDetails = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    overflowY: 'scroll',
+    scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
+    scrollbarWidth: 40,
+    overflowY: 'auto',
     overflowX: 'hidden',
     height: '89vh',
+    [theme.breakpoints.down('md')]: {
+      marginRight: '2vw',
+    },
   },
   text: {
     color: 'white',
+    [theme.breakpoints.up('md')]: {
+      fontSize: '19px'
+    }
   },
   loading: {
     justifyContent: 'center',
@@ -74,11 +80,23 @@ const useStyles = makeStyles((theme) => ({
     color: 'white'
   },
   iframe: {
-    width: '45vw',
+    width: '62vw',
     height: '55vh',
+    [theme.breakpoints.down('lg')]: {
+      width: '56vw',
+      height: '60vh',
+    },
     [theme.breakpoints.down('md')]: {
-      width: '70vw',
-      height: '33vh',
+      width: '88vw',
+      height: '46vh',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '84vw',
+      height: '45vh',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '80vw',
+      height: '30vh',
     },
   },
 }))
@@ -132,26 +150,40 @@ export const Accordian = (props) => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={8}>
+                    <Grid item xs={12} sm={12} md={12} lg={9} xl={9}>
                       <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={4}>
+                    <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
                       <Typography className={classes.text}>
-                        {}
+                        <b>Event: </b> {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.variant}
+                        <b>Variant: </b> {pgn.variant}
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.speed}
+                        <b>Winner: </b> {pgn.winner}
                       </Typography>
                       <Typography className={classes.text}>
-                        {pgn.status}
+                        <b>Black: </b> {pgn.players.black.user.name} {pgn.players.black.rating}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        <b>White: </b> {pgn.players.white.user.name} {pgn.players.white.rating}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        <b>Rating difference: </b> {pgn.players.white.ratingDiff}
+                      </Typography>
+                      <Typography className={classes.text}>
+                        <b>Game status: </b> {pgn.status}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <br/>
                       <Typography className={classes.text}>
-                        {pgn.pgn}
+                        <b>Moves: </b> {pgn.moves}
+                      </Typography>
+                      <br/>
+                      <Typography className={classes.text}>
+                        <b>PGN: </b> {pgn.pgn}
                       </Typography>
                     </Grid>
                   </Grid>

@@ -21,8 +21,17 @@ const useStyles = makeStyles((theme) => ({
         background: 'linear-gradient(to right, #f12711, #f5af19);',
         opacity: '0.85',
         width: '70vw',
-        height: '55vh',
+        height: '37em',
         marginTop: '5vh',
+        [theme.breakpoints.down("md")]: {
+            height: '52em',
+        },
+        [theme.breakpoints.down("sm")]: {
+            height: '39em',
+        },
+        [theme.breakpoints.down("xs")]: {
+            height: '28em',
+        },
     },
     home: {
         border: '3px',
@@ -31,14 +40,40 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         fontSize: '3.2em',
         color: 'white',
+        [theme.breakpoints.down("md")]: {
+            fontSize: '3.1em',
+        },
+        [theme.breakpoints.down("sm")]: {
+            fontSize: '2.3em',
+        },
+        [theme.breakpoints.down("xs")]: {
+            fontSize: '1.6em',
+            margin: '1.9em',
+        },
+        
     },
     cta: {
-        marginTop: '5em',
+        marginTop: '12em',
         marginLeft: '9.5vw',
         padding: '2em',
         width: '100%',
         fontSize: '1.5em',
-        color: 'white'
+        color: 'white',
+        borderWidth: '3px',
+        [theme.breakpoints.down("lg")]: {
+            marginTop: '7em',
+        },
+        [theme.breakpoints.down("md")]: {
+            marginTop: '9em',
+        },
+        [theme.breakpoints.down("sm")]: {
+            fontSize: '1.2em',
+            marginTop: '7em',
+        },
+        [theme.breakpoints.down("xs")]: {
+            fontSize: '0.8em',
+            marginTop: '5em',
+        },
     }
 }))
 
@@ -59,8 +94,8 @@ export const Home = () => {
                             Store, view, analyze, and edit your PGN files from anywhere, on any device, import games from lichess using the lichess.org API, or upload your own files.
                         </div>
                     </Grid>
-                    <Grid item xs={4} md={4} lg={4} xl={4}/>
-                    <Grid item xs={4} md={6} lg={6} xl={4}>
+                    <Grid item xs={2} sm={3} md={4} lg={4} xl={4}/>
+                    <Grid item xs={10} sm={8} md={6} lg={6} xl={4}>
                         <Button
                             variant="outlined"
                             color="primary"
@@ -72,7 +107,7 @@ export const Home = () => {
                             Login or create an account
                         </Button>
                     </Grid>
-                    <Grid item xs={4} md={2} lg={2} xl={4}/>
+                    <Grid item xs={0} sm={1} md={2} lg={2} xl={4}/>
                 </Grid>
             </div>
         </ThemeProvider>

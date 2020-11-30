@@ -14,9 +14,8 @@ const Accordion = withStyles({
   root: {
     background: 'linear-gradient(180deg, rgba(50, 50, 50, 0.85) 25%, rgba(33, 33, 33, 0.95) 50%, rgba(0, 0, 0, 0.958) 100%)',
     boxShadow: 'none',
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
+    scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
+    scrollbarWidth: 40,
     '&:before': {
       display: 'none',
     },
@@ -58,9 +57,14 @@ const AccordionDetails = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    overflowY: 'scroll',
+    scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
+    scrollbarWidth: 40,
+    overflowY: 'auto',
     overflowX: 'hidden',
     height: '89vh',
+    [theme.breakpoints.down('md')]: {
+      marginRight: '2vw',
+    },
   },
   text: {
     color: 'white',
@@ -84,11 +88,15 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('md')]: {
       width: '88vw',
-      height: '48vh',
+      height: '46vh',
     },
     [theme.breakpoints.down('sm')]: {
-      width: '88vw',
+      width: '84vw',
       height: '45vh',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '80vw',
+      height: '30vh',
     },
   },
 }))

@@ -15,6 +15,7 @@ async function exportAll(req, res) {
       "https://lichess.org/api/games/user/" + username,
       { params: {
           opening: "true",
+          clocks: "true",
           since: startDate,
           until: endDate,
           max: 100,

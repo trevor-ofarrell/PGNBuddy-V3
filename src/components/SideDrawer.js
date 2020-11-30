@@ -36,9 +36,13 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
     marginTop: '8vh',
-    backgroundColor: 'transparent',
+    background: 'transparent',
     border: 'none',
-    boxShadow: 'none'
+    boxShadow: 'none',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: 'rgba(12, 12, 12, 0.875)',
+      paddingRight: '1.75vw',
+    },
   },
   content: {
     flexGrow: 1,

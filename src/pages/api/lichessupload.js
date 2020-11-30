@@ -39,6 +39,7 @@ async function lichessUpload(req, res) {
       "https://lichess.org/game/export/" + game_string,
       { params: {
           pgnInJson: "true",
+          clocks: "true",
         },
         headers: {
           "Accept": "application/json" 
@@ -67,7 +68,7 @@ async function lichessUpload(req, res) {
           winner: response.data.winner,
           opening: response.data.opening,
           clock: response.data.clock,
-    
+          players: response.data.players,
         });
       return res.status(200).end()
     } else {

@@ -77,10 +77,8 @@ const ExportPGN = (props) => {
             });
             
         console.log(JSON.stringify(data))
-        return{redirect: {
-            permanent: false,
-            destination: '/dashboard',
-        }}
+        window.location.href = '/dashboard';
+        return
     }
        
     return (

@@ -56,7 +56,7 @@ async function exportAll(req, res) {
             fire.firestore()
               .collection(`${user_data.id}-pgns`)
               .add({
-                name: opening + ' - ' + obj.variant + ' - ' + obj.speed + ' id: ' + obj.id ,
+                name: opening + ' - ' + obj.variant + ' - ' + obj.speed + ' - id: ' + obj.id ,
                 pgn_id: obj.id,
                 folder: `lichess upload ${new Date}`,
                 pgn: obj.pgn,

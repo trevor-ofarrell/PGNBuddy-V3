@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       height: '100vh',
       overflow: 'hidden',
-      background: '#121212',
+      background: 'linear-gradient(to right, rgb(241, 39, 17, 0.7), rgb(245, 175, 25, 0.7)), url("/darkbg.png");',
+      backgroundSize: "cover",
+      backgroundPosition: "center",        
       zIndex: '0',
       alignItems: "center",
       justifyContent: "center",
   },
-  home: {
-  }
 }));
 
 export const getServerSideProps = async (ctx) => {
@@ -45,7 +45,7 @@ function App(props) {
   return (
     <Box className={classes.root}>
         { props.id ? <NavBarLoggedIn/> : <ResponsiveAppBar />}
-        <Grid container className={classes.home}>
+        <Grid container>
             <Grid item xs={12} md={12} lg={12}>
                 <Box>
                     <Home/>

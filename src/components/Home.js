@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
             fontSize: '2.3em',
         },
         [theme.breakpoints.down("xs")]: {
-            fontSize: '1.6em',
+            fontSize: '1.5em',
             margin: '1.9em',
         },
         
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.down("xs")]: {
             fontSize: '0.8em',
-            marginTop: '5em',
+            marginTop: '6em',
         },
     }
 }))

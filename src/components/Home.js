@@ -107,7 +107,7 @@ export const Home = () => {
                             Login or create an account
                         </Button>
                     </Grid>
-                    <Grid item xs={0} sm={1} md={2} lg={2} xl={4}/>
+                    <Grid item sm={1} md={2} lg={2} xl={4}/>
                 </Grid>
             </div>
         </ThemeProvider>

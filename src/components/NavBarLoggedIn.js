@@ -107,6 +107,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "8px",
     width: "100px",
   },
+  menubutton: {
+    width: '100%',
+    height: '100%',
+    padding: '1em'
+  },
   orangebutton: {
     border: '2px',
     borderColor: "white",
@@ -170,14 +175,14 @@ export const NavBarLoggedIn = () => {
     >
       <MenuItem>
         <Link href='/'>
-          <Button color="inherit">
+          <Button color="inherit" className={classes.menubutton}>
             Home
           </Button>
         </Link>
       </MenuItem>
       <MenuItem>
         <Link href='/dashboard'>
-          <Button color="inherit">
+          <Button color="inherit" className={classes.menubutton}>
             Dashboard
           </Button>
         </Link>
@@ -185,6 +190,7 @@ export const NavBarLoggedIn = () => {
       <MenuItem onClick={handleProfileMenuOpen}>
         <Button
             color="inherit"
+            className={classes.menubutton}
             onClick={async () => {
                 await firebaseClient.auth().signOut();
                 window.location.href = '/';

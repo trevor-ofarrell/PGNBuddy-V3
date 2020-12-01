@@ -89,6 +89,14 @@ const useStyles = makeStyles((theme) => ({
   },
   minbutton: {
     color: "#FFFFFF",
+    width: '100%',
+    height: '100%',
+    padding: '1em',
+  },
+  menubutton: {
+    width: '100%',
+    height: '100%',
+    padding: '1em',
   },
   appbar: {
     height: '5vh',
@@ -163,20 +171,21 @@ export const ResponsiveAppBar = () => {
     >
       <MenuItem>
         <Link href='/'>
-          <Button color="inherit">
+          <Button color="inherit" className={classes.menubutton}>
             Home
           </Button>
         </Link>
       </MenuItem>
       <MenuItem>
         <Link href='/dashboard'>
-          <Button color="inherit">
+          <Button color="inherit" className={classes.menubutton}>
             Dashboard
           </Button>
         </Link>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <Button
+            className={classes.menubutton}
             color="inherit"
             onClick={async () => {
                 window.location.href = '/login';

@@ -96,7 +96,6 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     height: '5vh',
-    backgroundColor: 'transparent',
   },
   borderbutton: {
     borderWidth: 2,
@@ -187,7 +186,7 @@ export const NavBarLoggedIn = () => {
           </Button>
         </Link>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem>
         <Button
             color="inherit"
             className={classes.menubutton}
@@ -209,10 +208,6 @@ export const NavBarLoggedIn = () => {
         color="transparent"
         elevation={0}
         className={classes.appbar}
-        style={{
-          backgroundColor:
-            "linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)",
-        }}
       >
         <Toolbar>
           <Typography

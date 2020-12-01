@@ -124,10 +124,6 @@ export const ResponsiveAppBar = () => {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -183,7 +179,7 @@ export const ResponsiveAppBar = () => {
           </Button>
         </Link>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem>
         <Button
             className={classes.menubutton}
             color="inherit"
@@ -204,10 +200,6 @@ export const ResponsiveAppBar = () => {
         color="transparent"
         elevation={0}
         className={classes.appbar}
-        style={{
-          backgroundColor:
-            "linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)",
-        }}
       >
         <Toolbar>
           <Link href='/dashboard'>

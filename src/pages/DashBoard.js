@@ -22,18 +22,19 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100vw',
+    overflowY: 'hidden',
     height: '100vh',
-    overflow: 'hidden',
+    width: '100vw',
     backgroundImage: 'url("/darkbg.png")',
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundPosition: "center",        
-    display: 'flex',
+    backgroundPosition: "center", 
+  },
+  body: {
     zIndex: '0',
     alignItems: "center",
     justifyContent: "center",
-},
+  },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       maxHeight: '80vh',
@@ -156,20 +157,12 @@ const dashboard = (props) => {
   );
   
   return (
-    <>
-    <Box className={classes.root}>
-        <Grid container>
-          <Grid item xs={12} md={12} lg={12}>
-            <NavBarLoggedIn />
-          </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-                <Box>
-                    <SideDrawer id={props.id} email={props.email}/>
-                </Box>
-            </Grid>
-        </Grid>
-    </Box>
-  </>
+    <div className={classes.root}>
+    <NavBarLoggedIn />
+      <Box className={classes.body}>
+          <SideDrawer id={props.id} email={props.email}/>
+      </Box>
+  </div>
   );
 }
 

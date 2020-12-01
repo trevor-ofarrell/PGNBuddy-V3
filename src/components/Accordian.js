@@ -74,10 +74,21 @@ const useStyles = makeStyles((theme) => ({
   },
   loading: {
     justifyContent: 'center',
-    height: '50vh',
-    marginLeft: '32vw',
-    marginTop: '30vh',
-    color: 'white'
+    color: 'white',
+    marginLeft: '18vw',
+    marginTop: '10vh',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '24vw',
+      marginTop: '30vh',
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '24vw',
+      marginTop: '30vh',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '18vw',
+      marginTop: '35vh',
+    },
   },
   iframe: {
     width: '62vw',
@@ -189,7 +200,7 @@ export const Accordian = (props) => {
                   </Grid>
                 </AccordionDetails>
               </Accordion>
-            )) : <Circle size="40vh" thickness={1.5} className={classes.loading}/> }
+            )) : <Circle size="40vw" thickness={1.5} className={classes.loading}/> }
         </div>
     )
 }

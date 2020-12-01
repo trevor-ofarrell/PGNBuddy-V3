@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { color } from '@material-ui/system';
 import fire from '../../fire-config';
-import { Paper, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from '@material-ui/core';
+import {
+  Grid,
+  CircularProgress,
+  Typography,
+} from '@material-ui/core';
+import uuid from 'react-uuid';
+import redis from 'redis';
+import bluebird, { props } from 'bluebird';
 
 const Accordion = withStyles({
   root: {
@@ -115,41 +118,27 @@ const useStyles = makeStyles((theme) => ({
 export const Accordian = (props) => {
     const classes = useStyles();
     const [gameData, setGameData] = useState({});
-    const [pgns, setPgns] = useState([])
     const [expanded, setExpanded] = React.useState('');
-
+    const [pgns, setPgns] = useState([])
     const handleChange = (panel) => (event, newExpanded) => {
       setExpanded(newExpanded ? panel : false);
     };
-  
+
     useEffect( () => {
       let mounted = true;
       if (mounted) {
-        getTodos()
+        getPgns()
       }
       return () => mounted = false;
     }, [])
 
-  const getTodos = () => {
-    console.log(props.id)
-    console.log(props.user)
-    fire.firestore().collection(`${props.id}-pgns`)
-      .get()
-      .then(querySnapshot => {
-      querySnapshot.forEach( doc => {
-        setPgns(prev => ([...prev, doc.data()]))
-      })
-    })
-    .catch(err => {
-      console.log(err.message)
-    })
-  }
-
-
+    const getPgns = async () => {
+     
+    }
 
     return gameData && (
         <div className={classes.root}>
-            {pgns.length !== 0 ? pgns.map((pgn, index) => (
+            {props.pgns.length !== 0 ? props.pgns.map((pgn, index) => (
               <Accordion
                 TransitionProps={{ unmountOnExit: true }}
                 key={index}

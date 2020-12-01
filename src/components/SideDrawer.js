@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const SideDrawer = (props, windows) => {
   const { window } = windows;
-  const {id, email, user} = props
+  const {id, email, pgns} = props
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -159,7 +159,7 @@ export const SideDrawer = (props, windows) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <Accordian id={id} email={email} user={user}/>
+        <Accordian id={id} email={email} pgns={pgns}/>
       </main>
     </div>
   );

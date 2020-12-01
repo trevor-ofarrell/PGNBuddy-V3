@@ -1,6 +1,16 @@
 require("dotenv").config({ path: `./.env.${process.env.ENVIRONMENT}` });
 
 module.exports = {
+    webpack: (config, { isServer }) => {
+        if (!isServer) {
+            config.node = {
+                net: 'empty',
+                tls: 'empty'
+            };
+        }
+
+        return config;
+    },
     ACCOUNT_TYPE : process.env.ACCOUNT_TYPE,
     PROJECT_ID : process.env.PROJECT_ID,
     NEXT_PUBLIC_API_KEY : process.env.NEXT_PUBLIC_API_KEY,

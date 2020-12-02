@@ -1,20 +1,11 @@
 import React from 'react';
 import {
-    Paper,
-    withStyles,
     Grid,
-    TextField,
     Button,
-    FormControlLabel,
-    Checkbox,
-    Card,
     createMuiTheme,
     ThemeProvider,
 } from '@material-ui/core';
-import { Face, Fingerprint } from '@material-ui/icons'
-import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Link from 'next/link'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         fontSize: '1.5em',
         color: 'white',
-        borderWidth: '3px',
         [theme.breakpoints.down("lg")]: {
             marginTop: '7em',
         },

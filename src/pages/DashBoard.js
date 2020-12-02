@@ -1,23 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
-import { firebaseClient } from '../../firebaseClient';
-import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next';
-import { Grid, Box, Divider, List, ListItem, Hidden, IconButton, ListItemText, Drawer, Button } from '@material-ui/core';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar'
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import {
+  Grid,
+  Box,
+  Button,
+} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import fire from '../../fire-config';
 import {
     NavBarLoggedIn,
     SideDrawer,
 } from "../components"
 import Link from "next/link"
-import { useAuth } from '../../auth';
-import uuid from 'react-uuid';
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 

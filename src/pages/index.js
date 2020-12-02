@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox, Box } from '@material-ui/core';
-import { Face, Fingerprint } from '@material-ui/icons'
+import React from "react";
+import { Grid, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';

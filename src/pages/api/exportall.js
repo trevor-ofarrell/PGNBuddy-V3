@@ -108,8 +108,6 @@ async function exportAll(req, res) {
         console.log(err.message)
       })
 
-
-
       return res.status(200).end()
     } else {
       return res.status(405).end()

@@ -1,12 +1,7 @@
-import React, { useRef } from 'react';
-import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from '@material-ui/core';
-import { useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
+import { Grid, TextField, Button, Card } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Link from 'next/link'
-import fire from '../../fire-config';
-import nookies from 'nookies';
 import { firebaseClient } from '../../firebaseClient';
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     card: {
         marginTop: '40vh',
         background: 'linear-gradient(180deg, rgba(120, 120, 120, 0.562) 20%, rgba(83, 83, 83, 0.814) 62%, rgba(30, 30, 30, 0.958) 90%)',
-
     },
     textfield: {
         width: '100%',

@@ -3,15 +3,11 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import fire from '../../fire-config';
 import {
   Grid,
   CircularProgress,
   Typography,
 } from '@material-ui/core';
-import uuid from 'react-uuid';
-import redis from 'redis';
-import bluebird, { props } from 'bluebird';
 
 const Accordion = withStyles({
   root: {

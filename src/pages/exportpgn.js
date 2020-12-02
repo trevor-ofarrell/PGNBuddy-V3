@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
-import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from '@material-ui/core';
-import { useState, useEffect } from 'react';
+import { Grid, TextField, Button, Card } from '@material-ui/core';
+import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link'
-import fire from '../../fire-config';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
 

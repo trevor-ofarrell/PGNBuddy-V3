@@ -30,7 +30,6 @@ async function lichessUpload(req, res) {
       console.log("game string 4" + game_string)
     }
 
-    console.log("this is the g string: " + game_string)
     let pgn_folder = req.body.folder
     let user_data = req.body.user_data
     let iframeLink = "https://lichess.org/embed/" + game_string + "?theme=wood4&bg=dark"

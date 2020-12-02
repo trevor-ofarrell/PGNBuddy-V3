@@ -2,6 +2,8 @@ import fire from '../../../fire-config';
 const axios = require('axios');
 const fs = require('fs');
 const ndjson = require( "ndjson" );
+import redis from 'redis';
+import bluebird, { props } from 'bluebird';
 
 async function exportAll(req, res) {
   if (req.method === 'POST') {
@@ -30,13 +32,16 @@ async function exportAll(req, res) {
     if (response) {
       let responseData = response.data
       console.log(response.data)
+      let pgnList = []
+      bluebird.promisifyAll(redis.RedisClient.prototype);
+      const cache = redis.createClient();
 
       fs.writeFile(`tmp/${username}-games.ndjson`, response.data, function(err) {
         if(err) {
             return console.log(err);
         }
-        console.log("The file was saved!");
 
+        console.log("The file was saved!");
         fs.createReadStream(`tmp/${username}-games.ndjson`)
           .pipe(ndjson.parse())
           .on('data', function(obj) {
@@ -54,6 +59,7 @@ async function exportAll(req, res) {
             } else {
               winner = `No winner. Game was a ${obj.status}`
             }
+           
             fire.firestore()
               .collection(`${user_data.id}-pgns`)
               .add({
@@ -76,6 +82,7 @@ async function exportAll(req, res) {
               });
             console.log("PGN SAVED")
           })
+
           fs.unlink(`tmp/${username}-games.ndjson`, (err) => {
             if (err) {
               console.error(err)
@@ -83,6 +90,24 @@ async function exportAll(req, res) {
             }
           })
     });
+
+    await fire.firestore().collection(`${user_data.id}-pgns`)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach( doc => {
+          pgnList.push({ ...doc.data() })
+        })
+        if (pgnList.length > 0) {
+          cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
+        } else {
+          console.log("pgnlistttt null")
+          return
+        }
+      })
+      .catch(err => {
+        console.log(err.message)
+      })
+
       return res.status(200).end()
     } else {
       return res.status(405).end()

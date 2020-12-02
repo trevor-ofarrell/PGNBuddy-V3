@@ -1,22 +1,20 @@
 import React from 'react';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
-import { firebaseClient } from '../../firebaseClient';
-import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next';
-import { Grid, Box, Divider, List, ListItem, Hidden, IconButton, ListItemText, Drawer, Button } from '@material-ui/core';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar'
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import {
+  Grid,
+  Box,
+  Button,
+} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import fire from '../../fire-config';
 import {
     NavBarLoggedIn,
     SideDrawer,
 } from "../components"
 import Link from "next/link"
-import { useAuth } from '../../auth';
+import redis from 'redis';
+import bluebird, { props } from 'bluebird';
 
 const drawerWidth = 240;
 
@@ -79,11 +77,40 @@ export const getServerSideProps = async (ctx) => {
   try {
     const cookies = nookies.get(ctx);
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
-    const { uid, email } = token;
     let user = fire.auth().currentUser;
-
+    const { uid, email } = token;
+    bluebird.promisifyAll(redis.RedisClient.prototype);
+    const cache = redis.createClient();
+    let data = {};
+    let pgnList2 = []
+    let pgnList = []
+    console.log("at attempt")
+    await cache.existsAsync(`${uid}-pgns`).then(async reply => {
+      console.log(uid)
+      if (reply !== 1) { // cache miss, need to fetch
+        await fire.firestore().collection(`${uid}-pgns`)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach( doc => {
+            pgnList.push({ ...doc.data() })
+        })
+        })
+        .catch(err => {
+          console.log(err.message)
+        })
+        if (pgnList.length > 0) {
+          cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
+        } else {
+          console.log("pgnlistttt null")
+          return
+        }
+      } else { // cache hit, will get data from redis
+        data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
+        pgnList = data
+      }
+    });
     return {
-      props: { "id": uid, "email": email, "user": user},
+      props: { "id": uid, "email": email, "user": user, 'pgns': pgnList},
     };
   } catch (err) {
     return {
@@ -98,12 +125,7 @@ export const getServerSideProps = async (ctx) => {
 
 const dashboard = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   const drawer = (
     <div className={classes.sidedrawer}>
@@ -160,7 +182,7 @@ const dashboard = (props) => {
     <div className={classes.root}>
     <NavBarLoggedIn />
       <Box className={classes.body}>
-          <SideDrawer id={props.id} email={props.email}/>
+          <SideDrawer id={props.id} email={props.email} pgns={props.pgns}/>
       </Box>
   </div>
   );

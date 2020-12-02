@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
-import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox, Card } from '@material-ui/core';
+import { Grid, TextField, Button, Card } from '@material-ui/core';
 import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link'
-import fire from '../../fire-config';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
 
@@ -65,7 +64,7 @@ const exportAll = (props) => {
     const [end, setEnd] = useState("");
     const form = useRef(null)
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = {
             "username": username,
@@ -73,7 +72,7 @@ const exportAll = (props) => {
             "endDate": end,
             "user_data": {"id": props.id, "email": props.email},
         }
-        fetch('/api/exportall', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+        await fetch('/api/exportall', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
             .then(function(response) {
                 console.log(response);
             })

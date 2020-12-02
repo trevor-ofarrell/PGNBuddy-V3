@@ -159,21 +159,6 @@ const dashboard = (props) => {
               Primary
           </Button>
         </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Button className={classes.options}  variant="outlined" >
-              Primary
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Button className={classes.options}  variant="outlined" >
-              Primary
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Button className={classes.options}  variant="outlined" >
-              Primary
-          </Button>
-        </Grid>
     </Grid>
   </div>
   );

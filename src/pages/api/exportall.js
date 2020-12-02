@@ -74,7 +74,8 @@ async function exportAll(req, res) {
                 clock: obj.clock,
                 players: obj.players,
               });
-            console.log("PGN SAVED")
+            console.log("PGN SAVED", pgnList)
+
           })
           fs.unlink(`tmp/${username}-games.ndjson`, (err) => {
             if (err) {

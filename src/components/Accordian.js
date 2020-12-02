@@ -126,7 +126,7 @@ export const Accordian = (props) => {
 
     useEffect( () => {
       let mounted = true;
-      if (mounted) {
+      if (mounted) { 
         getPgns()
       }
       return () => mounted = false;

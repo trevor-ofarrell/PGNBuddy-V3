@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    marginTop: '8vh',
+    marginTop: '7vh',
     background: 'transparent',
     border: 'none',
     boxShadow: 'none',
@@ -119,11 +119,6 @@ export const SideDrawer = (props, windows) => {
                   Export PGNs by date
               </Button>
             </Link>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}>
-                Primary
-            </Button>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
             <Button className={classes.options} onClick={clearDb}>

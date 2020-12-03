@@ -1,5 +1,7 @@
 import fire from '../../../fire-config';
 const axios = require('axios');
+import redis from 'redis';
+import bluebird, { props } from 'bluebird';
 
 async function lichessUpload(req, res) {
   if (req.method === 'POST') {
@@ -47,8 +49,8 @@ async function lichessUpload(req, res) {
     );
 
     if (response) {
-      let responseData = response.data
       console.log("res received", response.data)
+      
       fire.firestore()
         .collection(`${user_data.id}-pgns`)
         .add({
@@ -69,7 +71,35 @@ async function lichessUpload(req, res) {
           clock: response.data.clock,
           players: response.data.players,
         });
-      return res.status(200).end()
+
+        bluebird.promisifyAll(redis.RedisClient.prototype);
+        const cache = redis.createClient({
+            port: process.env.LAMBDA_REDIS_PORT,
+            host: process.env.LAMBDA_REDIS_ENDPOINT,
+            password: process.env.LAMBDA_REDIS_PW,
+        });
+
+        await fire.firestore().collection(`${user_data.id}-pgns`)
+        .get()
+        .then(querySnapshot => {
+          let pgnList = []
+          querySnapshot.forEach( doc => {
+            pgnList.push({ ...doc.data() })
+          })
+          if (pgnList.length > 0) {
+            cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
+      
+          } else { 
+            console.log("pgnlist null")
+            return res.status(500).end()
+          }
+        })
+        .catch(err => {
+          console.log(err.message, "fuck")
+          return res.status(500).end()
+        })
+        return res.status(200).end()
+
     } else {
       return res.status(405).end()
     }

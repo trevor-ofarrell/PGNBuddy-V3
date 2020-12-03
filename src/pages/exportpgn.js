@@ -59,7 +59,7 @@ const ExportPGN = (props) => {
     const [folder, setFolder] = useState("");
     const form = useRef(null)
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = {
             "name": name,
@@ -67,7 +67,7 @@ const ExportPGN = (props) => {
             "game_string": gameString,
             "user_data": {"id": props.id, "email": props.email},
         }
-        fetch('/api/lichessupload', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+        await fetch('/api/lichessupload', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
             .then(function(response) {
                 console.log(response);
             })

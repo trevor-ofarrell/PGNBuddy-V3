@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '3em',
     textAlign: 'center',
     paddingTop: '30vh',
+    marginLeft: '-3vw',
   },
   loading: {
     justifyContent: 'center',

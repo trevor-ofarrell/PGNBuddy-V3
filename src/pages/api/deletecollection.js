@@ -1,7 +1,4 @@
 import fire from '../../../fire-config';
-const axios = require('axios');
-const fs = require('fs');
-const ndjson = require( "ndjson" );
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 

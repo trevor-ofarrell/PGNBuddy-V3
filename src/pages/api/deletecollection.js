@@ -22,17 +22,16 @@ async function deletecollection(req, res) {
                 })
                 batch.commit()
 
-            }).then(
-                cache.del(collectionPath, function(err, response) {
-                    if (response == 1) {
-                       console.log("Deleted Successfully!")
-                       return res.status(200).end()
-                    } else{
-                        console.log("Cannot delete")
-                        return res.status(405).end()
-                    }
-                })
-            )
+            })
+        cache.del(collectionPath, function(err, response) {
+            if (response == 1) {
+                console.log("Deleted Successfully!")
+                return res.status(200).end()
+            } else{
+                console.log("Cannot delete")
+                return res.status(405).end()
+            }
+        })
         return res.status(200).end()
     }
 }

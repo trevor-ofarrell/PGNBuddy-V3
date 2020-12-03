@@ -9,7 +9,7 @@ import { firebaseAdmin } from '../../firebaseAdmin';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundImage: 'url("/darkbg.png")',
+        background: 'linear-gradient(to right, rgb(241, 39, 17, 0.7), rgb(245, 175, 25, 0.7)), url("/darkbg.png");',
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",

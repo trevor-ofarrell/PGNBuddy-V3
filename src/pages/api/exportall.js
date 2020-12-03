@@ -100,7 +100,6 @@ class NdjsonStreamer{
 	}
 }
 
-
 async function exportAll(req, res) {
   if (req.method === 'POST') {
     let username = req.body.username
@@ -111,14 +110,17 @@ async function exportAll(req, res) {
     let opening = ""
     let winner = ""
     let clock = {}
-    let pgnList = []
     bluebird.promisifyAll(redis.RedisClient.prototype);
-    const cache = redis.createClient();
+    const cache = redis.createClient({
+      port: process.env.LAMBDA_REDIS_PORT,
+      host: process.env.LAMBDA_REDIS_ENDPOINT,
+      password: process.env.LAMBDA_REDIS_PW,
+    });
 
     let eventStreamer = new NdjsonStreamer({
       url: `https://lichess.org/api/games/user/${username}?opening=true&clocks=true&since=${startDate}&until=${endDate}&max=500&pgnInJson=true`,
       token: process.env.LICHESS_API_TOKEN,
-      timeout: 10000,
+      timeout: 20000,
       timeoutCallback: _ => {     
         return res.status(405).end()      
       },
@@ -160,29 +162,33 @@ async function exportAll(req, res) {
               players: obj.players,
             });
       },
-      endcallback: _ => {
+      endcallback: async _ => {
         // do something when stream has ended
+        await fire.firestore().collection(`${user_data.id}-pgns`)
+        .get()
+        .then(querySnapshot => {
+          let pgnList = []
+          querySnapshot.forEach( doc => {
+            pgnList.push({ ...doc.data() })
+          })
+          if (pgnList.length > 0) {
+            cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
+      
+          } else { 
+            console.log("pgnlist null")
+            return res.status(500).end()
+          }
+        })
+        .catch(err => {
+          console.log(err.message, "fuck")
+          return res.status(500).end()
+        })
         return res.status(200).end()
       }
     })
 
     eventStreamer.stream()
-    await fire.firestore().collection(`${user_data.id}-pgns`)
-    .get()
-    .then(querySnapshot => {
-      querySnapshot.forEach( doc => {
-        pgnList.push({ ...doc.data() })
-      })
-      if (pgnList.length > 0) {
-        cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
-      } else { 
-        console.log("pgnlist null")
-        return
-      }
-    })
-    .catch(err => {
-      console.log(err.message)
-    })
+
   }
 }
 

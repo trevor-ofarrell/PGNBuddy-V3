@@ -72,6 +72,12 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '19px'
     }
   },
+  nogames: {
+    color: 'white',
+    fontSize: '3em',
+    textAlign: 'center',
+    paddingTop: '30vh',
+  },
   loading: {
     justifyContent: 'center',
     color: 'white',
@@ -176,13 +182,10 @@ export const Accordian = (props) => {
                 </AccordionDetails>
 
               </Accordion>
-              <div>
-                <Typography className={classes.text}>
-                  <b>Records stored</b> {index}
-                </Typography>
-              </div>
             </>
-            )) : <Circle size="40vw" thickness={1.5} className={classes.loading}/> }
+            )) : <Typography className={classes.nogames}>
+                  <b>No games currently</b>
+                </Typography> }
               
         </div>
     )

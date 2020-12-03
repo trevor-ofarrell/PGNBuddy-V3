@@ -2,9 +2,7 @@ import React from 'react';
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
 import {
-  Grid,
   Box,
-  Button,
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import fire from '../../fire-config';
@@ -12,7 +10,6 @@ import {
     NavBarLoggedIn,
     SideDrawer,
 } from "../components"
-import Link from "next/link"
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 
@@ -23,11 +20,13 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'hidden',
     height: '100vh',
     width: '100vw',
-    backgroundImage: 'url("/darkbg.png")',
+    background: 'linear-gradient(126.95deg, #000000 0%, #F9FFB1 100%), radial-gradient(91.23% 100% at 50% 100%, #BE002E 0%, #6100FF 100%), linear-gradient(307.27deg, #1DAC92 0.37%, #2800C6 100%), radial-gradient(100% 140% at 100% 0%, #EAFF6B 0%, #006C7A 57.29%, #2200AA 100%)',
+    backgroundBlendMode: 'overlay, difference, difference, normal',
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center", 
   },
+
   body: {
     zIndex: '0',
     alignItems: "center",
@@ -79,8 +78,14 @@ export const getServerSideProps = async (ctx) => {
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     let user = fire.auth().currentUser;
     const { uid, email } = token;
+
     bluebird.promisifyAll(redis.RedisClient.prototype);
-    const cache = redis.createClient();
+    const cache = redis.createClient({
+      port: process.env.LAMBDA_REDIS_PORT,
+      host: process.env.LAMBDA_REDIS_ENDPOINT,
+      password: process.env.LAMBDA_REDIS_PW,
+    });
+
     let data = {};
     let pgnList = []
     console.log("at attempt")
@@ -100,7 +105,7 @@ export const getServerSideProps = async (ctx) => {
         if (pgnList.length > 0) {
           cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
         } else {
-          console.log("pgnlistttt null")
+          console.log("dashboard pgnlist null")
           return
         }
       } else { // cache hit, will get data from redis

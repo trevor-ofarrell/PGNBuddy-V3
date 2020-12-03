@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   CssBaseline,
   Drawer,
@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import {Accordian} from './Accordian'
+import { useRouter } from 'next/router'
 
 import Link from 'next/link'
 
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       width: drawerWidth,
       flexShrink: 0,
-      maxHeight: '92vh',
+      maxHeight: '94vh',
       marginTop: '8vh'
     },
   },
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     boxShadow: 'none',
     [theme.breakpoints.down('md')]: {
+      marginTop: '0vh',
       backgroundColor: 'rgba(12, 12, 12, 0.875)',
       paddingRight: '1.75vw',
     },
@@ -57,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   },
   sidedrawer: {
     marginLeft: '1em',
+    [theme.breakpoints.down('md')]: {
+      paddingTop: '7vh',
+    }
   },
   options: {
       width: '95%',
@@ -83,6 +88,7 @@ export const SideDrawer = (props, windows) => {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const router = useRouter()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -94,6 +100,7 @@ export const SideDrawer = (props, windows) => {
       'collectionPath':  `${props.id}-pgns`
     }
     await fetch('/api/deletecollection', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+    router.reload()
   }
 
   const drawer = (

@@ -15,13 +15,7 @@ async function deletecollection(req, res) {
 
         let collectionPath = req.body.collectionPath
 
-        cache.del(collectionPath, function(err, response) {
-            if (response == 1) {
-                console.log("Deleted Successfully!")
-            } else{
-                console.log("Cannot delete")
-            }
-        })
+
 
         await fire.firestore().collection(collectionPath)
             .get()
@@ -31,7 +25,15 @@ async function deletecollection(req, res) {
                     batch.delete(doc.ref)
                 })
                 batch.commit()
-            })
+            }).then(
+                cache.del(collectionPath, function(err, response) {
+                    if (response == 1) {
+                        console.log("Deleted Successfully!")
+                    } else{
+                        console.log("Cannot delete")
+                    }
+                })
+            )
 
         return res.status(200).end()
     }

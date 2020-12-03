@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing(3.2),
+    paddingTop: theme.spacing(2.3),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2.5),
     paddingBottom: theme.spacing(4),
@@ -76,6 +76,18 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
       }
   },
+  optionsred: {
+    width: '95%',
+    height: '10.14vh',
+    color: 'white',
+    marginBottom: '1em',
+    opacity: '0.8',
+    background: 'linear-gradient(to left, #333333, #dd1818)',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: '0.6em',
+      width: '100%',
+    }
+},
   menuicon: {
     width: '4vw',
     marginTop: "47vh",
@@ -116,12 +128,12 @@ export const SideDrawer = (props, windows) => {
           <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
               <Button className={classes.options}>
-                  Export PGNs by date
+                  Export PGNs by date (100 game limit per request)
               </Button>
             </Link>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options} onClick={clearDb}>
+            <Button className={classes.optionsred} onClick={clearDb}>
                 Clear Database. WARNING CANNOT UNDO
             </Button>
           </Grid>

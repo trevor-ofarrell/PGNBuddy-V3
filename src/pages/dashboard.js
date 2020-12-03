@@ -82,7 +82,6 @@ export const getServerSideProps = async (ctx) => {
     bluebird.promisifyAll(redis.RedisClient.prototype);
     const cache = redis.createClient();
     let data = {};
-    let pgnList2 = []
     let pgnList = []
     console.log("at attempt")
     await cache.existsAsync(`${uid}-pgns`).then(async reply => {
@@ -127,42 +126,6 @@ const dashboard = (props) => {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const drawer = (
-    <div className={classes.sidedrawer}>
-    <Grid container>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Link href="/exportpgn">
-            <Button className={classes.options} variant="outlined">
-                Export PGN from Lichess
-            </Button>
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-        <Link href="/exportall">
-            <Button className={classes.options} variant="outlined">
-                Export PGNs by date
-            </Button>
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Button className={classes.options}  variant="outlined" >
-              Primary
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Button className={classes.options}  variant="outlined" >
-              Primary
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Button className={classes.options}  variant="outlined" >
-              Primary
-          </Button>
-        </Grid>
-    </Grid>
-  </div>
-  );
-  
   return (
     <div className={classes.root}>
     <NavBarLoggedIn />

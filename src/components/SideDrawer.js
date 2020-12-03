@@ -88,6 +88,14 @@ export const SideDrawer = (props, windows) => {
     setMobileOpen(!mobileOpen);
   };
 
+  const clearDb = async (event) => {
+    event.preventDefault();
+    const data = {
+      'collectionPath':  `${props.id}-pgns`
+    }
+    await fetch('/api/deletecollection', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+  }
+
   const drawer = (
     <div className={classes.sidedrawer}>
       <Grid container>
@@ -111,8 +119,8 @@ export const SideDrawer = (props, windows) => {
             </Button>
           </Grid>
           <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.options}>
-                Primary
+            <Button className={classes.options} onClick={clearDb}>
+                Clear Database. WARNING CANNOT UNDO
             </Button>
           </Grid>
       </Grid>

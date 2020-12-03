@@ -57,7 +57,7 @@ export const getServerSideProps = async (ctx) => {
     }
   };
 
-const exportAll = (props) => {
+  const exportAll = (props) => {
     const classes = useStyles();
     const [username, setUsername] = useState("");
     const [start, setStart] = useState("");
@@ -79,10 +79,9 @@ const exportAll = (props) => {
             .catch(function(error) {
                 console.log(error); 
             });
-            
-        console.log(JSON.stringify(data))
-        window.location.href = '/dashboard';
-        return
+
+        return window.location.href = '/dashboard';
+        
     }
        
     return (

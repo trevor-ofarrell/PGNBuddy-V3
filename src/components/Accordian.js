@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Typography,
 } from '@material-ui/core';
+import uuid from 'react-uuid';
 
 const Accordion = withStyles({
   root: {
@@ -120,24 +121,13 @@ export const Accordian = (props) => {
       setExpanded(newExpanded ? panel : false);
     };
 
-    useEffect( () => {
-      let mounted = true;
-      if (mounted) { 
-        getPgns()
-      }
-      return () => mounted = false;
-    }, [])
-
-    const getPgns = async () => {
-     
-    }
-
     return gameData && (
         <div className={classes.root}>
             {props.pgns.length !== 0 ? props.pgns.map((pgn, index) => (
+              <>
               <Accordion
                 TransitionProps={{ unmountOnExit: true }}
-                key={index}
+                key={uuid()}
                 expanded={expanded === 'panel' + String(index)}
                 onChange={handleChange('panel' + String(index))}
               >
@@ -184,8 +174,12 @@ export const Accordian = (props) => {
                     </Grid>
                   </Grid>
                 </AccordionDetails>
+
               </Accordion>
+              
+            </>
             )) : <Circle size="40vw" thickness={1.5} className={classes.loading}/> }
+              
         </div>
     )
 }

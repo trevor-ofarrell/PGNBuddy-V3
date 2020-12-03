@@ -176,7 +176,11 @@ export const Accordian = (props) => {
                 </AccordionDetails>
 
               </Accordion>
-              
+              <div>
+                <Typography className={classes.text}>
+                  <b>Records stored</b> {index}
+                </Typography>
+              </div>
             </>
             )) : <Circle size="40vw" thickness={1.5} className={classes.loading}/> }
               

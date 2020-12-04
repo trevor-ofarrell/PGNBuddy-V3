@@ -17,6 +17,8 @@ async function deletecollection(req, res) {
                         batch.delete(doc.ref)
                     })
                     batch.commit()
+                    console.log(`${collectionPath} collection is deletedd`);
+                    return res.status(200).end()
                 })
            
         }

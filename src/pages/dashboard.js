@@ -12,6 +12,7 @@ import {
 } from "../components"
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
+import { doc } from 'prettier';
 
 const drawerWidth = 240;
 
@@ -110,9 +111,18 @@ export const getServerSideProps = async (ctx) => {
           return
         }
       } else { // cache hit, will get data from redis
-        data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
-        cache.quit()
-        pgnList = data
+          console.log("GUUHHHHH")
+          const docRef = fire.firestore().collection(`${uid}-pgns`)
+          const snapshot = await docRef.where('user_id', '==', uid).limit(1).get()
+          if (snapshot.empty) {
+            fetch('/api/deletecache', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+            console.log("bye bye")
+          }else {
+            data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
+            cache.quit()
+            pgnList = data
+            console.log(pgnList)
+          }  
       }
     });
     cache.quit()

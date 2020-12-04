@@ -106,15 +106,20 @@ export const SideDrawer = (props, windows) => {
     setMobileOpen(!mobileOpen);
   };
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   const clearDb = async (event) => {
     event.preventDefault();
     const data = {
       'collectionPath':  `${props.id}-pgns`
     }
     await fetch('/api/deletecollection', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+      .then(await sleep(100))
     await fetch('/api/deletecache', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
-      .then(router.reload())
-    
+      .then(await sleep(100))
+    router.reload()
   }
 
   const drawer = (

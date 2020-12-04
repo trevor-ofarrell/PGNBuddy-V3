@@ -181,7 +181,6 @@ export const Accordian = (props) => {
                     </Grid>
                   </Grid>
                 </AccordionDetails>
-
               </Accordion>
             </>
             )) : <Typography className={classes.nogames}>

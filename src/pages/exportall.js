@@ -64,6 +64,10 @@ export const getServerSideProps = async (ctx) => {
     const [end, setEnd] = useState("");
     const form = useRef(null)
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = {
@@ -80,6 +84,7 @@ export const getServerSideProps = async (ctx) => {
                 console.log(error); 
             });
 
+        await sleep(200);
         return window.location.href = '/dashboard';
         
     }

@@ -122,7 +122,6 @@ export const getServerSideProps = async (ctx) => {
             data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
             cache.quit()
             pgnList = data
-            console.log(pgnList)
           }  
       }
     });

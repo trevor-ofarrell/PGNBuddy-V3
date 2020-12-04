@@ -22,7 +22,7 @@ async function exportAll(req, res) {
     let eventStreamer = new NdjsonStreamer({
       url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=100&pgnInJson=true`,
       token: process.env.LICHESS_API_TOKEN,
-      timeout: 20000,
+      timeout: 10000,
       timeoutCallback: _ => {     
         return res.status(405).end()      
       },
@@ -76,6 +76,8 @@ async function exportAll(req, res) {
           if (pgnList.length > 0) {
             cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
             cache.quit()
+            console.log("cache set export all")
+            return res.status(200).end()
           } else { 
             console.log("pgnlist null")
             return res.status(500).end()
@@ -85,7 +87,6 @@ async function exportAll(req, res) {
           console.log(err.message, "fuck")
           return res.status(500).end()
         })
-        return res.status(200).end()
       }
     })
 

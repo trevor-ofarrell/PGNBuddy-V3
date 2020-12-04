@@ -78,12 +78,11 @@ export const getServerSideProps = async (ctx) => {
         }
         await fetch('/api/exportall', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
             .then(function(response) {
-                console.log("exported");
+                console.log;
             })
             .catch(function(error) {
                 console.log(error); 
             });
-
         await sleep(200);
         return window.location.href = '/dashboard';
         

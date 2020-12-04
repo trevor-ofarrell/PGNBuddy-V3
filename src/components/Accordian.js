@@ -128,7 +128,7 @@ export const Accordian = (props) => {
       setExpanded(newExpanded ? panel : false);
     };
 
-    return (
+    return props.pgns && (
         <div className={classes.root}>
             {props.pgns.length !== 0 ? props.pgns.map((pgn, index) => (
               <>

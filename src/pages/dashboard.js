@@ -115,7 +115,8 @@ export const getServerSideProps = async (ctx) => {
           const docRef = fire.firestore().collection(`${uid}-pgns`)
           const snapshot = await docRef.where('user_id', '==', uid).limit(1).get()
           if (snapshot.empty) {
-            fetch('/api/deletecache', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+            cache.del(`${uid}-pgns`)
+            cache.quit()
             console.log("bye bye")
           }else {
             data = JSON.parse(await cache.getAsync(`${uid}-pgns`));

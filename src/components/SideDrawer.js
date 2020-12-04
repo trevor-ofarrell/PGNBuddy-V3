@@ -112,9 +112,9 @@ export const SideDrawer = (props, windows) => {
       'collectionPath':  `${props.id}-pgns`
     }
     await fetch('/api/deletecollection', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
-
     await fetch('/api/deletecache', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
-    router.reload()
+      .then(router.reload())
+    
   }
 
   const drawer = (

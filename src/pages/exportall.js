@@ -77,13 +77,7 @@ export const getServerSideProps = async (ctx) => {
             "user_data": {"id": props.id, "email": props.email},
         }
         await fetch('/api/exportall', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
-            .then(function(response) {
-                console.log;
-            })
-            .catch(function(error) {
-                console.log(error); 
-            });
-        await sleep(200);
+            .then(await sleep(350))
         return window.location.href = '/dashboard';
         
     }

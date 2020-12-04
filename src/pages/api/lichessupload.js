@@ -88,7 +88,7 @@ async function lichessUpload(req, res) {
           })
           if (pgnList.length > 0) {
             cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
-      
+            cache.quit()
           } else { 
             console.log("pgnlist null")
             return res.status(500).end()

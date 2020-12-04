@@ -104,15 +104,18 @@ export const getServerSideProps = async (ctx) => {
         })
         if (pgnList.length > 0) {
           cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
+          cache.quit()
         } else {
           console.log("dashboard pgnlist null")
           return
         }
       } else { // cache hit, will get data from redis
         data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
+        cache.quit()
         pgnList = data
       }
     });
+    cache.quit()
     return {
       props: { "id": uid, "email": email, "user": user, 'pgns': pgnList},
     };

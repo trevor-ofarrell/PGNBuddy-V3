@@ -73,6 +73,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export const getServerSideProps = async (ctx) => {
   try {
     const cookies = nookies.get(ctx);
@@ -99,20 +103,21 @@ export const getServerSideProps = async (ctx) => {
           querySnapshot.forEach( doc => {
             pgnList.push({ ...doc.data() })
         })
+        }).then(async () => {
+          if (pgnList.length > 0) {
+            console.log(pgnList.length)
+            cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
+            cache.quit()
+          } else {
+            console.log("dashboard pgnlist null")
+            return
+          }
         })
         .catch(err => {
           console.log(err.message)
         })
-        if (pgnList.length > 0) {
-          console.log(pgnList.length)
-          cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
-          cache.quit()
-        } else {
-          console.log("dashboard pgnlist null")
-          return
-        }
+       
       } else { // cache hit, will get data from redis
-          console.log("GUUHHHHH")
           const docRef = fire.firestore().collection(`${uid}-pgns`)
           const snapshot = await docRef.where('user_id', '==', uid).limit(1).get()
           if (snapshot.empty) {

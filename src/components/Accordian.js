@@ -129,12 +129,11 @@ export const Accordian = (props) => {
     };
 
     return props.pgns && (
-        <div className={classes.root}>
+        <div className={classes.root} key={uuid()}>
             {props.pgns.length !== 0 ? props.pgns.map((pgn, index) => (
               <>
               <Accordion
                 TransitionProps={{ unmountOnExit: true }}
-                key={uuid()}
                 expanded={expanded === 'panel' + String(index)}
                 onChange={handleChange('panel' + String(index))}
               >

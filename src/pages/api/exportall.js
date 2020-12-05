@@ -3,96 +3,100 @@ import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 
 async function exportAll(req, res) {
-  if (req.method === 'POST') {
-    let username = req.body.username
-    let startDate = new Date(req.body.startDate).getTime();
-    let endDate = new Date(req.body.endDate).getTime();
-    let user_data = req.body.user_data
-    console.log(startDate, endDate)
-    let opening = ""
-    let winner = ""
-    let clock = {}
-    bluebird.promisifyAll(redis.RedisClient.prototype);
-    const cache = redis.createClient({
-      port: process.env.LAMBDA_REDIS_PORT,
-      host: process.env.LAMBDA_REDIS_ENDPOINT,
-      password: process.env.LAMBDA_REDIS_PW,
-    });
+  return new Promise((resolve, reject) => {
+    if (req.method === 'POST') {
+      let username = req.body.username
+      let startDate = new Date(req.body.startDate).getTime();
+      let endDate = new Date(req.body.endDate).getTime();
+      let user_data = req.body.user_data
+      console.log(startDate, endDate)
+      let opening = ""
+      let winner = ""
+      let clock = {}
+      bluebird.promisifyAll(redis.RedisClient.prototype);
+      const cache = redis.createClient({
+        port: process.env.LAMBDA_REDIS_PORT,
+        host: process.env.LAMBDA_REDIS_ENDPOINT,
+        password: process.env.LAMBDA_REDIS_PW,
+      });
 
-    let eventStreamer = new NdjsonStreamer({
-      url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=100&pgnInJson=true`,
-      token: process.env.LICHESS_API_TOKEN,
-      timeout: 10000,
-      timeoutCallback: _ => {     
-        return res.status(405).end()      
-      },
-      callback: obj => {
-        if (obj.opening) {
-          opening = obj.opening.name
-        } else {
-          opening = "No known opening"
-        }
-        if (obj.winner) {
-          winner = obj.winner
-        } else {
-          winner = `No winner. Game resulted in a ${obj.status}`
-        }
-        if (obj.clock) {
-          clock = obj.clock
-        } else {
-          clock = "No set time control"
-        }
-        let iframeLink = "https://lichess.org/embed/" + obj.id + "?theme=wood4&bg=dark"
-        fire.firestore()
-            .collection(`${user_data.id}-pgns`)
-            .add({
-              name: opening + ' - ' + obj.variant + ' - ' + obj.speed + ' - id: ' + obj.id ,
-              pgn_id: obj.id,
-              folder: `lichess upload ${new Date}`,
-              pgn: obj.pgn,
-              moves: obj.moves,
-              user_id: user_data.id,
-              user_email: user_data.email,
-              iframe: iframeLink,
-              rated: obj.rated,
-              variant: obj.variant,
-              speed: obj.speed,
-              status: obj.status,
-              winner: winner,
-              opening: opening,
-              clock: clock,
-              players: obj.players,
-            });
-      },
-      endcallback: async _ => {
-        // do something when stream has ended
-        await fire.firestore().collection(`${user_data.id}-pgns`)
-          .get()
-          .then(querySnapshot => {
-            let pgnList = []
-            querySnapshot.forEach( doc => {
-              pgnList.push({ ...doc.data() })
+      let eventStreamer = new NdjsonStreamer({
+        url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=100&pgnInJson=true`,
+        token: process.env.LICHESS_API_TOKEN,
+        timeout: 10000,
+        timeoutCallback: _ => {     
+          res.status(405).end()
+          return resolve()  
+        },
+        callback: obj => {
+          if (obj.opening) {
+            opening = obj.opening.name
+          } else {
+            opening = "No known opening"
+          }
+          if (obj.winner) {
+            winner = obj.winner
+          } else {
+            winner = `No winner. Game resulted in a ${obj.status}`
+          }
+          if (obj.clock) {
+            clock = obj.clock
+          } else {
+            clock = "No set time control"
+          }
+          let iframeLink = "https://lichess.org/embed/" + obj.id + "?theme=wood4&bg=dark"
+          fire.firestore()
+              .collection(`${user_data.id}-pgns`)
+              .add({
+                name: opening + ' - ' + obj.variant + ' - ' + obj.speed + ' - id: ' + obj.id ,
+                pgn_id: obj.id,
+                folder: `lichess upload ${new Date}`,
+                pgn: obj.pgn,
+                moves: obj.moves,
+                user_id: user_data.id,
+                user_email: user_data.email,
+                iframe: iframeLink,
+                rated: obj.rated,
+                variant: obj.variant,
+                speed: obj.speed,
+                status: obj.status,
+                winner: winner,
+                opening: opening,
+                clock: clock,
+                players: obj.players,
+              });
+        },
+        endcallback: async () => {
+          // do something when stream has ended
+          let pgnList = []
+          await fire.firestore().collection(`${user_data.id}-pgns`)
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach( doc => {
+                pgnList.push({ ...doc.data() })
+              })
+              
+            })
+            .catch(err => {
+              res.status(500).end()
+              return resolve()
             })
             if (pgnList.length > 0) {
               cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
               cache.quit()
               console.log("cache set export all")
-              return res.status(200).end()
+              res.status(200).end()
+              return resolve()
             } else { 
               console.log("pgnlist null")
-              return res.status(500).end()
+              res.status(500).end()
+              return resolve()
             }
-          })
-          .catch(err => {
-            console.log(err.message, "fuck")
-            return res.status(500).end()
-          })
-      }
-    })
-
-    eventStreamer.stream()
-
-  }
+        }
+      })
+      eventStreamer.stream()
+    }
+  })
 }
 
 /*
@@ -137,7 +141,6 @@ class NdjsonStreamer{
 			let checkInterval = setInterval(_=>{
 				if((new Date().getTime() - lastTick) > this.props.timeout * 1000){
 					clearInterval(checkInterval)
-
 					if(this.props.timeoutCallback) this.props.timeoutCallback()
 				}
 			}, this.props.timeout / 3)

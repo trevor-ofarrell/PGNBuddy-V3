@@ -1,10 +1,4 @@
 import fire from '../../../fire-config';
-import redis from 'redis';
-import bluebird, { props } from 'bluebird';
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 async function exportAll(req, res) {
   return new Promise((resolve, reject) => {
@@ -44,11 +38,11 @@ async function exportAll(req, res) {
           } else {
             clock = "No set time control"
           }
-          let iframeLink = "https://lichess.org/embed/" + obj.id + "?theme=wood4&bg=dark"
+          let iframeLink = `https://lichess.org/embed/${obj.id}?theme=wood4&bg=dark`
           fire.firestore()
               .collection(`${user_data.id}-pgns`)
               .add({
-                name: opening + ' - ' + obj.variant + ' - ' + obj.speed + ' - id: ' + obj.id ,
+                name: `${opening} - ${obj.variant} - ${obj.speed} - id: ${obj.id}`,
                 pgn_id: obj.id,
                 folder: `lichess upload ${new Date}`,
                 pgn: obj.pgn,

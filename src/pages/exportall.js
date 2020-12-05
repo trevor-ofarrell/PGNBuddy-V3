@@ -78,7 +78,8 @@ export const getServerSideProps = async (ctx) => {
         }
         await fetch('/api/exportall', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
         await sleep(1000)
-        return window.location.href = '/dashboard';
+            .then(window.location.href = '/dashboard')
+        
     }
        
     return (

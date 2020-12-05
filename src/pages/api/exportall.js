@@ -67,26 +67,26 @@ async function exportAll(req, res) {
       endcallback: async _ => {
         // do something when stream has ended
         await fire.firestore().collection(`${user_data.id}-pgns`)
-        .get()
-        .then(querySnapshot => {
-          let pgnList = []
-          querySnapshot.forEach( doc => {
-            pgnList.push({ ...doc.data() })
+          .get()
+          .then(querySnapshot => {
+            let pgnList = []
+            querySnapshot.forEach( doc => {
+              pgnList.push({ ...doc.data() })
+            })
+            if (pgnList.length > 0) {
+              cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
+              cache.quit()
+              console.log("cache set export all")
+              return res.status(200).end()
+            } else { 
+              console.log("pgnlist null")
+              return res.status(500).end()
+            }
           })
-          if (pgnList.length > 0) {
-            cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
-            cache.quit()
-            console.log("cache set export all")
-            return res.status(200).end()
-          } else { 
-            console.log("pgnlist null")
+          .catch(err => {
+            console.log(err.message, "fuck")
             return res.status(500).end()
-          }
-        })
-        .catch(err => {
-          console.log(err.message, "fuck")
-          return res.status(500).end()
-        })
+          })
       }
     })
 

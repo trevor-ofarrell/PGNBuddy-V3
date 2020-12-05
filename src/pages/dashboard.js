@@ -104,6 +104,7 @@ export const getServerSideProps = async (ctx) => {
           console.log(err.message)
         })
         if (pgnList.length > 0) {
+          console.log(pgnList.length)
           cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
           cache.quit()
         } else {
@@ -122,6 +123,7 @@ export const getServerSideProps = async (ctx) => {
             data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
             cache.quit()
             pgnList = data
+            console.log(pgnList)
           }  
       }
     });

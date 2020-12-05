@@ -1,10 +1,6 @@
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 async function deletecache(req, res) {
     if (req.method === 'POST') {
 
@@ -36,7 +32,6 @@ async function deletecache(req, res) {
                     return res.status(500).end()
                 }
             })
-            await sleep(200);
         }
         return res.status(500).end()
     }

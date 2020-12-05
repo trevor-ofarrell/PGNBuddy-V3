@@ -2,23 +2,23 @@ import fire from '../../../fire-config';
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function exportAll(req, res) {
   return new Promise((resolve, reject) => {
     if (req.method === 'POST') {
+
       let username = req.body.username
       let startDate = new Date(req.body.startDate).getTime();
       let endDate = new Date(req.body.endDate).getTime();
       let user_data = req.body.user_data
-      console.log(startDate, endDate)
       let opening = ""
       let winner = ""
       let clock = {}
-      bluebird.promisifyAll(redis.RedisClient.prototype);
-      const cache = redis.createClient({
-        port: process.env.LAMBDA_REDIS_PORT,
-        host: process.env.LAMBDA_REDIS_ENDPOINT,
-        password: process.env.LAMBDA_REDIS_PW,
-      });
+
+      console.log(startDate, endDate)
 
       let eventStreamer = new NdjsonStreamer({
         url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=100&pgnInJson=true`,
@@ -68,42 +68,14 @@ async function exportAll(req, res) {
         },
         endcallback: async () => {
           // do something when stream has ended
-          let pgnList = []
-          await fire.firestore().collection(`${user_data.id}-pgns`)
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach( doc => {
-                pgnList.push({ ...doc.data() })
-              })
-              
-            })
-            .catch(err => {
-              res.status(500).end()
-              return resolve()
-            })
-            if (pgnList.length > 0) {
-              cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
-              cache.quit()
-              console.log("cache set export all")
-              res.status(200).end()
-              return resolve()
-            } else { 
-              console.log("pgnlist null")
-              res.status(500).end()
-              return resolve()
-            }
+          res.status(200).end()
+          return resolve()
         }
       })
       eventStreamer.stream()
     }
   })
 }
-
-/*
-  * ndjson streamer given to me to use from a peer who also is coding with the lichess API
-  * github: https://github.com/browsercaptures/chess/blob/master/fetchutils.js#L56
-  * 
-*/
 
 class NdjsonStreamer{
   constructor(props){		

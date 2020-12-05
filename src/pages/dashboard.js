@@ -106,7 +106,7 @@ export const getServerSideProps = async (ctx) => {
         }).then(async () => {
           if (pgnList.length > 0) {
             console.log(pgnList.length)
-            cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
+            await cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
             cache.quit()
           } else {
             console.log("dashboard pgnlist null")

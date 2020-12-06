@@ -14,7 +14,6 @@ async function exportAll(req, res) {
       let winner = ""
       let clock = {}
       let pgnList = []
-      let existingPgns = []
 
       bluebird.promisifyAll(redis.RedisClient.prototype);
       const cache = redis.createClient({
@@ -69,22 +68,23 @@ async function exportAll(req, res) {
           }
 
           fire.firestore()
-              .collection(`${user_data.id}-pgns`)
-              .add(pgn);
+            .collection(`${user_data.id}-pgns`)
+            .add(pgn);
         },
         endcallback: async () => {
           // do something when stream has ended
 
           await fire.firestore().collection(`${user_data.id}-pgns`)
-          .get()
-          .then(querySnapshot => {
-            querySnapshot.forEach( doc => {
-              pgnList.push({ ...doc.data() })
+            .get()
+            .then(querySnapshot => {
+              querySnapshot.forEach( doc => {
+                pgnList.push({ ...doc.data() })
+              })
+            }).catch(err => {
+              console.log(err.message)
             })
-          }).catch(err => {
-            console.log(err.message)
-          })
-          if (pgnList.length > 0) {
+
+          if (pgnList) {
             cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
             cache.quit()
             console.log(pgnList.length, "done, cache set")
@@ -101,28 +101,28 @@ async function exportAll(req, res) {
   })
 }
 
-class NdjsonStreamer{
-  constructor(props){		
+class NdjsonStreamer {
+  constructor(props) {		
     this.props = props || {}
     this.token = this.props.token
     this.streaming = false
   }
 	
-	close(){
-		if(!this.streaming){
+	close() {
+		if(!this.streaming) {
 			return
 		}
 
 		this.streaming = false
 		
-		if(this.readable){
+		if(this.readable) {
 			this.readable.destroy()
 			this.readable = null
 			console.log("stream closed", this.props.url)
 		}
 	}
 	
-	stream(){
+	stream() {
 		this.streaming = true
 		this.readable = null
 		let headers = {
@@ -133,9 +133,9 @@ class NdjsonStreamer{
 
 		let lastTick = new Date().getTime()
 
-		if(this.props.timeout){        
-			let checkInterval = setInterval(_=>{
-				if((new Date().getTime() - lastTick) > this.props.timeout * 1000){
+		if(this.props.timeout) {        
+			let checkInterval = setInterval(_ => {
+				if((new Date().getTime() - lastTick) > this.props.timeout * 1000) {
 					clearInterval(checkInterval)
 					if(this.props.timeoutCallback) this.props.timeoutCallback()
 				}
@@ -161,23 +161,23 @@ class NdjsonStreamer{
 
 				buffer += chunk.toString()
 
-				if(buffer.match(/\n/)){
+				if(buffer.match(/\n/)) {
 					let parts = buffer.split(/\n/)
 
 					buffer = parts.pop()
 
-					for(let part of parts){
+					for(let part of parts) {
 						try{
 							let blob = JSON.parse(part)
 							if(this.props.log) console.log(this.props.blob)
-							if(this.props.callback){
+							if(this.props.callback) {
 								try{
 									this.props.callback(blob)	
-								}catch(err){
+								}catch(err) {
 									console.log("stream callback error", err)
 								}								
 							}
-						}catch(err){}
+						}catch(err) {}
 					}
 				}
 			})

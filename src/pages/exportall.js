@@ -84,7 +84,7 @@ export const getServerSideProps = async (ctx) => {
                 }
             })
     }
-       
+
     return (
         <form ref={form} className={classes.root}>
             <Grid container className={classes.mask}>

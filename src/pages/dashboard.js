@@ -98,26 +98,7 @@ export const getServerSideProps = async (ctx) => {
       console.log(uid)
       if (reply !== 1) { // cache miss, need to fetch
         let index = 0
-        await fire.firestore().collection(`${uid}-pgns`)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach( doc => {
-            index += 1
-            pgnList.push({ ...doc.data() })
-            console.log(index)
-        })
-        })
-        .catch(err => {
-          console.log(err.message)
-        })
-      if (pgnList.length > 0) {
-        cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
-        cache.quit()
-        console.log(pgnList.length, "done, cache set")
-      } else {
-        console.log("dashboard pgnlist null")
-        return
-      }
+        console.log("cache missed :'(")
       } else { // cache hit, will get data from redis
           const docRef = fire.firestore().collection(`${uid}-pgns`)
           const snapshot = await docRef.where('user_id', '==', uid).limit(1).get()
@@ -127,6 +108,7 @@ export const getServerSideProps = async (ctx) => {
             console.log("bye bye")
           }else {
             data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
+            console.log("cache hit")
             cache.quit()
             pgnList = data
           }  

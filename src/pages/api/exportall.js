@@ -1,4 +1,6 @@
 import fire from '../../../fire-config';
+import redis from 'redis';
+import bluebird, { props } from 'bluebird';
 
 async function exportAll(req, res) {
   return new Promise((resolve, reject) => {
@@ -11,6 +13,15 @@ async function exportAll(req, res) {
       let opening = ""
       let winner = ""
       let clock = {}
+      let pgnList = []
+      let existingPgns = []
+
+      bluebird.promisifyAll(redis.RedisClient.prototype);
+      const cache = redis.createClient({
+        port: process.env.LAMBDA_REDIS_PORT,
+        host: process.env.LAMBDA_REDIS_ENDPOINT,
+        password: process.env.LAMBDA_REDIS_PW,
+      });
 
       console.log(startDate, endDate)
 
@@ -38,30 +49,49 @@ async function exportAll(req, res) {
           } else {
             clock = "No set time control"
           }
-          let iframeLink = `https://lichess.org/embed/${obj.id}?theme=wood4&bg=dark`
+          let pgn = {
+            name: `${opening} - ${obj.variant} - ${obj.speed} - id: ${obj.id}`,
+            pgn_id: obj.id,
+            folder: `lichess upload ${new Date}`,
+            pgn: obj.pgn,
+            moves: obj.moves,
+            user_id: user_data.id,
+            user_email: user_data.email,
+            iframe: `https://lichess.org/embed/${obj.id}?theme=wood4&bg=dark`,
+            rated: obj.rated,
+            variant: obj.variant,
+            speed: obj.speed,
+            status: obj.status,
+            winner: winner,
+            opening: opening,
+            clock: clock,
+            players: obj.players,
+          }
+
           fire.firestore()
               .collection(`${user_data.id}-pgns`)
-              .add({
-                name: `${opening} - ${obj.variant} - ${obj.speed} - id: ${obj.id}`,
-                pgn_id: obj.id,
-                folder: `lichess upload ${new Date}`,
-                pgn: obj.pgn,
-                moves: obj.moves,
-                user_id: user_data.id,
-                user_email: user_data.email,
-                iframe: iframeLink,
-                rated: obj.rated,
-                variant: obj.variant,
-                speed: obj.speed,
-                status: obj.status,
-                winner: winner,
-                opening: opening,
-                clock: clock,
-                players: obj.players,
-              });
+              .add(pgn);
         },
         endcallback: async () => {
           // do something when stream has ended
+
+          await fire.firestore().collection(`${user_data.id}-pgns`)
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach( doc => {
+              pgnList.push({ ...doc.data() })
+            })
+          }).catch(err => {
+            console.log(err.message)
+          })
+          if (pgnList.length > 0) {
+            cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
+            cache.quit()
+            console.log(pgnList.length, "done, cache set")
+          } else {
+            console.log("dashboard pgnlist null")
+            return
+          }
           res.status(200).end()
           return resolve()
         }

@@ -106,7 +106,7 @@ export const getServerSideProps = async (ctx) => {
             pgnList.push({ ...doc.data() })
             console.log(index)
         })
-        }).then(async () => {
+        }).then(() => {
           if (pgnList.length > 0) {
             cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
             cache.quit()

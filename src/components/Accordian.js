@@ -136,6 +136,7 @@ export const Accordian = (props) => {
                 TransitionProps={{ unmountOnExit: true }}
                 expanded={expanded === 'panel' + String(index)}
                 onChange={handleChange('panel' + String(index))}
+                key={uuid()}
               >
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                   <Typography className={classes.text}>{pgn.name}</Typography>

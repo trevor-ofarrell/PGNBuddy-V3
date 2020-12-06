@@ -97,17 +97,20 @@ export const getServerSideProps = async (ctx) => {
     await cache.existsAsync(`${uid}-pgns`).then(async reply => {
       console.log(uid)
       if (reply !== 1) { // cache miss, need to fetch
+        let index = 0
         await fire.firestore().collection(`${uid}-pgns`)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach( doc => {
+            index += 1
             pgnList.push({ ...doc.data() })
+            console.log(index)
         })
         }).then(async () => {
           if (pgnList.length > 0) {
-            console.log(pgnList.length)
-            await cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
+            cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
             cache.quit()
+            console.log(pgnList.length, "done, cache set")
           } else {
             console.log("dashboard pgnlist null")
             return
@@ -128,7 +131,6 @@ export const getServerSideProps = async (ctx) => {
             data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
             cache.quit()
             pgnList = data
-            console.log(pgnList)
           }  
       }
     });

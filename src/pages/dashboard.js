@@ -106,20 +106,18 @@ export const getServerSideProps = async (ctx) => {
             pgnList.push({ ...doc.data() })
             console.log(index)
         })
-        }).then(() => {
-          if (pgnList.length > 0) {
-            cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
-            cache.quit()
-            console.log(pgnList.length, "done, cache set")
-          } else {
-            console.log("dashboard pgnlist null")
-            return
-          }
         })
         .catch(err => {
           console.log(err.message)
         })
-       
+      if (pgnList.length > 0) {
+        cache.set(`${uid}-pgns`, JSON.stringify(pgnList));
+        cache.quit()
+        console.log(pgnList.length, "done, cache set")
+      } else {
+        console.log("dashboard pgnlist null")
+        return
+      }
       } else { // cache hit, will get data from redis
           const docRef = fire.firestore().collection(`${uid}-pgns`)
           const snapshot = await docRef.where('user_id', '==', uid).limit(1).get()

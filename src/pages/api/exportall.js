@@ -80,18 +80,19 @@ async function exportAll(req, res) {
               querySnapshot.forEach( doc => {
                 pgnList.push({ ...doc.data() })
               })
+              if (pgnList) {
+                cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
+                cache.quit()
+                console.log(pgnList.length, "done, cache set")
+              } else {
+                console.log("dashboard pgnlist null")
+                return
+              }
             }).catch(err => {
               console.log(err.message)
             })
 
-          if (pgnList) {
-            cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
-            cache.quit()
-            console.log(pgnList.length, "done, cache set")
-          } else {
-            console.log("dashboard pgnlist null")
-            return
-          }
+          
           res.status(200).end()
           return resolve()
         }

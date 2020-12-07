@@ -15,7 +15,7 @@ async function deletecache(req, res) {
         let collectionPath = req.body.collectionPath
 
         if (collectionPath) {
-            cache.del(collectionPath, (err, reply) => {
+            await cache.del(collectionPath, (err, reply) => {
                 if (!err) {
                     if (reply === 1) {
                         cache.quit()

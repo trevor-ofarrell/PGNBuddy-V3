@@ -102,16 +102,11 @@ export const getServerSideProps = async (ctx) => {
       } else { // cache hit, will get data from redis
           const docRef = fire.firestore().collection(`${uid}-pgns`)
           const snapshot = await docRef.where('user_id', '==', uid).limit(1).get()
-          if (snapshot.empty) {
-            cache.del(`${uid}-pgns`)
-            cache.quit()
-            console.log("bye bye")
-          }else {
-            data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
-            console.log("cache hit")
-            cache.quit()
-            pgnList = data
-          }  
+
+          data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
+          console.log("cache hit")
+          cache.quit()
+          pgnList = data
       }
     });
     cache.quit()

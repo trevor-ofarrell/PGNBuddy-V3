@@ -129,7 +129,7 @@ export const Accordian = (props) => {
     };
 
     return props.pgns && (
-        <div className={classes.root} key={uuid()}>
+        <div className={classes.root}>
             {props.pgns.length !== 0 ? props.pgns.map((pgn, index) => (
               <>
               <Accordion

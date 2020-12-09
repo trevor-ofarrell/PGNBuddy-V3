@@ -115,16 +115,11 @@ export const SideDrawer = (props, windows) => {
     const data = {
       'collectionPath':  `${props.id}-pgns`
     }
-    await fetch('/api/deletecollection', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+    await fetch('/api/deletepgns', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
       .then(async () => {
-        await fetch('/api/deletecache', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
-        .then(async () => {
-          await sleep(200)
-          router.reload()
-        })
+        await sleep(200)
+        router.reload()
       })
-
-
   }
 
   const drawer = (

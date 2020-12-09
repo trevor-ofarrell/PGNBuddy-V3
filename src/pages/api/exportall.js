@@ -24,6 +24,7 @@ async function exportAll(req, res) {
 
       console.log(startDate, endDate)
 
+      let i = 0
       let eventStreamer = new NdjsonStreamer({
         url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=100&pgnInJson=true`,
         token: process.env.LICHESS_API_TOKEN,
@@ -70,10 +71,11 @@ async function exportAll(req, res) {
           fire.firestore()
             .collection(`${user_data.id}-pgns`)
             .add(pgn);
+          i += 1
+          console.log(i)
         },
         endcallback: async () => {
           // do something when stream has ended
-
           await fire.firestore().collection(`${user_data.id}-pgns`)
             .get()
             .then(querySnapshot => {

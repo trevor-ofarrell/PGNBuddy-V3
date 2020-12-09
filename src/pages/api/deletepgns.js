@@ -27,8 +27,8 @@ async function deletepgns(req, res) {
                     batch.commit()
                     console.log(`${collectionPath} collection is deletedd`);
                 })
-                .then(async () => {
-                    await cache.del(collectionPath, (err, reply) => {
+                .then(() => {
+                    cache.del(collectionPath, (err, reply) => {
                         if (!err) {
                             if (reply === 1) {
                                 cache.quit()

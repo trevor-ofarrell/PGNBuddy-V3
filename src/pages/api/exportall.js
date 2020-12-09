@@ -33,7 +33,7 @@ async function exportAll(req, res) {
           res.status(405).end()
           return resolve()  
         },
-        callback: obj => {
+        callback: async obj => {
           if (obj.opening) {
             opening = obj.opening.name
           } else {
@@ -68,7 +68,7 @@ async function exportAll(req, res) {
             players: obj.players,
           }
 
-          fire.firestore()
+          await fire.firestore()
             .collection(`${user_data.id}-pgns`)
             .add(pgn);
           i += 1

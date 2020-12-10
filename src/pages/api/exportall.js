@@ -24,10 +24,10 @@ async function exportAll(req, res) {
 
       let i = 0
       let eventStreamer = new NdjsonStreamer({
-        url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=30&pgnInJson=true`,
+        url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=100&pgnInJson=true`,
         token: process.env.LICHESS_API_TOKEN,
         timeout: 15000,
-        timeoutCallback: _ => {     
+        timeoutCallback: _ => {
           return res.status(405).end()
         },
         callback: obj => {

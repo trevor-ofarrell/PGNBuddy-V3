@@ -33,6 +33,7 @@ async function deletepgns(req, res) {
                 }
             })
         }
+        console.log("collectionpath null")
         return res.status(500).end()
     }
 }

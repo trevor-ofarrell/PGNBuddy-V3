@@ -24,7 +24,7 @@ async function exportAll(req, res) {
 
       let i = 0
       let eventStreamer = new NdjsonStreamer({
-        url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=50&pgnInJson=true`,
+        url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=30&pgnInJson=true`,
         token: process.env.LICHESS_API_TOKEN,
         timeout: 15000,
         timeoutCallback: _ => {     
@@ -71,7 +71,6 @@ async function exportAll(req, res) {
         endcallback: async () => {
           // do something when stream has ended
           let existingPgns = JSON.parse(await cache.getAsync(`${user_data.id}-pgns`))
-
           if (pgnList && existingPgns) {
             existingPgns.push(...pgnList)
             cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns));
@@ -87,6 +86,7 @@ async function exportAll(req, res) {
           }
           else {
             console.log("cache failed")
+            cache.quit()
             return res.status(500).end()
           }
         }

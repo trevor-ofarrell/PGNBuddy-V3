@@ -2,7 +2,6 @@ import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 
 async function exportAll(req, res) {
-  return new Promise((resolve, reject) => {
     if (req.method === 'POST') {
 
       let username = req.body.username
@@ -29,8 +28,7 @@ async function exportAll(req, res) {
         token: process.env.LICHESS_API_TOKEN,
         timeout: 15000,
         timeoutCallback: _ => {     
-          res.status(405).end()
-          return resolve()  
+          return res.status(405).end()
         },
         callback: obj => {
           if (obj.opening) {
@@ -79,25 +77,22 @@ async function exportAll(req, res) {
             cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns));
             cache.quit()
             console.log(existingPgns.length, "done, cache set")
-            res.status(200).end()
+            return res.status(200).end()
           }
           else if (pgnList) {
             cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
             cache.quit()
             console.log(pgnList.length, "done, cache set")
-            res.status(200).end()
-            return resolve()
+            return res.status(200).end()
           }
           else {
             console.log("cache failed")
-            res.status(500).end()
-            return resolve()
+            return res.status(500).end()
           }
         }
       })
       eventStreamer.stream()
     }
-  })
 }
 
 class NdjsonStreamer {

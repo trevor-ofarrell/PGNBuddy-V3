@@ -73,16 +73,32 @@ async function exportAll(req, res) {
           let existingPgns = JSON.parse(await cache.getAsync(`${user_data.id}-pgns`))
           if (pgnList && existingPgns) {
             existingPgns.push(...pgnList)
-            await cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns));
-            cache.quit()
-            console.log(existingPgns.length, "done, existing data updated and saved")
-            return res.status(200).end()
+            await cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns))
+            await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
+              if (reply !== 1) {
+                cache.quit()
+                console.log("modifying and updating operations failed")
+                return res.status(500).end()
+              } else {
+                cache.quit()
+                console.log(existingPgns.length, "done, existing data updated and saved")
+                return res.status(200).end()
+              }
+            })
           }
-          else if (pgnList) {
-            await cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
-            cache.quit()
-            console.log(pgnList.length, "done, data saved")
-            return res.status(200).end()
+          else if (pgnList && !existingPgns) {
+            await cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList))
+            await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
+              if (reply !== 1) {
+                cache.quit()
+                console.log("save failed")
+                return res.status(500).end()
+              } else {
+                cache.quit()
+                console.log(pgnList.length, "done, data saved")
+                return res.status(200).end()
+              }
+            })
           }
           else {
             console.log("cache failed")

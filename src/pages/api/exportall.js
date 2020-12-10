@@ -1,4 +1,3 @@
-import fire from '../../../fire-config';
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 
@@ -67,36 +66,33 @@ async function exportAll(req, res) {
             clock: clock,
             players: obj.players,
           }
-
-          fire.firestore()
-            .collection(`${user_data.id}-pgns`)
-            .add(pgn);
+          pgnList.push(pgn)
           i += 1
           console.log(i)
         },
         endcallback: async () => {
           // do something when stream has ended
-          await fire.firestore().collection(`${user_data.id}-pgns`)
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach( doc => {
-                pgnList.push({ ...doc.data() })
-              })
-              if (pgnList) {
-                cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
-                cache.quit()
-                console.log(pgnList.length, "done, cache set")
-              } else {
-                console.log("dashboard pgnlist null")
-                return
-              }
-            }).catch(err => {
-              console.log(err.message)
-            })
+          let existingPgns = JSON.parse(await cache.getAsync(`${user_data.id}-pgns`))
 
-          
-          res.status(200).end()
-          return resolve()
+          if (pgnList && existingPgns) {
+            existingPgns.push(...pgnList)
+            cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns));
+            cache.quit()
+            console.log(existingPgns.length, "done, cache set")
+            res.status(200).end()
+          }
+          else if (pgnList && !existingPgns) {
+            cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
+            cache.quit()
+            console.log(pgnList.length, "done, cache set")
+            res.status(200).end()
+            return resolve()
+          }
+          else {
+            console.log("cache failed")
+            res.status(500).end()
+            return resolve()
+          }
         }
       })
       eventStreamer.stream()

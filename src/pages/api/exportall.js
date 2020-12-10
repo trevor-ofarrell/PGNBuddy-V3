@@ -75,13 +75,13 @@ async function exportAll(req, res) {
             existingPgns.push(...pgnList)
             cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns));
             cache.quit()
-            console.log(existingPgns.length, "done, cache set")
+            console.log(existingPgns.length, "done, existing data updated and saved")
             return res.status(200).end()
           }
           else if (pgnList) {
             cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
             cache.quit()
-            console.log(pgnList.length, "done, cache set")
+            console.log(pgnList.length, "done, data saved")
             return res.status(200).end()
           }
           else {

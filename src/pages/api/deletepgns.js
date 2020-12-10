@@ -14,6 +14,8 @@ async function deletepgns(req, res) {
             password: process.env.LAMBDA_REDIS_PW,
         });
 
+        console.log(collectionPath)
+
         if (collectionPath) {
             cache.del(collectionPath, (err, reply) => {
                 if (!err) {

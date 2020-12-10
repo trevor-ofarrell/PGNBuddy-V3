@@ -42,7 +42,15 @@ async function deletepgns(req, res) {
             return res.status(500).end()
         }
         console.log("wtf happened")
-        return res.status(500).end()
+        await cache.existsAsync(collectionPath).then(async reply => {
+            if (reply !== 1) { // cache miss, need to fetch
+                console.log("cache null")
+                return res.status(500).end()
+            }else {
+                console.log("guhhhhhhhh")
+                return res.status(200).end()
+            }
+        })
     }
 }
 

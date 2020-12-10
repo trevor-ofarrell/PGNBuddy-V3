@@ -26,14 +26,20 @@ async function deletepgns(req, res) {
                         console.log(`${collectionPath} doesn't exists`);
                         return res.status(500).end()
                     }
-                }else{
+                }else if (err) {
+                    console.log(err)
+                }
+                else{
                     cache.quit()
                     console.log("cache delete failed", err)
                     return res.status(500).end()
                 }
             })
+        } else {
+            console.log("collectionpath null")
+            return res.status(500).end()
         }
-        console.log("collectionpath null")
+        console.log("wtf happened")
         return res.status(500).end()
     }
 }

@@ -87,7 +87,6 @@ async function lichessUpload(req, res) {
         else {
           cache.set(`${user_data.id}-pgns`, JSON.stringify([pgn]));
           cache.quit()
-          console.log(existingPgns.length, "done, cache set")
           res.status(200).end()
         }
     } else {

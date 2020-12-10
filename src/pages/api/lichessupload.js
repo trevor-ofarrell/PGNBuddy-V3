@@ -1,4 +1,3 @@
-import fire from '../../../fire-config';
 const axios = require('axios');
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
@@ -50,10 +49,16 @@ async function lichessUpload(req, res) {
 
     if (response) {
       console.log("res received", response.data)
-      
-      fire.firestore()
-        .collection(`${user_data.id}-pgns`)
-        .add({
+
+        bluebird.promisifyAll(redis.RedisClient.prototype);
+        const cache = redis.createClient({
+            port: process.env.LAMBDA_REDIS_PORT,
+            host: process.env.LAMBDA_REDIS_ENDPOINT,
+            password: process.env.LAMBDA_REDIS_PW,
+        });
+
+        let existingPgns = JSON.parse(await cache.getAsync(`${user_data.id}-pgns`))
+        let pgn = {
           name: pgn_name,
           pgn_id: game_string,
           folder: pgn_folder,
@@ -70,36 +75,21 @@ async function lichessUpload(req, res) {
           opening: response.data.opening,
           clock: response.data.clock,
           players: response.data.players,
-        });
+        }
 
-        bluebird.promisifyAll(redis.RedisClient.prototype);
-        const cache = redis.createClient({
-            port: process.env.LAMBDA_REDIS_PORT,
-            host: process.env.LAMBDA_REDIS_ENDPOINT,
-            password: process.env.LAMBDA_REDIS_PW,
-        });
-
-        await fire.firestore().collection(`${user_data.id}-pgns`)
-        .get()
-        .then(querySnapshot => {
-          let pgnList = []
-          querySnapshot.forEach( doc => {
-            pgnList.push({ ...doc.data() })
-          })
-          if (pgnList.length > 0) {
-            cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList));
-            cache.quit()
-          } else { 
-            console.log("pgnlist null")
-            return res.status(500).end()
-          }
-        })
-        .catch(err => {
-          console.log(err.message, "fuck")
-          return res.status(500).end()
-        })
-        return res.status(200).end()
-
+        if (existingPgns) {
+          existingPgns.push(pgn)
+          cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns));
+          cache.quit()
+          console.log(existingPgns.length, "done, cache set")
+          res.status(200).end()
+        }
+        else {
+          cache.set(`${user_data.id}-pgns`, JSON.stringify([pgn]));
+          cache.quit()
+          console.log(existingPgns.length, "done, cache set")
+          res.status(200).end()
+        }
     } else {
       return res.status(405).end()
     }

@@ -14,6 +14,8 @@ import redis from 'redis';
 import bluebird, { props } from 'bluebird';
 import { doc } from 'prettier';
 
+//TODO: move all data storage aside from auth to redis only
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -91,7 +93,6 @@ export const getServerSideProps = async (ctx) => {
       password: process.env.LAMBDA_REDIS_PW,
     });
 
-    let data = {};
     let pgnList = []
     console.log("at attempt")
     await cache.existsAsync(`${uid}-pgns`).then(async reply => {
@@ -100,13 +101,9 @@ export const getServerSideProps = async (ctx) => {
         let index = 0
         console.log("cache missed :'(")
       } else { // cache hit, will get data from redis
-          const docRef = fire.firestore().collection(`${uid}-pgns`)
-          const snapshot = await docRef.where('user_id', '==', uid).limit(1).get()
-
-          data = JSON.parse(await cache.getAsync(`${uid}-pgns`));
+          pgnList = JSON.parse(await cache.getAsync(`${uid}-pgns`));
           console.log("cache hit")
           cache.quit()
-          pgnList = data
       }
     });
     cache.quit()

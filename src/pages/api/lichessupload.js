@@ -79,10 +79,18 @@ async function lichessUpload(req, res) {
 
         if (existingPgns) {
           existingPgns.push(pgn)
-          cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns));
-          cache.quit()
-          console.log(existingPgns.length, "done, cache set")
-          res.status(200).end()
+          await cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns))
+          await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
+            if (reply !== 1) {
+              cache.quit()
+              console.log("save failed")
+              return res.status(500).end()
+            } else {
+              cache.quit()
+              console.log(pgnList.length, "done, data saved")
+              return res.status(200).end()
+            }
+          })
         }
         else {
           cache.set(`${user_data.id}-pgns`, JSON.stringify([pgn]));

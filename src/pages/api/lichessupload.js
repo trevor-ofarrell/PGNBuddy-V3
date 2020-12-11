@@ -87,7 +87,7 @@ async function lichessUpload(req, res) {
               return res.status(500).end()
             } else {
               cache.quit()
-              console.log(pgnList.length, "done, data saved")
+              console.log(existingPgns.length, "done, data saved")
               return res.status(200).end()
             }
           })

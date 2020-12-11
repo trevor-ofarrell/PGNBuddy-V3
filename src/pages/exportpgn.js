@@ -70,13 +70,12 @@ const ExportPGN = (props) => {
         await fetch('/api/lichessupload', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
             .then(function(response) {
                 console.log(response);
+                return window.location.href = '/dashboard';
             })
             .catch(function(error) {
-                console.log(error); 
+                console.log(error);
+                return
             });
-            
-        console.log(JSON.stringify(data))
-        window.location.href = '/dashboard';
         return
     }
        

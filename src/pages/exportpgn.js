@@ -59,6 +59,10 @@ const ExportPGN = (props) => {
     const [folder, setFolder] = useState("");
     const form = useRef(null)
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = {
@@ -68,14 +72,10 @@ const ExportPGN = (props) => {
             "user_data": {"id": props.id, "email": props.email},
         }
         await fetch('/api/lichessupload', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
-            .then(function(response) {
-                console.log(response);
+            .then(async () => {
+                await sleep(1000)
                 return window.location.href = '/dashboard';
             })
-            .catch(function(error) {
-                console.log(error);
-                return
-            });
         return
     }
        

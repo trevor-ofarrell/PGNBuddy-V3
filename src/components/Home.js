@@ -12,13 +12,12 @@ const useStyles = makeStyles((theme) => ({
         background: 'linear-gradient(to right, #f12711, #f5af19);',
         opacity: '0.85',
         width: '70vw',
-        height: '37em',
         marginTop: '5vh',
         [theme.breakpoints.down("md")]: {
             height: '52em',
         },
         [theme.breakpoints.down("sm")]: {
-            height: '39em',
+            height: '100%',
         },
         [theme.breakpoints.down("xs")]: {
             height: '28em',
@@ -44,25 +43,25 @@ const useStyles = makeStyles((theme) => ({
         
     },
     cta: {
-        marginTop: '12em',
         marginLeft: '9.5vw',
         padding: '2em',
         width: '100%',
         fontSize: '1.5em',
+        bottom: '10vw',
         color: 'white',
         [theme.breakpoints.down("lg")]: {
-            marginTop: '7em',
+            bottom: '10vw',
         },
         [theme.breakpoints.down("md")]: {
-            marginTop: '9em',
+            bottom: '10vw',
         },
         [theme.breakpoints.down("sm")]: {
             fontSize: '1.2em',
-            marginTop: '7em',
+            bottom: '1vw',
         },
         [theme.breakpoints.down("xs")]: {
             fontSize: '0.8em',
-            marginTop: '6em',
+            bottom: '10vw',
         },
     }
 }))

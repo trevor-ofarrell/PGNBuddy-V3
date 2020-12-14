@@ -60,8 +60,8 @@ export const getServerSideProps = async (ctx) => {
   const exportAll = (props) => {
     const classes = useStyles();
     const [username, setUsername] = useState("");
-    const [start, setStart] = useState("");
-    const [end, setEnd] = useState("");
+    const [start, setStart] = useState("mm/dd/yyyy");
+    const [end, setEnd] = useState("mm/dd/yyyy");
     const form = useRef(null)
 
     function sleep(ms) {
@@ -114,6 +114,7 @@ export const getServerSideProps = async (ctx) => {
                                     onChange={(event) => {setStart(event.target.value)}}
                                     value={start}
                                     color="primary"
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -125,6 +126,7 @@ export const getServerSideProps = async (ctx) => {
                                     className={classes.textfield}
                                     onChange={(event) => {setEnd(event.target.value)}}
                                     value={end}
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </Grid>
                         </Grid>

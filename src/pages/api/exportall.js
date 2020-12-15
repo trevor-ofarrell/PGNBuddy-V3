@@ -3,8 +3,8 @@ import bluebird, { props } from 'bluebird';
 
 async function exportAll(req, res) {
     if (req.method === 'POST') {
-
       let username = req.body.username
+      let folder = req.body.folder
       let startDate = new Date(req.body.startDate).getTime();
       let endDate = new Date(req.body.endDate).getTime();
       let user_data = req.body.user_data
@@ -21,7 +21,17 @@ async function exportAll(req, res) {
       });
 
       console.log(startDate, endDate)
+      let usersFolders = []
+      let existingPgns = []
+      let userData = JSON.parse(await cache.getAsync(`${user_data.id}`))
 
+      if (userData) {
+        console.log("userdata is here")
+        existingPgns = userData.pgns
+        usersFolders = userData.folders
+        console.log(user_data.id)
+      }
+      let uploadFolder
       let i = 0
       let eventStreamer = new NdjsonStreamer({
         url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=200&pgnInJson=true`,
@@ -46,10 +56,18 @@ async function exportAll(req, res) {
           } else {
             clock = "No set time control"
           }
+          if (folder) {
+            uploadFolder = folder
+          } else {
+            let date = new Date
+            date.setMilliseconds(0)
+            date.setSeconds(0)
+            uploadFolder = `lichess upload ${date}`
+          }
           let pgn = {
             name: `${opening} - ${obj.variant} - ${obj.speed} - id: ${obj.id}`,
             pgn_id: obj.id,
-            folder: `lichess upload ${new Date}`,
+            folder: uploadFolder,
             pgn: obj.pgn,
             moves: obj.moves,
             user_id: user_data.id,
@@ -67,14 +85,26 @@ async function exportAll(req, res) {
           pgnList.push(pgn)
           i += 1
           console.log(i)
+          if (usersFolders) {
+            if (!usersFolders.includes(pgn.folder)) {
+              usersFolders.push(pgn.folder)
+            }
+          } else {
+            usersFolders.push(pgn.folder)
+          }
         },
         endcallback: async () => {
           // do something when stream has ended
-          let existingPgns = JSON.parse(await cache.getAsync(`${user_data.id}-pgns`))
           if (pgnList && existingPgns) {
+            console.log("existingpgns len", existingPgns.length)
             existingPgns.push(...pgnList)
-            await cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns))
-            await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
+            await cache.set(`${user_data.id}`,
+              JSON.stringify({
+                  "pgns": existingPgns,
+                  "folders": usersFolders
+              })
+            )
+            await cache.existsAsync(`${user_data.id}`).then(async reply => {
               if (reply !== 1) {
                 cache.quit()
                 console.log("modifying and updating operations failed")
@@ -87,8 +117,13 @@ async function exportAll(req, res) {
             })
           }
           else if (pgnList && !existingPgns) {
-            await cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList))
-            await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
+            await cache.set(`${user_data.id}`,
+              JSON.stringify({
+                "pgns": pgnList,
+                "folders": usersFolders
+              })
+            )
+            await cache.existsAsync(`${user_data.id}`).then(async reply => {
               if (reply !== 1) {
                 cache.quit()
                 console.log("save failed")

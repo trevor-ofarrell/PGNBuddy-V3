@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'hidden',
     height: '100vh',
     width: '100vw',
-    background: 'linear-gradient(126.95deg, #000000 0%, #F9FFB1 100%), radial-gradient(91.23% 100% at 50% 100%, #BE002E 0%, #6100FF 100%), linear-gradient(307.27deg, #1DAC92 0.37%, #2800C6 100%), radial-gradient(100% 140% at 100% 0%, #EAFF6B 0%, #006C7A 57.29%, #2200AA 100%)',
+    background: '#121212',
     backgroundBlendMode: 'overlay, difference, difference, normal',
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
@@ -94,21 +94,24 @@ export const getServerSideProps = async (ctx) => {
     });
 
     let pgnList = []
+    let folderList = []
+    let userData
     console.log("at attempt")
-    await cache.existsAsync(`${uid}-pgns`).then(async reply => {
-      console.log(uid)
-      if (reply !== 1) { // cache miss, need to fetch
-        let index = 0
-        console.log("cache missed :'(")
-      } else { // cache hit, will get data from redis
-          pgnList = JSON.parse(await cache.getAsync(`${uid}-pgns`));
-          console.log("cache hit")
-          cache.quit()
-      }
-    });
+    userData = await cache.getAsync(uid)
+    console.log("after attempt")
+    userData = JSON.parse(userData)
+    if (userData) {
+      console.log("cache hit")
+      pgnList = userData.pgns
+      folderList = userData.folders
+      cache.quit()
+    } else {
+      console.log("cache missed :'(")
+      cache.quit()
+    }
     cache.quit()
     return {
-      props: { "id": uid, "email": email, "user": user, 'pgns': pgnList},
+      props: { "id": uid, "email": email, "user": user, 'pgns': pgnList, 'folders': folderList},
     };
   } catch (err) {
     return {
@@ -129,7 +132,7 @@ const dashboard = (props) => {
     <div className={classes.root}>
     <NavBarLoggedIn />
       <Box className={classes.body}>
-          <SideDrawer id={props.id} email={props.email} pgns={props.pgns}/>
+          <SideDrawer id={props.id} email={props.email} pgns={props.pgns} folders={props.folders}/>
       </Box>
   </div>
   );

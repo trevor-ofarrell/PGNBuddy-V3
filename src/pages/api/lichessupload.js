@@ -6,6 +6,7 @@ async function lichessUpload(req, res) {
   if (req.method === 'POST') {
     let pgn_name = req.body.name    
     let game_string = req.body.game_string
+    let folders = new Set()
     console.log([pgn_name, game_string])
     console.log(game_string.slice(0,7))
 
@@ -37,7 +38,8 @@ async function lichessUpload(req, res) {
 
     let response = await axios.get(
       "https://lichess.org/game/export/" + game_string,
-      { params: {
+      { 
+        params: {
           pgnInJson: "true",
           clocks: "true",
         },
@@ -56,7 +58,7 @@ async function lichessUpload(req, res) {
             host: process.env.LAMBDA_REDIS_ENDPOINT,
             password: process.env.LAMBDA_REDIS_PW,
         });
-
+        let existingFolders = JSON.parse(await cache.getAsync(`${user_data.id}-folders`))
         let existingPgns = JSON.parse(await cache.getAsync(`${user_data.id}-pgns`))
         let pgn = {
           name: pgn_name,
@@ -76,6 +78,7 @@ async function lichessUpload(req, res) {
           clock: response.data.clock,
           players: response.data.players,
         }
+        folders.add(response.folder)
 
         if (existingPgns) {
           existingPgns.push(pgn)

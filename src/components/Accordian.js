@@ -3,6 +3,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import {
   Grid,
   CircularProgress,
@@ -12,10 +13,26 @@ import uuid from 'react-uuid';
 
 const Accordion = withStyles({
   root: {
-    background: 'linear-gradient(180deg, rgba(50, 50, 50, 0.85) 25%, rgba(33, 33, 33, 0.95) 50%, rgba(0, 0, 0, 0.958) 100%)',
+    background: 'linear-gradient(to right, #52c234, #061700)',
     boxShadow: 'none',
     scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
-    scrollbarWidth: 40,
+    scrollbarWidth: 50,
+    '&:before': {
+      display: 'none',
+    },
+    '&$expanded': {
+      margin: 'auto',
+    },
+  },
+  expanded: {},
+})(MuiAccordion);
+
+const PgnAccordion = withStyles({
+  root: {
+    background: '#151515',
+    boxShadow: 'none',
+    scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
+    scrollbarWidth: 50,
     '&:before': {
       display: 'none',
     },
@@ -58,13 +75,16 @@ const AccordionDetails = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   root: {
     scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
-    scrollbarWidth: 40,
+    scrollbarWidth: 50,
     overflowY: 'auto',
     overflowX: 'hidden',
     height: '89vh',
     [theme.breakpoints.down('md')]: {
       marginRight: '2vw',
     },
+  },
+  pgns: {
+    width: '100%'
   },
   text: {
     color: 'white',
@@ -105,11 +125,11 @@ const useStyles = makeStyles((theme) => ({
       height: '60vh',
     },
     [theme.breakpoints.down('md')]: {
-      width: '88vw',
+      width: '82vw',
       height: '46vh',
     },
     [theme.breakpoints.down('sm')]: {
-      width: '84vw',
+      width: '82vw',
       height: '45vh',
     },
     [theme.breakpoints.down('xs')]: {
@@ -121,72 +141,93 @@ const useStyles = makeStyles((theme) => ({
 
 export const Accordian = (props) => {
     const classes = useStyles();
-    const [gameData, setGameData] = useState({});
-    const [expanded, setExpanded] = React.useState('');
-    const [pgns, setPgns] = useState([])
-    const handleChange = (panel) => (event, newExpanded) => {
-      setExpanded(newExpanded ? panel : false);
+    const [expandedFolder, setExpandedFolder] = React.useState('');
+    const handleFolderChange = (panel) => (event, newExpanded) => {
+      setExpandedFolder(newExpanded ? panel : false);
+    };
+
+    const [expandedPgn, setExpandedPgn] = React.useState('');
+    const handlePgnChange = (panel) => (event, newExpanded) => {
+      setExpandedPgn(newExpanded ? panel : false);
     };
 
     return props.pgns && (
         <div className={classes.root}>
-            {props.pgns.length !== 0 ? props.pgns.map((pgn, index) => (
-              <>
-              <Accordion
-                TransitionProps={{ unmountOnExit: true }}
-                expanded={expanded === 'panel' + String(index)}
-                onChange={handleChange('panel' + String(index))}
-                key={uuid()}
-              >
-                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                  <Typography className={classes.text}>{pgn.name}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={9} xl={9}>
-                      <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
-                      <Typography className={classes.text}>
-                        <b>Event: </b> {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
-                      </Typography>
-                      <Typography className={classes.text}>
-                        <b>Variant: </b> {pgn.variant}
-                      </Typography>
-                      <Typography className={classes.text}>
-                        <b>Winner: </b> {pgn.winner}
-                      </Typography>
-                      <Typography className={classes.text}>
-                        <b>Black: </b> {pgn.players.black.user.name} {pgn.players.black.rating}
-                      </Typography>
-                      <Typography className={classes.text}>
-                        <b>White: </b> {pgn.players.white.user.name} {pgn.players.white.rating}
-                      </Typography>
-                      <Typography className={classes.text}>
-                        <b>Rating difference: </b> {pgn.players.white.ratingDiff}
-                      </Typography>
-                      <Typography className={classes.text}>
-                        <b>Game status: </b> {pgn.status}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
-                      <br/>
-                      <Typography className={classes.text}>
-                        <b>Moves: </b> {pgn.moves}
-                      </Typography>
-                      <br/>
-                      <Typography className={classes.text}>
-                        <b>PGN: </b> {pgn.pgn}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </AccordionDetails>
-              </Accordion>
-            </>
+          {props.folders.length !== 0 ? props.folders.map((folder, index) => (
+             <>
+             <Accordion
+               TransitionProps={{ unmountOnExit: true }}
+               expanded={expandedFolder === 'panel' + String(index)}
+               onChange={handleFolderChange('panel' + String(index))}
+               key={uuid()}
+             >
+               <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                 <FolderOpenIcon style={{fill: '#ffffff', marginRight: '1.5vw', marginTop: '2px'}}/>
+                 <Typography className={classes.text}>{folder}</Typography>
+               </AccordionSummary>
+               <AccordionDetails>
+                 <div className={classes.pgns}>
+                 {props.pgns.filter((game) => { return game.folder === folder}).map((pgn, index) => (
+                  <>
+                  <PgnAccordion
+                    TransitionProps={{ unmountOnExit: true }}
+                    expanded={expandedPgn === 'panel' + String(index)}
+                    onChange={handlePgnChange('panel' + String(index))}
+                    key={uuid()}
+                  >
+                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                      <Typography className={classes.text}>{pgn.name}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container>
+                        <Grid item xs={12} sm={12} md={12} lg={9} xl={9}>
+                          <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
+                          <Typography className={classes.text}>
+                            <b>Event: </b> {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
+                          </Typography>
+                          <Typography className={classes.text}>
+                            <b>Variant: </b> {pgn.variant}
+                          </Typography>
+                          <Typography className={classes.text}>
+                            <b>Winner: </b> {pgn.winner}
+                          </Typography>
+                          <Typography className={classes.text}>
+                            <b>Black: </b> {pgn.players.black.user.name} {pgn.players.black.rating}
+                          </Typography>
+                          <Typography className={classes.text}>
+                            <b>White: </b> {pgn.players.white.user.name} {pgn.players.white.rating}
+                          </Typography>
+                          <Typography className={classes.text}>
+                            <b>Rating difference: </b> {pgn.players.white.ratingDiff}
+                          </Typography>
+                          <Typography className={classes.text}>
+                            <b>Game status: </b> {pgn.status}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          <br/>
+                          <Typography className={classes.text}>
+                            <b>Moves: </b> {pgn.moves}
+                          </Typography>
+                          <br/>
+                          <Typography className={classes.text}>
+                            <b>PGN: </b> {pgn.pgn}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </AccordionDetails>
+                  </PgnAccordion>
+                </>
+            ))}
+                 </div>
+               </AccordionDetails>
+             </Accordion>
+           </>
             )) : <Typography className={classes.nogames}>
                   <b>No games currently</b>
                 </Typography> }
-              
         </div>
     )
 }

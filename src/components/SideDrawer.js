@@ -113,7 +113,7 @@ export const SideDrawer = (props, windows) => {
   const clearDb = async (event) => {
     event.preventDefault();
     const data = {
-      'collectionPath':  `${props.id}-pgns`
+      'collectionPath':  `${props.id}`
     }
     await fetch('/api/deletepgns', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
     router.reload()

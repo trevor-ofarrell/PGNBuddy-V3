@@ -5,6 +5,7 @@ async function deletepgns(req, res) {
     if (req.method === 'POST') {
 
         let collectionPath = req.body.collectionPath
+        let collectionPath2 = req.body.collectionPath2
 
         bluebird.promisifyAll(redis.RedisClient.prototype);
 
@@ -17,7 +18,7 @@ async function deletepgns(req, res) {
         console.log(collectionPath)
 
         if (collectionPath) {
-            cache.del(collectionPath, (err, reply) => {
+            cache.del(collectionPath2, collectionPath, (err, reply) => {
                 if (!err) {
                     if (reply === 1) {
                         cache.quit()

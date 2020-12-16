@@ -95,11 +95,25 @@ export const getServerSideProps = async (ctx) => {
 
     let pgnList = []
     let folderList = []
-    let userData
+    let userData = {}
+    let userPgns = []
+    let userFolders = []
+
     console.log("at attempt")
-    userData = await cache.getAsync(uid)
-    console.log("after attempt")
-    userData = JSON.parse(userData)
+    userPgns = await cache.hgetallAsync(`${uid}-pgns`)
+    console.log("got the pgns")
+    userFolders = await cache.smembersAsync(`${uid}-folders`)
+    console.log("got the folders")
+
+    if (userFolders && userPgns) {
+      console.log("after attempt")
+
+      userPgns = Object.values(userPgns)
+
+      userPgns = userPgns.map(JSON.parse)
+
+      userData = {pgns: userPgns, folders: userFolders}
+    }
     if (userData) {
       console.log("cache hit")
       pgnList = userData.pgns
@@ -110,10 +124,18 @@ export const getServerSideProps = async (ctx) => {
       cache.quit()
     }
     cache.quit()
+    if (!pgnList) {
+      pgnList = null
+    }
+    if (!folderList) {
+      folderList = null
+    }
     return {
       props: { "id": uid, "email": email, "user": user, 'pgns': pgnList, 'folders': folderList},
-    };
+    }
+
   } catch (err) {
+    console.log(err)
     return {
       redirect: {
         permanent: false,

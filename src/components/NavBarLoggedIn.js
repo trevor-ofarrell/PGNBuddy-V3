@@ -51,10 +51,8 @@ const useStyles = makeStyles((theme) => ({
   appbar: {
     height: '5vh',
   },
-  menubutton: {
-    width: '100%',
-    height: '100%',
-    padding: '1em'
+  mobilemenutext: {
+    padding: '1em',
   },
   orangebutton: {
     border: '2px',
@@ -117,31 +115,29 @@ export const NavBarLoggedIn = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <Link href='/'>
-          <Button color="inherit" className={classes.menubutton}>
+      <Link href='/'>
+        <MenuItem>
+          <Typography variant='h6' className={classes.mobilemenutext}>
             Home
-          </Button>
-        </Link>
-      </MenuItem>
-      <MenuItem>
-        <Link href='/dashboard'>
-          <Button color="inherit" className={classes.menubutton}>
-            Dashboard
-          </Button>
-        </Link>
-      </MenuItem>
-      <MenuItem>
-        <Button
-            color="inherit"
-            className={classes.menubutton}
-            onClick={async () => {
-                await firebaseClient.auth().signOut();
-                window.location.href = '/';
-            }}
-        >
-            Log Out
-        </Button>
+          </Typography>
+        </MenuItem>
+      </Link>
+      <Link href='/dashboard'>
+        <MenuItem>
+        <Typography variant='h6' className={classes.mobilemenutext}>
+          Dashboard          
+        </Typography>
+        </MenuItem>
+      </Link>
+      <MenuItem
+        onClick={async () => {
+          await firebaseClient.auth().signOut();
+          window.location.href = '/';
+        }}
+      >
+          <Typography variant='h6' className={classes.mobilemenutext}>
+            Login
+          </Typography>
       </MenuItem>           
     </Menu>
   );

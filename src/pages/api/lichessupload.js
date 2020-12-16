@@ -58,8 +58,7 @@ async function lichessUpload(req, res) {
             host: process.env.LAMBDA_REDIS_ENDPOINT,
             password: process.env.LAMBDA_REDIS_PW,
         });
-        let existingFolders = JSON.parse(await cache.getAsync(`${user_data.id}-folders`))
-        let existingPgns = JSON.parse(await cache.getAsync(`${user_data.id}-pgns`))
+
         let pgn = {
           name: pgn_name,
           pgn_id: game_string,
@@ -78,27 +77,26 @@ async function lichessUpload(req, res) {
           clock: response.data.clock,
           players: response.data.players,
         }
+
         folders.add(response.folder)
 
-        if (existingPgns) {
-          existingPgns.push(pgn)
-          await cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns))
-          await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
-            if (reply !== 1) {
-              cache.quit()
-              console.log("save failed")
-              return res.status(500).end()
-            } else {
-              cache.quit()
-              console.log(existingPgns.length, "done, data saved")
-              return res.status(200).end()
-            }
-          })
+        if (pgn) {
+          let time = new Date
+          await cache.saddAsync(`${user_data.id}-folders`, pgn_folder)
+          await cache.hsetnxAsync(`${user_data.id}-pgns`, `${game_string}-${time}`, JSON.stringify(pgn))
+            .then(async reply => {
+              if (reply !== 1) {
+                cache.quit()
+                return res.status(500).end()
+              } else {
+                cache.quit()
+                return res.status(200).end()
+              }
+            })
         }
         else {
-          cache.set(`${user_data.id}-pgns`, JSON.stringify([pgn]));
           cache.quit()
-          res.status(200).end()
+          res.status(500).end()
         }
     } else {
       return res.status(405).end()

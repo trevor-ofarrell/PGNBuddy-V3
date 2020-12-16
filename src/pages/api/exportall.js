@@ -102,46 +102,58 @@ async function exportAll(req, res) {
 
           if (pgnList) {
 
-            console.log("existingpgns len", pgnList.length)
-
             await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
               if (reply !== 1) {
+
                 await cache.saddAsync(`${user_data.id}-folders`, ...usersFolders)
+
                 pgnList.forEach( async (elem) => {
                   let time = new Date
                   console.log(`${elem.pgn_id}-${time}`)
-                  await cache.hsetAsync(`${user_data.id}-pgns`, `${elem.pgn_id}-${time}`, JSON.stringify(elem)).then(async reply => {
-                    if (reply !== 1) {
-                      console.log("hsetnx set failed")
-                    } else {
-                      console.log("hsetnx succeded")
-                    }
-                  })
+
+                  await cache.hsetAsync(
+                    `${user_data.id}-pgns`,
+                    `${elem.pgn_id}-${time}`,
+                    JSON.stringify(elem)
+                  ).then(async reply => {
+                      if (reply !== 1) {
+                        console.log("hsetnx set failed")
+                      } else {
+                        console.log("hsetnx succeded")
+                      }
+                    })
                 })
+
                 cache.quit()
                 console.log("modifying and updating operations failed")
                 return res.status(200).end()
+
               } else {
-                await cache.saddAsync(`${user_data.id}-folders`, ...usersFolders)
-                await pgnList.forEach( async (ele) => {
-                  let time = new Date
-                  console.log(`${ele.pgn_id}-${time}`)
-                  await cache.hsetnxAsync(`${user_data.id}-pgns`, `${ele.pgn_id}-${time}`, JSON.stringify(ele)).then(async reply => {
-                    if (reply !== 1) {
-                      console.log("hsetnx set failed")
-                    } else {
-                      console.log("hsetnx succeded")
-                    }
+
+                  await cache.saddAsync(`${user_data.id}-folders`, ...usersFolders)
+                  await pgnList.forEach( async (ele) => {
+                    let time = new Date
+                    console.log(`${ele.pgn_id}-${time}`)
+
+                    await cache.hsetnxAsync(
+                      `${user_data.id}-pgns`,
+                      `${ele.pgn_id}-${time}`,
+                      JSON.stringify(ele)
+                    ).then(async reply => {
+                        if (reply !== 1) {
+                          console.log("hsetnx set failed")
+                        } else {
+                          console.log("hsetnx succeded")
+                        }
+                      })
                   })
-                })
-                cache.quit()
-                console.log(pgnList.length, "done, existing data updated and saved")
-                return res.status(200).end()
+                  cache.quit()
+                  console.log(pgnList.length, "done, existing data updated and saved")
+                  return res.status(200).end()
               }
             })
             cache.quit()
           }
-         
           else {
             console.log("cache failed")
             return res.status(500).end()

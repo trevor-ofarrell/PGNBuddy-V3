@@ -5,13 +5,13 @@ async function exportAll(req, res) {
     if (req.method === 'POST') {
 
       let username = req.body.username
+      let folder = req.body.folder
       let startDate = new Date(req.body.startDate).getTime();
       let endDate = new Date(req.body.endDate).getTime();
       let user_data = req.body.user_data
       let opening = ""
       let winner = ""
       let clock = {}
-      let pgnList = []
 
       bluebird.promisifyAll(redis.RedisClient.prototype);
       const cache = redis.createClient({
@@ -22,34 +22,54 @@ async function exportAll(req, res) {
 
       console.log(startDate, endDate)
 
+      let usersFolders = []
+      let pgnList = []
+
+      let uploadFolder
       let i = 0
+
       let eventStreamer = new NdjsonStreamer({
-        url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=200&pgnInJson=true`,
+
+        url: `https://lichess.org/api/games/user/${username}?opening=true&since=${startDate}&until=${endDate}&max=50&pgnInJson=true`,
         token: process.env.LICHESS_API_TOKEN,
         timeout: 15000,
+
         timeoutCallback: _ => {
           return res.status(405).end()
         },
         callback: obj => {
+
           if (obj.opening) {
             opening = obj.opening.name
           } else {
             opening = "No known opening"
           }
+
           if (obj.winner) {
             winner = obj.winner
           } else {
             winner = `No winner. Game resulted in a ${obj.status}`
           }
+
           if (obj.clock) {
             clock = obj.clock
           } else {
             clock = "No set time control"
           }
+
+          if (folder) {
+            uploadFolder = folder
+          } else {
+            let date = new Date
+            date.setMilliseconds(0)
+            date.setSeconds(0)
+            uploadFolder = `lichess upload ${date}`
+          }
+
           let pgn = {
             name: `${opening} - ${obj.variant} - ${obj.speed} - id: ${obj.id}`,
             pgn_id: obj.id,
-            folder: `lichess upload ${new Date}`,
+            folder: uploadFolder,
             pgn: obj.pgn,
             moves: obj.moves,
             user_id: user_data.id,
@@ -64,45 +84,66 @@ async function exportAll(req, res) {
             clock: clock,
             players: obj.players,
           }
+
           pgnList.push(pgn)
           i += 1
           console.log(i)
+
+          if (usersFolders) {
+            if (!usersFolders.includes(pgn.folder)) {
+              usersFolders.push(pgn.folder)
+            }
+          } else {
+            usersFolders.push(pgn.folder)
+          }
         },
         endcallback: async () => {
           // do something when stream has ended
-          let existingPgns = JSON.parse(await cache.getAsync(`${user_data.id}-pgns`))
-          if (pgnList && existingPgns) {
-            existingPgns.push(...pgnList)
-            await cache.set(`${user_data.id}-pgns`, JSON.stringify(existingPgns))
+
+          if (pgnList) {
+
+            console.log("existingpgns len", pgnList.length)
+
             await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
               if (reply !== 1) {
+                await cache.saddAsync(`${user_data.id}-folders`, ...usersFolders)
+                pgnList.forEach( async (elem) => {
+                  let time = new Date
+                  console.log(`${elem.pgn_id}-${time}`)
+                  await cache.hsetAsync(`${user_data.id}-pgns`, `${elem.pgn_id}-${time}`, JSON.stringify(elem)).then(async reply => {
+                    if (reply !== 1) {
+                      console.log("hsetnx set failed")
+                    } else {
+                      console.log("hsetnx succeded")
+                    }
+                  })
+                })
                 cache.quit()
                 console.log("modifying and updating operations failed")
-                return res.status(500).end()
+                return res.status(200).end()
               } else {
+                await cache.saddAsync(`${user_data.id}-folders`, ...usersFolders)
+                await pgnList.forEach( async (ele) => {
+                  let time = new Date
+                  console.log(`${ele.pgn_id}-${time}`)
+                  await cache.hsetnxAsync(`${user_data.id}-pgns`, `${ele.pgn_id}-${time}`, JSON.stringify(ele)).then(async reply => {
+                    if (reply !== 1) {
+                      console.log("hsetnx set failed")
+                    } else {
+                      console.log("hsetnx succeded")
+                    }
+                  })
+                })
                 cache.quit()
-                console.log(existingPgns.length, "done, existing data updated and saved")
+                console.log(pgnList.length, "done, existing data updated and saved")
                 return res.status(200).end()
               }
             })
+            cache.quit()
           }
-          else if (pgnList && !existingPgns) {
-            await cache.set(`${user_data.id}-pgns`, JSON.stringify(pgnList))
-            await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
-              if (reply !== 1) {
-                cache.quit()
-                console.log("save failed")
-                return res.status(500).end()
-              } else {
-                cache.quit()
-                console.log(pgnList.length, "done, data saved")
-                return res.status(200).end()
-              }
-            })
-          }
+         
           else {
             console.log("cache failed")
-            cache.quit()
             return res.status(500).end()
           }
         }

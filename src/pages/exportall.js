@@ -60,6 +60,7 @@ export const getServerSideProps = async (ctx) => {
   const exportAll = (props) => {
     const classes = useStyles();
     const [username, setUsername] = useState("");
+    const [folder, setFolder] = useState("");
     const [start, setStart] = useState("mm/dd/yyyy");
     const [end, setEnd] = useState("mm/dd/yyyy");
     const form = useRef(null)
@@ -72,6 +73,7 @@ export const getServerSideProps = async (ctx) => {
         event.preventDefault();
         const data = {
             "username": username,
+            "folder": folder,
             "startDate": start,
             "endDate": end,
             "user_data": {"id": props.id, "email": props.email},
@@ -99,6 +101,20 @@ export const getServerSideProps = async (ctx) => {
                                     className={classes.textfield}
                                     onChange={(event) => {setUsername(event.target.value)}}
                                     value={username}
+                                    InputLabelProps={{
+                                        root: classes.label
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} lg={12}>
+                                <TextField
+                                    label="Folder"
+                                    type="folder"
+                                    autoComplete="folder"
+                                    variant="filled"
+                                    className={classes.textfield}
+                                    onChange={(event) => {setFolder(event.target.value)}}
+                                    value={folder}
                                     InputLabelProps={{
                                         root: classes.label
                                     }}

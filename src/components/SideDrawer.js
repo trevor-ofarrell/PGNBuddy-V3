@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    marginTop: '7vh',
+    marginTop: '6vh',
     background: 'transparent',
     border: 'none',
     boxShadow: 'none',
@@ -64,17 +64,17 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   options: {
-      width: '95%',
-      height: '10.14vh',
-      color: 'white',
-      marginBottom: '1em',
-      opacity: '0.8',
+    width: '95%',
+    height: '10.14vh',
+    color: 'white',
+    marginBottom: '1em',
+    opacity: '0.8',
+    background: 'linear-gradient(to right, #303030, #121212)',
+    [theme.breakpoints.down('sm')]: {
       background: 'linear-gradient(to right, #303030, #121212)',
-      [theme.breakpoints.down('sm')]: {
-        background: 'linear-gradient(to right, #303030, #121212)',
-        marginBottom: '0.6em',
-        width: '100%',
-      }
+      marginBottom: '0.6em',
+      width: '100%',
+    }
   },
   optionsred: {
     width: '95%',
@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const SideDrawer = (props, windows) => {
   const { window } = windows;
-  const {id, email, pgns} = props
+  const {id, email, pgns, folders} = props
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -113,7 +113,8 @@ export const SideDrawer = (props, windows) => {
   const clearDb = async (event) => {
     event.preventDefault();
     const data = {
-      'collectionPath':  `${props.id}-pgns`
+      'collectionPath': `${props.id}-pgns`,
+      'collectionPath2': `${props.id}-folders`
     }
     await fetch('/api/deletepgns', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
     router.reload()
@@ -185,7 +186,7 @@ export const SideDrawer = (props, windows) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <Accordian id={id} email={email} pgns={pgns}/>
+        <Accordian id={id} email={email} pgns={pgns} folders={folders}/>
       </main>
     </div>
   );

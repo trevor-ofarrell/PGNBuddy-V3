@@ -136,7 +136,7 @@ export const NavBarLoggedIn = () => {
         }}
       >
           <Typography variant='h6' className={classes.mobilemenutext}>
-            Login
+            Log Out
           </Typography>
       </MenuItem>           
     </Menu>

@@ -63,6 +63,9 @@ const AccordionSummary = withStyles({
 const AccordionDetails = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(.8),
+    }
   },
 }))(MuiAccordionDetails);
 
@@ -78,10 +81,8 @@ const useStyles = makeStyles((theme) => ({
     scrollbarWidth: 50,
     overflowY: 'auto',
     overflowX: 'hidden',
-    height: '89vh',
-    [theme.breakpoints.down('md')]: {
-      marginRight: '2vw',
-    },
+    height: '93vh',
+    width: '100%'
   },
   pgns: {
     width: '100%'
@@ -125,16 +126,16 @@ const useStyles = makeStyles((theme) => ({
       height: '50vh',
     },
     [theme.breakpoints.down('md')]: {
-      width: '90vw',
-      height: '46vh',
+      width: '85vw',
+      height: '42vh',
     },
     [theme.breakpoints.down('sm')]: {
-      width: '82vw',
+      width: '80vw',
       height: '45vh',
     },
     [theme.breakpoints.down('xs')]: {
       width: '80vw',
-      height: '30vh',
+      height: '33vh',
     },
   },
 }))

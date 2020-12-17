@@ -12,11 +12,6 @@ import {
 } from "../components"
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
-import { doc } from 'prettier';
-
-//TODO: move all data storage aside from auth to redis only
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,55 +24,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     backgroundPosition: "center", 
   },
-
   body: {
     zIndex: '0',
     alignItems: "center",
     justifyContent: "center",
   },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      maxHeight: '80vh',
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  // necessary for content to be below app bar
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  sidedrawer: {
-    marginLeft: '1em',
-  },
-  options: {
-      width: '95%',
-      height: '9.7vh',
-      color: 'white',
-      borderColor: 'white',
-      marginBottom: '1em',
-      background: 'linear-gradient(180deg, rgba(166, 166, 166, 0.662) 0%, rgba(53, 53, 53, 0.714) 32%, rgba(0, 0, 0, 0.858) 100%)',
-  }
 }));
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export const getServerSideProps = async (ctx) => {
   try {
@@ -99,17 +51,12 @@ export const getServerSideProps = async (ctx) => {
     let userPgns = []
     let userFolders = []
 
-    console.log("at attempt")
     userPgns = await cache.hgetallAsync(`${uid}-pgns`)
-    console.log("got the pgns")
     userFolders = await cache.smembersAsync(`${uid}-folders`)
-    console.log("got the folders")
 
     if (userFolders && userPgns) {
-      console.log("after attempt")
 
       userPgns = Object.values(userPgns)
-
       userPgns = userPgns.map(JSON.parse)
 
       userData = {pgns: userPgns, folders: userFolders}
@@ -119,11 +66,13 @@ export const getServerSideProps = async (ctx) => {
       pgnList = userData.pgns
       folderList = userData.folders
       cache.quit()
-    } else {
+    }
+    else {
       console.log("cache missed :'(")
       cache.quit()
     }
     cache.quit()
+
     if (!pgnList) {
       pgnList = null
     }

@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     height: '5vh',
   },
   mobilemenutext: {
-    padding: '1em',
+    padding: '.7em',
   },
   orangebutton: {
     border: '2px',

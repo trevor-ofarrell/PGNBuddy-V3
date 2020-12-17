@@ -48,10 +48,8 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing(2.3),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2.5),
-    paddingBottom: theme.spacing(4),
+    paddingTop: theme.spacing(1.8),
+    paddingLeft: theme.spacing(1),
     [theme.breakpoints.down('md')]: {
       paddingLeft: theme.spacing(0),
       paddingRight: theme.spacing(0),
@@ -89,8 +87,11 @@ const useStyles = makeStyles((theme) => ({
     }
 },
   menuicon: {
-    width: '4vw',
-    marginTop: "47vh",
+    paddingTop: "45vh",
+    paddingBottom: '45vh',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '-3vw'
+    },
   }
 }));
 
@@ -105,10 +106,6 @@ export const SideDrawer = (props, windows) => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
 
   const clearDb = async (event) => {
     event.preventDefault();
@@ -154,9 +151,9 @@ export const SideDrawer = (props, windows) => {
       <nav className={classes.drawer} aria-label="options menu">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden lgUp implementation="css">
-        <Button className={classes.menuicon} onClick={handleDrawerToggle}>
-            <MenuOpenIcon style={{fill: '#ffffff'}}/>
-        </Button>
+          <Button className={classes.menuicon} onClick={handleDrawerToggle}>
+              <MenuOpenIcon style={{fill: '#ffffff'}}/>
+          </Button>
           <Drawer
             container={container}
             variant="temporary"

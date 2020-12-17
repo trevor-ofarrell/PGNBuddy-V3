@@ -125,7 +125,6 @@ async function exportAll(req, res) {
                 })
 
                 cache.quit()
-                console.log("modifying and updating operations failed")
                 return res.status(200).end()
 
               } else {
@@ -148,7 +147,6 @@ async function exportAll(req, res) {
                       })
                   })
                   cache.quit()
-                  console.log(pgnList.length, "done, existing data updated and saved")
                   return res.status(200).end()
               }
             })

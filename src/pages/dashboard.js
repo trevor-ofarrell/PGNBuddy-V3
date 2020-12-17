@@ -47,7 +47,6 @@ export const getServerSideProps = async (ctx) => {
 
     let pgnList = []
     let folderList = []
-    let userData = {}
     let userPgns = []
     let userFolders = []
 
@@ -56,23 +55,27 @@ export const getServerSideProps = async (ctx) => {
 
     if (userFolders && userPgns) {
 
+      let userData = {}
+
       userPgns = Object.values(userPgns)
       userPgns = userPgns.map(JSON.parse)
 
       userData = {pgns: userPgns, folders: userFolders}
-    }
-    if (userData) {
-      console.log("cache hit")
-      pgnList = userData.pgns
-      folderList = userData.folders
-      cache.quit()
+
+      if (userData) {
+        console.log("cache hit")
+        pgnList = userData.pgns
+        folderList = userData.folders
+        cache.quit()
+      }
+      
     }
     else {
       console.log("cache missed :'(")
       cache.quit()
     }
     cache.quit()
-
+  
     if (!pgnList) {
       pgnList = null
     }

@@ -9,8 +9,8 @@ import { firebaseAdmin } from '../../firebaseAdmin';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        background: 'linear-gradient(to right, rgb(241, 39, 17, 0.7), rgb(245, 175, 25, 0.7)), url("/darkbg.png");',
-        backgroundRepeat: "no-repeat",
+        background: 'linear-gradient(180deg, #0C003C 0%, #BFFFAF 100%), linear-gradient(165deg, #480045 25%, #E9EAAF 100%), linear-gradient(145deg, #480045 25%, #E9EAAF 100%), linear-gradient(300deg, rgba(233, 223, 255, 0) 0%, #AF89FF 100%), linear-gradient(90deg, #45EBA5 0%, #45EBA5 30%, #21ABA5 30%, #21ABA5 60%, #1D566E 60%, #1D566E 70%, #163A5F 70%, #163A5F 100%)',
+        backgroundBlendMode: 'overlay, overlay, overlay, multiply, normal',
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: '100vh',

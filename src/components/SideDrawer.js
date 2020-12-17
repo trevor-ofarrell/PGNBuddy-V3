@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    marginTop: '6vh',
+    marginTop: '6.5vh',
     background: 'transparent',
     border: 'none',
     boxShadow: 'none',
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing(1.8),
+    marginTop: '1.5vh',
     paddingLeft: theme.spacing(1),
     [theme.breakpoints.down('md')]: {
       paddingLeft: theme.spacing(0),
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     height: '10.14vh',
     color: 'white',
     marginBottom: '1em',
-    opacity: '0.8',
+    opacity: '0.98',
     background: 'linear-gradient(to right, #303030, #121212)',
     [theme.breakpoints.down('sm')]: {
       background: 'linear-gradient(to right, #303030, #121212)',

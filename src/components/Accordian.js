@@ -8,15 +8,14 @@ import {
   Grid,
   CircularProgress,
   Typography,
+  Divider,
 } from '@material-ui/core';
 import uuid from 'react-uuid';
 
 const Accordion = withStyles({
   root: {
-    background: 'linear-gradient(to right, #52c234, #061700)',
+    background: 'rgba(58, 58, 58, 0.5)',
     boxShadow: 'none',
-    scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
-    scrollbarWidth: 50,
     '&:before': {
       display: 'none',
     },
@@ -29,10 +28,8 @@ const Accordion = withStyles({
 
 const PgnAccordion = withStyles({
   root: {
-    background: '#151515',
+    background: 'rgba(12,12,12, .9)',
     boxShadow: 'none',
-    scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
-    scrollbarWidth: 50,
     '&:before': {
       display: 'none',
     },
@@ -77,11 +74,11 @@ const AccordionDetails = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    scrollbarColor: 'rgba(30, 30, 30, 0.766) rgba(58, 58, 58, 0.31)',
+    scrollbarColor: 'rgba(12, 12, 12, 0.766) rgba(58, 58, 58, 0.31)',
     scrollbarWidth: 50,
     overflowY: 'auto',
     overflowX: 'hidden',
-    height: '93vh',
+    height: '94vh',
     width: '100%'
   },
   pgns: {
@@ -216,6 +213,8 @@ export const Accordian = (props) => {
                           <Typography className={classes.text}>
                             <b>PGN: </b> {pgn.pgn}
                           </Typography>
+                          <Divider style={{background: '#707070', marginBottom: '3em', marginTop: '3em'}}/>
+
                         </Grid>
                       </Grid>
                     </AccordionDetails>

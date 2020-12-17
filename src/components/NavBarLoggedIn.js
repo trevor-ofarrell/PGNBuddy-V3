@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
+    fontFamily: 'Aldrich, sans-serif',
     display: "none",
     [theme.breakpoints.up("sm")]: {
       display: "block",

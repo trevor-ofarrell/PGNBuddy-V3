@@ -74,7 +74,7 @@ const AccordionDetails = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    scrollbarColor: 'rgba(7, 7, 7, 0.766) rgba(58, 58, 58, 0.31)',
+    scrollbarColor: 'rgba(30, 30, 30, 0.766) rgba(58, 58, 58, 0.31)',
     scrollbarWidth: 50,
     overflowY: 'auto',
     overflowX: 'hidden',
@@ -118,14 +118,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   iframe: {
-    width: '62vw',
-    height: '55vh',
+    width: '45vw',
+    height: '45vh',
     [theme.breakpoints.down('lg')]: {
-      width: '56vw',
-      height: '60vh',
+      width: '52vw',
+      height: '50vh',
     },
     [theme.breakpoints.down('md')]: {
-      width: '82vw',
+      width: '90vw',
       height: '46vh',
     },
     [theme.breakpoints.down('sm')]: {

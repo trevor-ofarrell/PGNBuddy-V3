@@ -65,10 +65,6 @@ export const getServerSideProps = async (ctx) => {
     const [end, setEnd] = useState("mm/dd/yyyy");
     const form = useRef(null)
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = {
@@ -80,7 +76,6 @@ export const getServerSideProps = async (ctx) => {
         }
         await fetch('/api/exportall', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
             .then(async () => {
-                    await sleep(1000)
                     return window.location.href = '/dashboard';
             })
     }

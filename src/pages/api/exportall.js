@@ -130,7 +130,7 @@ async function exportAll(req, res) {
               } else {
 
                   await cache.saddAsync(`${user_data.id}-folders`, ...usersFolders)
-                  await pgnList.forEach( async (ele) => {
+                  pgnList.forEach( async (ele) => {
                     let time = new Date
                     console.log(`${ele.pgn_id}-${time}`)
 

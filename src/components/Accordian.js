@@ -198,9 +198,6 @@ export const Accordian = (props) => {
                             <b>White: </b> {pgn.players.white.user.name} {pgn.players.white.rating}
                           </Typography>
                           <Typography className={classes.text}>
-                            <b>Rating difference: </b> {pgn.players.white.ratingDiff}
-                          </Typography>
-                          <Typography className={classes.text}>
                             <b>Game status: </b> {pgn.status}
                           </Typography>
                         </Grid>

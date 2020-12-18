@@ -30,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export const getServerSideProps = async (ctx) => {
   try {
     const cookies = nookies.get(ctx);
@@ -45,46 +49,38 @@ export const getServerSideProps = async (ctx) => {
     });
 
     let pgnList = []
-    let folderList = []
-    let userPgns = []
     let userFolders = []
+    let userPgns = []
 
-    userPgns = await cache.hgetallAsync(`${uid}-pgns`)
-    userFolders = await cache.smembersAsync(`${uid}-folders`)
+    userFolders = await cache.smembersAsync(`${uid}-folder-names`)
+    await userFolders.forEach(async (folder) => {
+      await cache.hgetallAsync(`${uid}-${folder}`).then((pgns) => {
+        pgnList = Object.values(pgns)
+        pgnList = pgnList.map(JSON.parse)
+        userPgns.push(...pgnList)
+        console.log(pgnList.length)
+      })
+    }) 
+    await sleep(750)
 
-    if (userFolders && userPgns) {
-
-      let userData = {}
-
-      userPgns = Object.values(userPgns)
-      userPgns = userPgns.map(JSON.parse)
-
-      userData = {pgns: userPgns, folders: userFolders}
-
-      if (userData) {
-        console.log("cache hit")
-        pgnList = userData.pgns
-        folderList = userData.folders
-        cache.quit()
-      }
-      
+    if (userFolders && pgnList) {
+      console.log("cache hit", userFolders)
+      cache.quit()
     }
     else {
+      pgnList = []
+      userFolders = []
       console.log("cache missed :'(")
       cache.quit()
     }
-    cache.quit()
-  
-    if (!pgnList) {
-      pgnList = null
-    }
-    if (!folderList) {
-      folderList = null
-    }
-    return {
-      props: { "id": uid, "email": email, "user": user, 'pgns': pgnList, 'folders': folderList},
-    }
 
+    cache.quit()
+
+
+    return {
+      props: { "id": uid, "email": email, "user": user, 'pgns': userPgns, 'folders': userFolders},
+    }
+    
   } catch (err) {
     console.log(err)
     return {

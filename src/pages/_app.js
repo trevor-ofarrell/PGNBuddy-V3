@@ -25,7 +25,7 @@ export default function SaveApp(props) {
     <AuthProvider>
       <React.Fragment>
         <Head>
-          <title>PGN Buddy</title>
+          <title>PGNBuddy</title>
           <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"

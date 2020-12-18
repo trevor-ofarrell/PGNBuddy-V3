@@ -99,45 +99,19 @@ async function exportAll(req, res) {
         },
         endcallback: async () => {
           // do something when stream has ended
-
-          if (pgnList) {
-
-            await cache.existsAsync(`${user_data.id}-pgns`).then(async reply => {
-              if (reply !== 1) {
-
-                await cache.saddAsync(`${user_data.id}-folders`, ...usersFolders)
-
-                pgnList.forEach( async (elem) => {
-                  let time = new Date
-                  console.log(`${elem.pgn_id}-${time}`)
-
-                  await cache.hsetAsync(
-                    `${user_data.id}-pgns`,
-                    `${elem.pgn_id}-${time}`,
-                    JSON.stringify(elem)
-                  ).then(async reply => {
-                      if (reply !== 1) {
-                        console.log("hsetnx set failed")
-                      } else {
-                        console.log("hsetnx succeded")
-                      }
-                    })
-                })
-
-                cache.quit()
-                return res.status(200).end()
-
-              } else {
-
-                  await cache.saddAsync(`${user_data.id}-folders`, ...usersFolders)
-                  pgnList.forEach( async (ele) => {
+          if (usersFolders) {
+            usersFolders.forEach(async (folder) => {
+              await cache.existsAsync(`${user_data.id}-${folder}`).then(async reply => {
+                if (reply !== 1) {
+                  await cache.saddAsync(`${user_data.id}-folder-names`, folder)
+                  pgnList.forEach( async (elem) => {
                     let time = new Date
-                    console.log(`${ele.pgn_id}-${time}`)
+                    console.log(`${user_data.id}-${folder}`)
 
-                    await cache.hsetnxAsync(
-                      `${user_data.id}-pgns`,
-                      `${ele.pgn_id}-${time}`,
-                      JSON.stringify(ele)
+                    await cache.hsetAsync(
+                      `${user_data.id}-${folder}`,
+                      `${elem.pgn_id}-${time}`,
+                      JSON.stringify(elem)
                     ).then(async reply => {
                         if (reply !== 1) {
                           console.log("hsetnx set failed")
@@ -146,12 +120,36 @@ async function exportAll(req, res) {
                         }
                       })
                   })
+
                   cache.quit()
                   return res.status(200).end()
-              }
+
+                }
+                else {
+                  await cache.saddAsync(`${user_data.id}-folder-names`, folder)
+                  pgnList.forEach( async (elem) => {
+                    let time = new Date
+                    console.log(`${user_data.id}-${folder}`)
+
+                    await cache.hsetnxAsync(
+                      `${user_data.id}-${folder}`,
+                      `${elem.pgn_id}-${time}`,
+                      JSON.stringify(elem)
+                    ).then(async reply => {
+                        if (reply !== 1) {
+                          console.log("hsetnx set failed")
+                        } else {
+                          console.log("hsetnx succeded")
+                        }
+                      })
+                  })
+
+                  cache.quit()
+                  return res.status(200).end()
+                }
+              })
             })
-            cache.quit()
-          }
+          } 
           else {
             console.log("cache failed")
             return res.status(500).end()
@@ -161,6 +159,9 @@ async function exportAll(req, res) {
       eventStreamer.stream()
     }
 }
+
+
+
 
 class NdjsonStreamer {
   constructor(props) {		

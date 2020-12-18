@@ -60,6 +60,7 @@ const AccordionSummary = withStyles({
 const AccordionDetails = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
+    paddingRight: theme.spacing(0.1),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(.8),
     }

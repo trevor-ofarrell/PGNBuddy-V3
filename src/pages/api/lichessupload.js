@@ -78,6 +78,8 @@ async function lichessUpload(req, res) {
           players: response.data.players,
         }
 
+        console.log(pgn)
+
         folders.add(response.folder)
 
         if (pgn) {

@@ -54,28 +54,29 @@ export const getServerSideProps = async (ctx) => {
 
     userFolders = await cache.smembersAsync(`${uid}-folder-names`)
     await userFolders.forEach(async (folder) => {
-      await cache.hgetallAsync(`${uid}-${folder}`).then((pgns) => {
+      await cache.hgetallAsync(`${uid}-${folder}`).then(async (pgns) => {
         pgnList = Object.values(pgns)
         pgnList = pgnList.map(JSON.parse)
         userPgns.push(...pgnList)
         console.log(pgnList.length)
+        await sleep(10)
       })
+      cache.quit()
     }) 
-    await sleep(750)
-
-    if (userFolders && pgnList) {
-      console.log("cache hit", userFolders)
+    await sleep(750).then(() => {
+      if (userFolders && pgnList) {
+        console.log("cache hit", userFolders, pgnList.length)
+        cache.quit()
+      }
+      else {
+        pgnList = []
+        userFolders = []
+        console.log("cache missed :'(")
+        cache.quit()
+      }
+  
       cache.quit()
-    }
-    else {
-      pgnList = []
-      userFolders = []
-      console.log("cache missed :'(")
-      cache.quit()
-    }
-
-    cache.quit()
-
+    })
 
     return {
       props: { "id": uid, "email": email, "user": user, 'pgns': userPgns, 'folders': userFolders},

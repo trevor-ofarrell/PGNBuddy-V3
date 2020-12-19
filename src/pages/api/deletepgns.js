@@ -17,7 +17,7 @@ async function deletepgns(req, res) {
         });
 
         await cache.smembersAsync(`${collectionPath}-folder-names`).then(async (names) => {
-            names.forEach((name) => {
+            await names.forEach((name) => {
                 userFolders.push(name)
             })
 
@@ -26,29 +26,22 @@ async function deletepgns(req, res) {
                 cache.del(`${collectionPath}-${folder}`, (err, reply) => {
                     if (!err) {
                         if (reply === 1) {
-                            cache.quit()
                             console.log(`${collectionPath} is deleted`);
-                            return res.status(200).end()
                         } else {
-                            cache.quit()
                             console.log(`${collectionPath} doesn't exists`);
-                            return res.status(500).end()
                         }
                     }else if (err) {
                         console.log(err)
                     }
                     else{
-                        cache.quit()
                         console.log("cache delete failed", err)
-                        return res.status(500).end()
                     }
                 })
-                cache.quit()
             })
         })
         console.log(collectionPath)
         cache.quit()
-        return res.status(500).end()
+        return res.status(200).end()
     }
 }
 

@@ -52,24 +52,31 @@ export const getServerSideProps = async (ctx) => {
     let userFolders = []
     let userPgns = []
 
-    userFolders = await cache.smembersAsync(`${uid}-folder-names`)
-    await userFolders.forEach(async (folder) => {
-      await cache.hgetallAsync(`${uid}-${folder}`).then(async (pgns) => {
-        pgnList = Object.values(pgns)
-        pgnList = pgnList.map(JSON.parse)
-        userPgns.push(...pgnList)
-        console.log(pgnList.length)
-        await sleep(10)
-      })
-      cache.quit()
-    }) 
+    await cache.smembersAsync(`${uid}-folder-names`).then(async function(folders) {
+      userFolders = folders
+      for (let i = 0; i < folders.length; i++) {
+        await cache.hgetallAsync(`${uid}-${folders[i]}`).then(async function(value) {
+          if (value) {
+            pgnList = Object.values(value)
+            pgnList = pgnList.map(JSON.parse)
+            userPgns.push(...pgnList)
+            console.log(pgnList.length)
+          } else {
+            userPgns = []
+            userFolders = []
+          }
+        })
+      }
+     
+  
+    })
     await sleep(750).then(() => {
-      if (userFolders && pgnList) {
-        console.log("cache hit", userFolders, pgnList.length)
+      if (userFolders && userPgns) {
+        console.log("cache hit", userFolders, userPgns.length)
         cache.quit()
       }
       else {
-        pgnList = []
+        userPgns = []
         userFolders = []
         console.log("cache missed :'(")
         cache.quit()

@@ -103,7 +103,7 @@ export const getServerSideProps = async (ctx) => {
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
-                                    label="Folder"
+                                    label="Folder - leave blank for default descriptive naming"
                                     type="folder"
                                     autoComplete="folder"
                                     variant="filled"

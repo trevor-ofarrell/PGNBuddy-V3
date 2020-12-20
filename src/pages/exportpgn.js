@@ -90,7 +90,7 @@ const ExportPGN = (props) => {
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
                                     id="filled-password-input"
-                                    label="name"
+                                    label="name - leave blank for default descriptive naming"
                                     type="name"
                                     autoComplete="name"
                                     variant="filled"
@@ -102,7 +102,7 @@ const ExportPGN = (props) => {
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
                                     id="filled-password-input"
-                                    label="folder"
+                                    label="folder - leave blank for default descriptive naming"
                                     type="folder"
                                     autoComplete="folder"
                                     variant="filled"
@@ -114,9 +114,9 @@ const ExportPGN = (props) => {
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
                                     id="filled-password-input2"
-                                    label="gamestring"
-                                    type="gamestring"
-                                    autoComplete="gamestring"
+                                    label="Lichess game ID or link"
+                                    type="Lichess game ID or link"
+                                    autoComplete="Lichess game ID or link"
                                     variant="filled"
                                     className={classes.textfield}
                                     onChange={(event) => {setGameString(event.target.value)}}

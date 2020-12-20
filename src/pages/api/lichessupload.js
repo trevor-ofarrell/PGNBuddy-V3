@@ -6,7 +6,6 @@ async function lichessUpload(req, res) {
   if (req.method === 'POST') {
     let pgn_name = req.body.name    
     let game_string = req.body.game_string
-    let folders = new Set()
     console.log([pgn_name, game_string])
     console.log(game_string.slice(0,7))
 
@@ -59,6 +58,17 @@ async function lichessUpload(req, res) {
             password: process.env.LAMBDA_REDIS_PW,
         });
 
+        if (!pgn_folder) {
+          let date = new Date
+          date.setMilliseconds(0)
+          date.setSeconds(0)
+          pgn_folder = `lichess upload ${date}`
+        }
+
+        if (!pgn_name) {
+          pgn_name = `${response.data.opening.name} - ${response.data.variant} - ${response.data.speed} - id: ${game_string}`
+        }
+
         let pgn = {
           name: pgn_name,
           pgn_id: game_string,
@@ -77,10 +87,6 @@ async function lichessUpload(req, res) {
           clock: response.data.clock,
           players: response.data.players,
         }
-
-        console.log(pgn)
-
-        folders.add(response.folder)
 
         if (pgn) {
           let time = new Date

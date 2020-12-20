@@ -127,7 +127,7 @@ export const SideDrawer = (props, windows) => {
           <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
               <Button className={classes.options}>
-                  Export PGNs by date mm/dd/yyyy (50 game limit per request)
+                  Export PGNs by date (100 game limit per request)
               </Button>
             </Link>
           </Grid>

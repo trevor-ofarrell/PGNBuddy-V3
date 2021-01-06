@@ -28,7 +28,7 @@ const Accordion = withStyles({
 
 const PgnAccordion = withStyles({
   root: {
-    background: 'rgba(12,12,12, .9)',
+    background: 'rgba(12,12,12, .6)',
     boxShadow: 'none',
     '&:before': {
       display: 'none',

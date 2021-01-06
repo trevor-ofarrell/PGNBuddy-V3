@@ -9,12 +9,11 @@ import { firebaseAdmin } from '../../firebaseAdmin';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        background: 'linear-gradient(to right, rgb(241, 39, 17, 0.7), rgb(245, 175, 25, 0.7)), url("/darkbg.png");',
-        background: 'radial-gradient(100% 225% at 100% 0%, #FAFF00 0%, #000000 100%), linear-gradient(235deg, #FF7A00 0%, #000000 100%), linear-gradient(20deg, #241E92 0%, #241E92 30%, #5432D3 calc(30% + 1px), #5432D3 35%, #7B6CF6 calc(35% + 1px), #7B6CF6 50%, #E5A5FF calc(50% + 1px), #E5A5FF 100%), linear-gradient(120deg, #110133 0%, #110133 40%, #00918E calc(40% + 1px), #00918E 60%, #4DD599 calc(60% + 1px), #4DD599 70%, #FFDC34 calc(70% + 1px), #FFDC34 100%)',
-        backgroundBlendMode: 'overlay, hard-light, overlay, normal',
-        backgroundRepeat: "no-repeat",
+        background: '#8E2DE2',
+        background: '-webkit-linear-gradient(to left, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
+        background: 'linear-gradient(to left, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center", 
         height: '100vh',
     },
     mask: {
@@ -90,7 +89,7 @@ const ExportPGN = (props) => {
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
                                     id="filled-password-input"
-                                    label="name - leave blank for default descriptive naming"
+                                    label="name - leave blank for default naming"
                                     type="name"
                                     autoComplete="name"
                                     variant="filled"
@@ -102,7 +101,7 @@ const ExportPGN = (props) => {
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
                                     id="filled-password-input"
-                                    label="folder - leave blank for default descriptive naming"
+                                    label="folder - leave blank for default naming"
                                     type="folder"
                                     autoComplete="folder"
                                     variant="filled"

@@ -21,55 +21,58 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       height: '100vh',
       overflow: 'hidden',
-      background: 'linear-gradient(to right, rgb(241, 39, 17, 0.7), rgb(245, 175, 25, 0.7)), url("/darkbg.png");',
       backgroundSize: "cover",
       backgroundPosition: "center",        
       zIndex: '0',
       alignItems: "center",
       justifyContent: "center",
+      background: '#8E2DE2',
+      background: '-webkit-linear-gradient(to right, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
+      background: 'linear-gradient(to right, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
   },
   page: {
-    background: 'linear-gradient(to right, #f12711, #f5af19);',
     opacity: '0.85',
-    width: '70vw',
-    marginTop: '5vh',
-    height: '100%',
+
+    marginTop: '10vh',
     [theme.breakpoints.down("md")]: {
-        height: '100%',
     },
     [theme.breakpoints.down("sm")]: {
-        height: '100%',
+      marginTop: '5vh',
     },
     [theme.breakpoints.down("xs")]: {
-        height: '100%',
+      marginTop: '5vh',
+      height: '50vh',
+
     },
   },
   home: {
     border: '3px',
-    margin: '2.9em',
-    fontFamily: 'Roboto, sans-serif',
-    fontWeight: 'bold',
-    fontSize: '3.2em',
+    fontFamily: 'Helvetica',
+    fontSize: '4.3vh',
     color: 'white',
+    background: '-webkit-linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
+    background: 'linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
+    padding: '2em',
     [theme.breakpoints.down("md")]: {
-        fontSize: '3.1em',
+      fontSize: '5vh',
     },
     [theme.breakpoints.down("sm")]: {
-        fontSize: '2.3em',
+      fontSize: '4vh',
+      padding: '2em',
     },
     [theme.breakpoints.down("xs")]: {
-        fontSize: '1.5em',
-        margin: '1.9em',
+      fontSize: '3.4vh',
+      padding: '2em',
     },
     
   },
   cta: {
-    padding: '2em',
+    padding: '1.8em',
     width: '100%',
     fontSize: '1.5em',
     bottom: '1em',
     color: 'white',
-    marginTop: '20vh',
+    marginTop: '15vh',
     [theme.breakpoints.down("lg")]: {
     },
     [theme.breakpoints.down("md")]: {
@@ -80,8 +83,9 @@ const useStyles = makeStyles((theme) => ({
         bottom: '1em',
     },
     [theme.breakpoints.down("xs")]: {
-        fontSize: '0.8em',
-        bottom: '1em',
+      marginTop: '18vh',
+      fontSize: '0.8em',
+      bottom: '1em',
     },
   }
 }));
@@ -111,19 +115,20 @@ function App(props) {
 
   return (
     <Box className={classes.root}>
-        { props.id ? <NavBarLoggedIn/> : <ResponsiveAppBar />}
+        { props.id && props.email ? <NavBarLoggedIn/> : <ResponsiveAppBar />}
         <Grid container>
             <Grid item xs={12} md={12} lg={12}>
                 <Box>
                 <ThemeProvider theme={theme}>
                   <div className={classes.page}>
                       <Grid container>
-                          <Grid item xs={12} md={12} lg={12} xl={12}>
-                              <div className={classes.home}>
-                                  Store, view, analyze, and edit your PGN files from anywhere, on any device, import games from lichess using the lichess.org API, or upload your own files.
-                              </div>
-                          </Grid>
-
+                        <Grid item xs={1} sm={1} md={1} lg={1} xl={1}/>
+                        <Grid item xs={9} sm={9} md={8} lg={8} xl={8}>
+                            <div className={classes.home}>
+                                Store, view, analyze, and edit your PGN files from anywhere, on any device. Import games from lichess using the lichess.org API, or upload your own files.
+                            </div>
+                        </Grid>
+                        <Grid item xs={2} sm={2} md={3} lg={3} xl={3}/>
                       </Grid>
                   </div>
                   <Grid container>

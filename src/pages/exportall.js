@@ -9,10 +9,11 @@ import { firebaseAdmin } from '../../firebaseAdmin';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        background: 'linear-gradient(180deg, #0C003C 0%, #BFFFAF 100%), linear-gradient(165deg, #480045 25%, #E9EAAF 100%), linear-gradient(145deg, #480045 25%, #E9EAAF 100%), linear-gradient(300deg, rgba(233, 223, 255, 0) 0%, #AF89FF 100%), linear-gradient(90deg, #45EBA5 0%, #45EBA5 30%, #21ABA5 30%, #21ABA5 60%, #1D566E 60%, #1D566E 70%, #163A5F 70%, #163A5F 100%)',
-        backgroundBlendMode: 'overlay, overlay, overlay, multiply, normal',
+        background: '#8E2DE2',
+        background: '-webkit-linear-gradient(to left, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
+        background: 'linear-gradient(to left, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center", 
         height: '100vh',
     },
     mask: {
@@ -103,7 +104,7 @@ export const getServerSideProps = async (ctx) => {
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
-                                    label="Folder - leave blank for default descriptive naming"
+                                    label="Folder - leave blank for default naming"
                                     type="folder"
                                     autoComplete="folder"
                                     variant="filled"

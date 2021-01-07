@@ -22,17 +22,17 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  del: {
-    right: '5vw',
-  },
   button: {
     width: '100%',
     marginTop: '1.5em',
     marginBottom: '1em',
-  }
+  },
+  icon: {
+      marginLeft: '2vw'
+  },
 }));
 
-export const DeleteModal = ({folderName, id}) => {
+export const DeletePgnModal = ({folderName, id, pgnId, pgnName}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const router = useRouter()
@@ -49,9 +49,11 @@ export const DeleteModal = ({folderName, id}) => {
     event.preventDefault();
     const data = {
       'id': id,
-      'folderName': folderName
+      'pgnId': pgnId,
+      'folderName': folderName,
+      'pgnName': pgnName
     }
-    await fetch('/api/deletefolder', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+    await fetch('/api/deletepgn', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
     router.reload()
   }
 
@@ -60,7 +62,7 @@ export const DeleteModal = ({folderName, id}) => {
       onClick={(event) => event.stopPropagation()}
       onFocus={(event) => event.stopPropagation()}
     >
-      <DeleteForeverIcon style={{fill: '#ffffff', marginTop: '2px'}} type="button" onClick={handleOpen} className={classes.del}/>
+      <DeleteForeverIcon style={{fill: '#ffffff', marginTop: '2px'}} type="button" onClick={handleOpen} className={classes.icon}/>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -75,7 +77,7 @@ export const DeleteModal = ({folderName, id}) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Delete folder "{folderName}"?</h2>
+            <h2 id="transition-modal-title">Delete "{pgnName}"?</h2>
             <p id="transition-modal-description">Are you sure? The data cannot be recovered.</p>
             <Grid container>
               <Grid item xs={3} xl={3}/>

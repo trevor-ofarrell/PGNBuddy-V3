@@ -3,4 +3,5 @@ export * from "./Accordian"
 export * from "./Dash"
 export * from "./Home"
 export * from "./NavBarLoggedIn"
-export * from "./DeleteModal"
+export * from "./DeleteFolderModal"
+export * from './DeletePgnModal'

@@ -10,9 +10,10 @@ import {
   CircularProgress,
   Typography,
   Divider,
+  Button
 } from '@material-ui/core';
 import uuid from 'react-uuid';
-import { DeleteModal } from '../components'
+import { DeleteFolderModal, DeletePgnModal } from '../components'
 
 const Accordion = withStyles({
   root: {
@@ -95,10 +96,18 @@ const useStyles = makeStyles((theme) => ({
   },
   foldertext: {
     color: 'white',
-    width: '90%',
+    width: '89%',
     [theme.breakpoints.up('md')]: {
       fontSize: '19px',
-      width: '92.75%',
+      width: '91.5%',
+    }
+  },
+  pgntext: {
+    color: 'white',
+    width: '92%',
+    [theme.breakpoints.up('md')]: {
+      fontSize: '19px',
+      width: '93.25%',
     }
   },
   nogames: {
@@ -159,23 +168,19 @@ const useStyles = makeStyles((theme) => ({
       marginRight: '4.5vw',
     },
   },
-  del: {
-    right: '5vw',
-    positon: 'sticky',
-  },
-  delModal: {
-    zIndex: '9999'
-  }
 }))
 
 export const Accordian = (props) => {
     const classes = useStyles();
+
+    const [expandedPgn, setExpandedPgn] = React.useState('');
+
     const [expandedFolder, setExpandedFolder] = React.useState('');
+
     const handleFolderChange = (panel) => (event, newExpanded) => {
       setExpandedFolder(newExpanded ? panel : false);
     };
 
-    const [expandedPgn, setExpandedPgn] = React.useState('');
     const handlePgnChange = (panel) => (event, newExpanded) => {
       setExpandedPgn(newExpanded ? panel : false);
     };
@@ -193,7 +198,7 @@ export const Accordian = (props) => {
                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
                 <FolderOpenIcon style={{fill: '#ffffff', marginRight: '1.5vw', marginTop: '2px'}}/>
                 <Typography className={classes.foldertext}>{folder}</Typography>
-                <DeleteModal folderName={folder} id={props.id} className={classes.delModal}/>
+                <DeleteFolderModal folderName={folder} id={props.id}/>
                </AccordionSummary>
                <AccordionDetails>
                  <div className={classes.pgns}>
@@ -206,7 +211,8 @@ export const Accordian = (props) => {
                     key={uuid()}
                   >
                     <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                      <Typography className={classes.text}>{pgn.name}</Typography>
+                      <Typography className={classes.pgntext}>{pgn.name}</Typography>
+                      <DeletePgnModal id={props.id} pgnId={pgn.pgn_id} folderName={folder} pgnName={pgn.name}  />
                     </AccordionSummary>
                     <AccordionDetails>
                       <Grid container className={classes.pgncontent}>

@@ -47,8 +47,10 @@ async function exportAll(req, res) {
 
           if (obj.winner) {
             winner = obj.winner
-          } else {
+          } else if(obj.status !== 'outoftime') {
             winner = `No winner. Game resulted in a ${obj.status}`
+          } else {
+            winner = `No winner. Game resulted in a draw opon timeout`
           }
 
           if (obj.clock) {
@@ -105,12 +107,11 @@ async function exportAll(req, res) {
                 if (reply !== 1) {
                   await cache.saddAsync(`${user_data.id}-folder-names`, folder)
                   pgnList.forEach( async (elem) => {
-                    let time = new Date
                     console.log(`${user_data.id}-${folder}`)
 
                     await cache.hsetAsync(
                       `${user_data.id}-${folder}`,
-                      `${elem.pgn_id}-${time}`,
+                      `${elem.pgn_id}`,
                       JSON.stringify(elem)
                     ).then(async reply => {
                         if (reply !== 1) {
@@ -128,12 +129,11 @@ async function exportAll(req, res) {
                 else {
                   await cache.saddAsync(`${user_data.id}-folder-names`, folder)
                   pgnList.forEach( async (elem) => {
-                    let time = new Date
                     console.log(`${user_data.id}-${folder}`)
 
                     await cache.hsetnxAsync(
                       `${user_data.id}-${folder}`,
-                      `${elem.pgn_id}-${time}`,
+                      `${elem.pgn_id}`,
                       JSON.stringify(elem)
                     ).then(async reply => {
                         if (reply !== 1) {

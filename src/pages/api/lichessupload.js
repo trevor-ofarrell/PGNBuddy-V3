@@ -89,9 +89,8 @@ async function lichessUpload(req, res) {
         }
 
         if (pgn) {
-          let time = new Date
           await cache.saddAsync(`${user_data.id}-folder-names`, pgn.folder)
-          await cache.hsetnxAsync(`${user_data.id}-${pgn.folder}`, `${game_string}-${time}`, JSON.stringify(pgn))
+          await cache.hsetnxAsync(`${user_data.id}-${pgn.folder}`, `${game_string}`, JSON.stringify(pgn))
             .then(async reply => {
               if (reply !== 1) {
                 cache.quit()

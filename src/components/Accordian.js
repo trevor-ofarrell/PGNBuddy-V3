@@ -4,6 +4,7 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {
   Grid,
   CircularProgress,
@@ -11,6 +12,7 @@ import {
   Divider,
 } from '@material-ui/core';
 import uuid from 'react-uuid';
+import { DeleteModal } from '../components'
 
 const Accordion = withStyles({
   root: {
@@ -91,6 +93,14 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '19px'
     }
   },
+  foldertext: {
+    color: 'white',
+    width: '90%',
+    [theme.breakpoints.up('md')]: {
+      fontSize: '19px',
+      width: '92.75%',
+    }
+  },
   nogames: {
     color: 'white',
     fontSize: '3em',
@@ -119,6 +129,9 @@ const useStyles = makeStyles((theme) => ({
   iframe: {
     width: '45vw',
     height: '45vh',
+    [theme.breakpoints.up('xl')]: {
+      width: '37vw',
+    },
     [theme.breakpoints.down('lg')]: {
       width: '52vw',
       height: '50vh',
@@ -136,6 +149,23 @@ const useStyles = makeStyles((theme) => ({
       height: '33vh',
     },
   },
+  pgncontent: {
+    [theme.breakpoints.up('xl')]: {
+      marginLeft: '5vw',
+      marginRight: '5vw',
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginLeft: '2vw',
+      marginRight: '4.5vw',
+    },
+  },
+  del: {
+    right: '5vw',
+    positon: 'sticky',
+  },
+  delModal: {
+    zIndex: '9999'
+  }
 }))
 
 export const Accordian = (props) => {
@@ -161,8 +191,9 @@ export const Accordian = (props) => {
                key={uuid()}
              >
                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                 <FolderOpenIcon style={{fill: '#ffffff', marginRight: '1.5vw', marginTop: '2px'}}/>
-                 <Typography className={classes.text}>{folder}</Typography>
+                <FolderOpenIcon style={{fill: '#ffffff', marginRight: '1.5vw', marginTop: '2px'}}/>
+                <Typography className={classes.foldertext}>{folder}</Typography>
+                <DeleteModal folderName={folder} id={props.id} className={classes.delModal}/>
                </AccordionSummary>
                <AccordionDetails>
                  <div className={classes.pgns}>
@@ -178,7 +209,7 @@ export const Accordian = (props) => {
                       <Typography className={classes.text}>{pgn.name}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Grid container>
+                      <Grid container className={classes.pgncontent}>
                         <Grid item xs={12} sm={12} md={12} lg={9} xl={6}>
                           <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
                         </Grid>
@@ -212,7 +243,6 @@ export const Accordian = (props) => {
                             <b>PGN: </b> {pgn.pgn}
                           </Typography>
                           <Divider style={{background: '#707070', marginBottom: '3em', marginTop: '3em'}}/>
-
                         </Grid>
                       </Grid>
                     </AccordionDetails>

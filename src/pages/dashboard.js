@@ -8,7 +8,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import fire from '../../fire-config';
 import {
     NavBarLoggedIn,
-    SideDrawer,
+    Dash,
 } from "../components"
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
@@ -110,7 +110,7 @@ const dashboard = (props) => {
     <div className={classes.root}>
     <NavBarLoggedIn />
       <Box className={classes.body}>
-          <SideDrawer id={props.id} email={props.email} pgns={props.pgns} folders={props.folders}/>
+          <Dash id={props.id} email={props.email} pgns={props.pgns} folders={props.folders}/>
       </Box>
   </div>
   );

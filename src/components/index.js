@@ -1,5 +1,6 @@
 export * from "./ResponsiveAppBar"
 export * from "./Accordian"
-export * from "./SideDrawer"
+export * from "./Dash"
 export * from "./Home"
 export * from "./NavBarLoggedIn"
+export * from "./DeleteModal"

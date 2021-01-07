@@ -97,12 +97,13 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "45vh",
     paddingBottom: '45vh',
     [theme.breakpoints.down('xs')]: {
-      marginLeft: '-3vw'
+      marginLeft: '-2.5vw',
+      marginRight: '-3vw'
     },
   }
 }));
 
-export const SideDrawer = (props, windows) => {
+export const Dash = (props, windows) => {
   const { window } = windows;
   const {id, email, pgns, folders} = props
   const classes = useStyles();

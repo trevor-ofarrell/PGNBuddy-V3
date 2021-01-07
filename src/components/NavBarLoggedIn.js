@@ -30,6 +30,12 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'Aldrich, sans-serif',
     display: "none",
+    WebkitTouchCallout: 'none',
+    WebkitUserSelect: 'none',
+    KhtmlUserSelect: 'none',
+    MozUserSelect: 'none',
+    MsUserSelect: 'none',
+    userSelect: 'none',
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
@@ -152,14 +158,16 @@ export const NavBarLoggedIn = () => {
         className={classes.appbar}
       >
         <Toolbar>
-          <Typography
-            className={classes.title}
-            variant="h4"
-            noWrap
-            style={{ color: "white", fontWeight: "bold" }}
-          >
-            PGNBuddy
-          </Typography>
+        <Link href='/'>
+            <Typography
+              className={classes.title}
+              variant="h4"
+              noWrap
+              style={{ color: "white", fontWeight: "bold" }}
+            >
+              PGNBuddy
+            </Typography>
+          </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <Link href='/'>

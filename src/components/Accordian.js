@@ -179,10 +179,10 @@ export const Accordian = (props) => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Grid container>
-                        <Grid item xs={12} sm={12} md={12} lg={9} xl={9}>
+                        <Grid item xs={12} sm={12} md={12} lg={9} xl={6}>
                           <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
+                        <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
                           <Typography className={classes.text}>
                             <b>Event: </b> {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
                           </Typography>

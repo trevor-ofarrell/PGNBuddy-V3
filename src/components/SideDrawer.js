@@ -45,11 +45,17 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgba(12, 12, 12, 0.875)',
       paddingRight: '1.75vw',
     },
+    [theme.breakpoints.up('xl')]: {
+      marginTop: '5vh',
+    },
   },
   content: {
     flexGrow: 1,
     marginTop: '1.5vh',
     paddingLeft: theme.spacing(1),
+    [theme.breakpoints.up('xl')]: {
+      marginTop: '0vh',
+    },
     [theme.breakpoints.down('md')]: {
       paddingLeft: theme.spacing(0),
       paddingRight: theme.spacing(0),
@@ -59,7 +65,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '1em',
     [theme.breakpoints.down('md')]: {
       paddingTop: '7vh',
-    }
+    },
+    [theme.breakpoints.up('xl')]: {
+      paddingTop: '-3.5vh',
+    },
   },
   options: {
     width: '95%',

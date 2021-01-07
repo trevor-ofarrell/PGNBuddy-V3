@@ -54,10 +54,10 @@ const useStyles = makeStyles((theme) => ({
     background: 'linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
     padding: '2em',
     [theme.breakpoints.down("md")]: {
-      fontSize: '5vh',
+      fontSize: '3.6vh',
     },
     [theme.breakpoints.down("sm")]: {
-      fontSize: '4vh',
+      fontSize: '3.6vh',
       padding: '2em',
     },
     [theme.breakpoints.down("xs")]: {

@@ -147,7 +147,7 @@ export const ResponsiveAppBar = () => {
         className={classes.appbar}
       >
         <Toolbar>
-          <Link href='/dashboard'>
+          <Link href='/'>
             <Typography
               className={classes.title}
               variant="h4"

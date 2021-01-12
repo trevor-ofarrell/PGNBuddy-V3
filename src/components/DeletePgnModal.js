@@ -28,7 +28,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '1em',
   },
   icon: {
-      marginLeft: '2vw'
+      marginLeft: '3vw',
+      [theme.breakpoints.up('xl')]: {
+        marginLeft: '2.5vw',
+      },
   },
 }));
 

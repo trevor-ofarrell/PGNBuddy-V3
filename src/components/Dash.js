@@ -158,7 +158,7 @@ export const Dash = (props, windows) => {
       <nav className={classes.drawer} aria-label="options menu">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden lgUp implementation="css">
-          <Button className={classes.menuicon} onClick={handleDrawerToggle}>
+          <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
               <MenuOpenIcon style={{fill: '#ffffff'}}/>
           </Button>
           <Drawer

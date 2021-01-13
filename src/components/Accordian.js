@@ -4,7 +4,6 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {
   Grid,
   CircularProgress,
@@ -188,14 +187,13 @@ export const Accordian = (props) => {
     return props.pgns && (
         <div className={classes.root}>
           {props.folders.length !== 0 ? props.folders.map((folder, index) => (
-             <>
+            <React.Fragment key={`folder-${uuid()}-${index}`}>
              <Accordion
                TransitionProps={{ unmountOnExit: true }}
                expanded={expandedFolder === 'panel' + String(index)}
                onChange={handleFolderChange('panel' + String(index))}
-               key={uuid()}
              >
-               <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+               <AccordionSummary aria-controls={`panel${index}a-content`} id={`panel${index}a-content`}>
                 <FolderOpenIcon style={{fill: '#ffffff', marginRight: '1.5vw', marginTop: '2px'}}/>
                 <Typography className={classes.foldertext}>{folder}</Typography>
                 <DeleteFolderModal folderName={folder} id={props.id}/>
@@ -203,14 +201,13 @@ export const Accordian = (props) => {
                <AccordionDetails>
                  <div className={classes.pgns}>
                  {props.pgns.filter((game) => { return game.folder === folder}).map((pgn, index) => (
-                  <>
+                  <React.Fragment key={`pgn-${uuid()}-${index}`}>
                   <PgnAccordion
                     TransitionProps={{ unmountOnExit: true }}
                     expanded={expandedPgn === 'panel' + String(index)}
                     onChange={handlePgnChange('panel' + String(index))}
-                    key={uuid()}
                   >
-                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                    <AccordionSummary aria-controls={`panel${index}b-content`} id={`panel${index}b-content`}>
                       <Typography className={classes.pgntext}>{pgn.name}</Typography>
                       <DeletePgnModal id={props.id} pgnId={pgn.pgn_id} folderName={folder} pgnName={pgn.name}  />
                     </AccordionSummary>
@@ -253,15 +250,15 @@ export const Accordian = (props) => {
                       </Grid>
                     </AccordionDetails>
                   </PgnAccordion>
-                </>
+                </React.Fragment>
             ))}
                  </div>
                </AccordionDetails>
              </Accordion>
-           </>
+            </React.Fragment>
             )) : <Typography className={classes.nogames}>
-                  <b>No games currently</b>
-                </Typography> }
+                <b>No games currently</b>
+              </Typography> }
         </div>
     )
 }

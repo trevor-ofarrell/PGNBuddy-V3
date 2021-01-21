@@ -227,10 +227,10 @@ export const Accordian = (props) => {
                             <b>Winner: </b> {pgn.winner}
                           </Typography>
                           <Typography className={classes.text}>
-                            <b>Black: </b> {pgn.players.black.user.name} {pgn.players.black.rating}
+                            <b>Black: </b> {pgn.black}
                           </Typography>
                           <Typography className={classes.text}>
-                            <b>White: </b> {pgn.players.white.user.name} {pgn.players.white.rating}
+                            <b>White: </b> {pgn.white}
                           </Typography>
                           <Typography className={classes.text}>
                             <b>Game status: </b> {pgn.status}

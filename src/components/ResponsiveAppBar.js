@@ -126,6 +126,13 @@ export const ResponsiveAppBar = () => {
         </Typography>
         </MenuItem>
       </Link>
+      <Link href='/login'>
+        <MenuItem>
+        <Typography variant='h6' className={classes.mobilemenutext}>
+          sign up     
+        </Typography>
+        </MenuItem>
+      </Link>
       <MenuItem
         onClick={async () => {
           window.location.href = '/login';
@@ -159,7 +166,7 @@ export const ResponsiveAppBar = () => {
           </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <Link href='/'>
+            <Link href='/'>
               <Button color="inherit" className={classes.minbutton}>
                 home
               </Button>
@@ -169,15 +176,16 @@ export const ResponsiveAppBar = () => {
                 dashboard
               </Button>
             </Link>
-            <Button
-              color="inherit"
-              className={classes.minbutton}
-              onClick={async () => {
-                window.location.href = '/login';
-              }}
-            >
-                  Log In
-            </Button>
+            <Link href='/signup'>
+              <Button color="inherit" className={classes.minbutton}>
+                sign up
+              </Button>
+            </Link>
+            <Link href='/login'>
+              <Button color="inherit" className={classes.minbutton}>
+                log in     
+              </Button>
+            </Link>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

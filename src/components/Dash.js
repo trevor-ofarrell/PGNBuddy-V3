@@ -141,11 +141,7 @@ export const Dash = (props, windows) => {
               </Button>
             </Link>
           </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Button className={classes.optionsred} onClick={clearDb}>
-                Clear Database. WARNING CANNOT UNDO
-            </Button>
-          </Grid>
+
       </Grid>
     </div>
   );

@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Login = (props) => {
+const SignUp = (props) => {
     const classes = useStyles();
     const [email, setEmail] = useState('');
+    const [lichessUsername, setLichessUser] = useState('');
     const [pass, setPass] = useState('');
     const form = useRef(null)
        
@@ -59,6 +60,19 @@ const Login = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
+                                    id="filled-password-input"
+                                    label="lichess username"
+                                    type="lichess username"
+                                    autoComplete="lichess username"
+                                    variant="filled"
+                                    className={classes.textfield}
+                                    value={lichessUsername}
+                                    onChange={(e) => setLichessUser(e.target.value)}
+                                    placeholder={'lichess user'}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} lg={12}>
+                                <TextField
                                     id="filled-password-input2"
                                     label="password"
                                     autoComplete="password"
@@ -76,11 +90,18 @@ const Login = (props) => {
                                 <Button
                                     className={classes.button}
                                     onClick={async () => {
-                                        await firebaseClient.auth().signInWithEmailAndPassword(email, pass);
+                                        const data = {
+                                            'email': email,
+                                            'username': lichessUsername
+                                        }
+                                        await fetch('/api/saveuser', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
+                                        await firebaseClient
+                                            .auth()
+                                            .createUserWithEmailAndPassword(email, pass);
                                         window.location.href = '/dashboard';
-                                      }}
+                                        }}
                                 >
-                                    Login
+                                 Create Account
                                 </Button>
                             </div>
                         </Grid>
@@ -92,4 +113,4 @@ const Login = (props) => {
     );
 }
 
-export default Login;
+export default SignUp;

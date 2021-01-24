@@ -9,14 +9,14 @@ import {
   CircularProgress,
   Typography,
   Divider,
-  Button
+  Card
 } from '@material-ui/core';
 import uuid from 'react-uuid';
 import { DeleteFolderModal, DeletePgnModal } from '../components'
 
 const Accordion = withStyles({
   root: {
-    background: 'rgba(58, 58, 58, 0.5)',
+    background: 'rgba(58, 58, 58, 0.4)',
     boxShadow: 'none',
     '&:before': {
       display: 'none',
@@ -30,7 +30,7 @@ const Accordion = withStyles({
 
 const PgnAccordion = withStyles({
   root: {
-    background: 'rgba(12,12,12, .6)',
+    background: 'rgba(12,12,12, .475)',
     boxShadow: 'none',
     '&:before': {
       display: 'none',
@@ -141,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
       width: '37vw',
     },
     [theme.breakpoints.down('lg')]: {
-      width: '52vw',
+      width: '50vw',
       height: '50vh',
     },
     [theme.breakpoints.down('md')]: {
@@ -149,12 +149,12 @@ const useStyles = makeStyles((theme) => ({
       height: '42vh',
     },
     [theme.breakpoints.down('sm')]: {
-      width: '85vw',
-      height: '45vh',
+      width: '80vw',
+      height: '42vh',
     },
     [theme.breakpoints.down('xs')]: {
       width: '80vw',
-      height: '33vh',
+      height: '32vh',
     },
   },
   pgncontent: {
@@ -165,6 +165,44 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       marginLeft: '2vw',
       marginRight: '4.5vw',
+    },
+  },
+  iframecard: {
+    background: 'rgba(16,16,16, .35)',
+    padding: '2em',
+    [theme.breakpoints.up('lg')]: {
+      marginRight: '2vw'
+    },
+    [theme.breakpoints.down('md')]: {
+      padding: '1em',
+      marginBottom: '1em',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '1em',
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: '0em',
+    },
+  },
+  pgncard: {
+    background: 'rgba(16,16,16, .35)',
+    padding: '2em',
+    [theme.breakpoints.down('md')]: {
+      padding: '1em',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '1em',
+    },
+  },
+  pgninfocard: {
+    background: 'rgba(16,16,16, .35)',
+    padding: '2em',
+    height: '100%',
+    [theme.breakpoints.down('md')]: {
+      padding: '1em',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '1em',
     },
   },
 }))
@@ -214,37 +252,61 @@ export const Accordian = (props) => {
                     <AccordionDetails>
                       <Grid container className={classes.pgncontent}>
                         <Grid item xs={12} sm={12} md={12} lg={9} xl={6}>
+                        <Card className={classes.iframecard} elevation={3}>
                           <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
+                        </Card>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
-                          <Typography className={classes.text}>
-                            <b>Event: </b> {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
-                          </Typography>
-                          <Typography className={classes.text}>
-                            <b>Variant: </b> {pgn.variant}
-                          </Typography>
-                          <Typography className={classes.text}>
-                            <b>Winner: </b> {pgn.winner}
-                          </Typography>
-                          <Typography className={classes.text}>
-                            <b>Black: </b> {pgn.black}
-                          </Typography>
-                          <Typography className={classes.text}>
-                            <b>White: </b> {pgn.white}
-                          </Typography>
-                          <Typography className={classes.text}>
-                            <b>Game status: </b> {pgn.status}
-                          </Typography>
+                          <Card className={classes.pgninfocard} elevation={3}>
+                            <Typography className={classes.text}>
+                              <b>Event: </b> {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
+                            </Typography>
+                            <Typography className={classes.text}>
+                              <b>Variant: </b> {pgn.variant}
+                            </Typography>
+                            <Typography className={classes.text}>
+                              <b>Winner: </b> {pgn.winner}
+                            </Typography>
+                            {pgn.black !== "None"
+                              ?
+                              <a href={`https://lichess.org/@/${pgn.black}`}>
+                              <Typography className={classes.text} >
+                                <b>Black: </b> {pgn.black}
+                              </Typography>
+                              </a>
+                              :
+                              <Typography className={classes.text}>
+                                <b>Black(non-player entity) </b>
+                              </Typography>
+                            }
+                             {pgn.white !== "None"
+                              ?
+                              <Typography className={classes.text} href={`lichess.org/${pgn.white}`}>
+                                <b>White: </b> {pgn.white}
+                              </Typography>
+                              :
+                              <Typography className={classes.text}>
+                                <b>White(non-player entity) </b>
+                              </Typography>
+                            }
+                            <Typography className={classes.text}>
+                              <b>Game status: </b> {pgn.status}
+                            </Typography>
+                          </Card>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                           <br/>
-                          <Typography className={classes.text}>
-                            <b>Moves: </b> {pgn.moves}
-                          </Typography>
+                          <Card className={classes.pgncard} elevation={3}>
+                            <Typography className={classes.text}>
+                              <b>Moves: </b> {pgn.moves}
+                            </Typography>
+                          </Card>
                           <br/>
-                          <Typography className={classes.text}>
-                            <b>PGN: </b> {pgn.pgn}
-                          </Typography>
+                          <Card className={classes.pgncard} elevation={3}>
+                            <Typography className={classes.text}>
+                              <b>PGN: </b> {pgn.pgn}
+                            </Typography>
+                          </Card>
                           <Divider style={{background: '#707070', marginBottom: '3em', marginTop: '3em'}}/>
                         </Grid>
                       </Grid>

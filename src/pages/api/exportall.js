@@ -73,6 +73,8 @@ async function exportAll(req, res) {
           if (!obj.players.black.user) {blackPlayer = 'None'}else {blackPlayer = `${obj.players.black.user.name} ${obj.players.black.rating}`}
           if (!obj.players.white.user) {whitePlayer = 'None'}else {whitePlayer = `${obj.players.white.user.name} ${obj.players.white.rating}`}
 
+          //TODO modify users to seperate parts again
+          
           let pgn = {
             name: `${opening} - ${obj.variant} - ${obj.speed} - id: ${obj.id}`,
             pgn_id: obj.id,

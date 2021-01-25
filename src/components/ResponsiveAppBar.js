@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   minbutton: {
+    fontFamily: 'Aldrich, sans-serif',
     color: "#FFFFFF",
     width: '100%',
     height: '100%',
@@ -56,10 +57,6 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     height: '5vh',
-  },
-  orangebutton: {
-    backgroundColor: "orange",
-    width: "100px",
   },
 }));
 

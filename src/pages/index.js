@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   section: {
     width: '100%',
-    height: '100vh',
+    height: '95vh',
   },
   page: {
     opacity: '0.85',
@@ -76,7 +76,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     fontSize: '1.8em',
     bottom: '1em',
-    color: 'white',
+    color: 'white',    
+    fontFamily: 'Aldrich, sans-serif',
     marginTop: '18vh',
     [theme.breakpoints.down("lg")]: {
     },
@@ -143,10 +144,7 @@ function App(props) {
                               </Card>
                           </Grid>
                           <Grid item xs={2} sm={2} md={3} lg={3} xl={3}>
-                            <IconButton aria-label="navigate down" className={classes.downicon}>
-                              
-                              <ArrowDownwardIcon style={{fill: '#ffffff', fontSize: '3em'}} />
-                            </IconButton>
+                            
                           </Grid>
                         </Grid>
                     </div>
@@ -171,9 +169,7 @@ function App(props) {
               </Grid>
           </Grid>
         </section>
-        <section className={classes.section}>
-
-        </section>
+ 
     </Box>
 
   );

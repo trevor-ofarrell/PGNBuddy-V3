@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   minbutton: {
+    fontFamily: 'Aldrich, sans-serif',
     color: "#FFFFFF",
   },
   appbar: {
@@ -60,12 +61,6 @@ const useStyles = makeStyles((theme) => ({
   },
   mobilemenutext: {
     padding: '.7em',
-  },
-  orangebutton: {
-    border: '2px',
-    borderColor: "white",
-    color: 'white',
-    width: "100px",
   },
 }));
 
@@ -178,7 +173,7 @@ export const NavBarLoggedIn = () => {
             </Link>
             <Button
                 color="inherit"
-                className={classes.orangebutton}
+                className={classes.minbutton}
                 onClick={async () => {
                     await firebaseClient.auth().signOut();
                     window.location.href = '/';

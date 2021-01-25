@@ -271,7 +271,7 @@ export const Accordian = (props) => {
                               ?
                               <a href={`https://lichess.org/@/${pgn.black}`}>
                               <Typography className={classes.text} >
-                                <b>Black: </b> {pgn.black}
+                                <b>Black: </b> {pgn.black} {pgn.black_rating}
                               </Typography>
                               </a>
                               :
@@ -281,9 +281,11 @@ export const Accordian = (props) => {
                             }
                              {pgn.white !== "None"
                               ?
-                              <Typography className={classes.text} href={`lichess.org/${pgn.white}`}>
-                                <b>White: </b> {pgn.white}
-                              </Typography>
+                              <a href={`https://lichess.org/@/${pgn.white}`}>
+                                <Typography className={classes.text}>
+                                  <b>White: </b> {pgn.white} {pgn.white_rating}
+                                </Typography>
+                              </a>
                               :
                               <Typography className={classes.text}>
                                 <b>White(non-player entity) </b>

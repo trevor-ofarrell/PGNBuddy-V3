@@ -5,7 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link'
 import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
-
+import redis from 'redis';
+import bluebird, { props } from 'bluebird';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,8 +45,17 @@ export const getServerSideProps = async (ctx) => {
       const cookies = nookies.get(ctx);
       const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
       const { uid, email } = token;
+      bluebird.promisifyAll(redis.RedisClient.prototype);
+      const cache = redis.createClient({
+        port: process.env.LAMBDA_REDIS_PORT,
+        host: process.env.LAMBDA_REDIS_ENDPOINT,
+        password: process.env.LAMBDA_REDIS_PW,
+      });
+      //TODO: add hash map for finding users lichess profile
+      const username = await cache.hgetAsync('users', email)
+      console.log(username)
       return {
-        props: {"id": uid, "email": email},
+        props: {"id": uid, "email": email, 'username': username},
       };
     } catch (err) {
       return {
@@ -60,10 +70,10 @@ export const getServerSideProps = async (ctx) => {
 
   const exportAll = (props) => {
     const classes = useStyles();
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState(props.username);
     const [folder, setFolder] = useState("");
-    const [start, setStart] = useState("mm/dd/yyyy");
-    const [end, setEnd] = useState("mm/dd/yyyy");
+    const [start, setStart] = useState("");
+    const [end, setEnd] = useState("");
     const form = useRef(null)
 
     const handleSubmit = async (event) => {
@@ -77,7 +87,7 @@ export const getServerSideProps = async (ctx) => {
         }
         await fetch('/api/exportall', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
             .then(async () => {
-                    return window.location.href = '/dashboard';
+                return window.location.href = '/dashboard';
             })
     }
 
@@ -96,6 +106,7 @@ export const getServerSideProps = async (ctx) => {
                                     variant="filled"
                                     className={classes.textfield}
                                     onChange={(event) => {setUsername(event.target.value)}}
+                                    defaultValue={props.username}
                                     value={username}
                                     InputLabelProps={{
                                         root: classes.label

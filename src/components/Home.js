@@ -93,7 +93,7 @@ export const Home = () => {
                                 window.location.href = '/login';
                             }}
                         >
-                            Login or create an account
+                            create an account
                         </Button>
                     </Grid>
                     <Grid item sm={1} md={2} lg={2} xl={4}/>

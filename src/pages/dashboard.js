@@ -104,7 +104,6 @@ export const getServerSideProps = async (ctx) => {
 
 const dashboard = (props) => {
   const classes = useStyles();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   return (
     <div className={classes.root}>

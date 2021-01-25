@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   minbutton: {
+    fontFamily: 'Aldrich, sans-serif',
     color: "#FFFFFF",
     width: '100%',
     height: '100%',
@@ -56,10 +57,6 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     height: '5vh',
-  },
-  orangebutton: {
-    backgroundColor: "orange",
-    width: "100px",
   },
 }));
 
@@ -159,7 +156,7 @@ export const ResponsiveAppBar = () => {
           </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <Link href='/'>
+            <Link href='/'>
               <Button color="inherit" className={classes.minbutton}>
                 home
               </Button>
@@ -169,15 +166,11 @@ export const ResponsiveAppBar = () => {
                 dashboard
               </Button>
             </Link>
-            <Button
-              color="inherit"
-              className={classes.minbutton}
-              onClick={async () => {
-                window.location.href = '/login';
-              }}
-            >
-                  Log In
-            </Button>
+            <Link href='/login'>
+              <Button color="inherit" className={classes.minbutton}>
+                log in     
+              </Button>
+            </Link>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

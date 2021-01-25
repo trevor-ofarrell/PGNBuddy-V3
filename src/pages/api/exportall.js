@@ -11,6 +11,10 @@ async function exportAll(req, res) {
       let user_data = req.body.user_data
       let opening = ""
       let winner = ""
+      let whitePlayer = ""
+      let blackPlayer = ""
+      let whiteRating = ""
+      let blackRating = ""
       let clock = {}
 
       bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -68,6 +72,15 @@ async function exportAll(req, res) {
             uploadFolder = `lichess upload ${date}`
           }
 
+          if (!obj.players.black.user) {blackPlayer = 'None'; blackRating = ''} else {
+            blackPlayer = obj.players.black.user.name
+            blackRating = obj.players.black.rating
+          }
+          if (!obj.players.white.user) {whitePlayer = 'None'; whiteRating = ''} else {
+            whitePlayer = obj.players.white.user.name
+            whiteRating = obj.players.white.rating
+          }
+          
           let pgn = {
             name: `${opening} - ${obj.variant} - ${obj.speed} - id: ${obj.id}`,
             pgn_id: obj.id,
@@ -84,7 +97,10 @@ async function exportAll(req, res) {
             winner: winner,
             opening: opening,
             clock: clock,
-            players: obj.players,
+            black: blackPlayer,
+            white:  whitePlayer,
+            black_rating: blackRating,
+            white_rating: whiteRating,
           }
 
           pgnList.push(pgn)

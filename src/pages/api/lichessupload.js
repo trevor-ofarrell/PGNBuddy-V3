@@ -34,6 +34,8 @@ async function lichessUpload(req, res) {
     let pgn_folder = req.body.folder
     let user_data = req.body.user_data
     let iframeLink = "https://lichess.org/embed/" + game_string + "?theme=wood4&bg=dark"
+    let whitePlayer = ""
+    let blackPlayer = ""
 
     let response = await axios.get(
       "https://lichess.org/game/export/" + game_string,
@@ -69,6 +71,9 @@ async function lichessUpload(req, res) {
           pgn_name = `${response.data.opening.name} - ${response.data.variant} - ${response.data.speed} - id: ${game_string}`
         }
 
+        if (!response.data.players.black.user) {blackPlayer = 'None'}else {blackPlayer = `${response.data.players.black.user.name} ${response.data.players.black.rating}`}
+        if (!response.data.players.white.user) {whitePlayer = 'None'}else {whitePlayer = `${response.data.players.white.user.name} ${response.data.players.white.rating}`}
+
         let pgn = {
           name: pgn_name,
           pgn_id: game_string,
@@ -85,10 +90,12 @@ async function lichessUpload(req, res) {
           winner: response.data.winner,
           opening: response.data.opening,
           clock: response.data.clock,
-          players: response.data.players,
+          black: blackPlayer,
+          white:  whitePlayer,
         }
 
         if (pgn) {
+          console.log(pgn.players)
           await cache.saddAsync(`${user_data.id}-folder-names`, pgn.folder)
           await cache.hsetnxAsync(`${user_data.id}-${pgn.folder}`, `${game_string}`, JSON.stringify(pgn))
             .then(async reply => {

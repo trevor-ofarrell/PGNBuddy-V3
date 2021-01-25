@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   page: {
     opacity: '0.85',
-    marginTop: '20vh',
+    marginTop: '17vh',
     [theme.breakpoints.down("md")]: {
     },
     [theme.breakpoints.down("sm")]: {
@@ -54,12 +54,12 @@ const useStyles = makeStyles((theme) => ({
   },
   home: {
     borderRadius: '8px',
-    fontFamily: 'Helvetica',
-    fontSize: '4.5vh',
+    fontFamily: 'Aldrich, sans-serif',
+    fontSize: '4.6vh',
     color: 'white',
     background: '-webkit-linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
     background: 'linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
-    padding: '2em',
+    padding: '1.8em',
     fontWeight: 'bold',
     [theme.breakpoints.down("md")]: {
       fontSize: '3.6vh',

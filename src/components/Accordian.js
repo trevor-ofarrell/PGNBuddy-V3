@@ -4,12 +4,14 @@ import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 import {
   Grid,
   CircularProgress,
   Typography,
   Divider,
-  Card
+  Card,
+  Button
 } from '@material-ui/core';
 import uuid from 'react-uuid';
 import { DeleteFolderModal, DeletePgnModal } from '../components'
@@ -196,8 +198,10 @@ const useStyles = makeStyles((theme) => ({
   },
   pgninfocard: {
     background: 'rgba(16,16,16, .35)',
-    padding: '2em',
+    padding: '1em',
+    paddingTop: '2em',
     height: '100%',
+    textAlign: 'center',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
     },
@@ -205,6 +209,14 @@ const useStyles = makeStyles((theme) => ({
       padding: '1em',
     },
   },
+  link: {
+    textDecoration: 'underline white',
+  },
+  button: {
+    color: 'white',
+    borderColor: 'white',
+    marginTop: '1vh',
+  }
 }))
 
 export const Accordian = (props) => {
@@ -269,7 +281,7 @@ export const Accordian = (props) => {
                             </Typography>
                             {pgn.black !== "None"
                               ?
-                              <a href={`https://lichess.org/@/${pgn.black}`}>
+                              <a href={`https://lichess.org/@/${pgn.black}`} className={classes.link}>
                               <Typography className={classes.text} >
                                 <b>Black: </b> {pgn.black} {pgn.black_rating}
                               </Typography>
@@ -281,7 +293,7 @@ export const Accordian = (props) => {
                             }
                              {pgn.white !== "None"
                               ?
-                              <a href={`https://lichess.org/@/${pgn.white}`}>
+                              <a href={`https://lichess.org/@/${pgn.white}`} className={classes.link}>
                                 <Typography className={classes.text}>
                                   <b>White: </b> {pgn.white} {pgn.white_rating}
                                 </Typography>
@@ -294,6 +306,15 @@ export const Accordian = (props) => {
                             <Typography className={classes.text}>
                               <b>Game status: </b> {pgn.status}
                             </Typography>
+                            <Button
+                              variant="outlined"
+                              className={classes.button}
+                              startIcon={<PostAddIcon />}
+                              onClick={() =>  navigator.clipboard.writeText(pgn.pgn)}
+                            >
+                              Copy PGN
+                            </Button>
+
                           </Card>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>

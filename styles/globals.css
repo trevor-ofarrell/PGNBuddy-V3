@@ -8,8 +8,9 @@ body {
   scrollbar-width: 40;
 }
 a {
-  color: inherit;
+  color: blue;
   text-decoration: none;
+  /* unvisited link */
 }
 
 * {

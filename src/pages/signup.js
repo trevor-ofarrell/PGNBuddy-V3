@@ -47,7 +47,7 @@ const SignUp = (props) => {
                         <Grid container>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
-                                    id="filled-password-input"
+                                    id="filled-email-input"
                                     label="email"
                                     type="email"
                                     autoComplete="email"
@@ -60,7 +60,7 @@ const SignUp = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={12} md={12} lg={12}>
                                 <TextField
-                                    id="filled-password-input"
+                                    id="filled-lichessusername-input"
                                     label="lichess username"
                                     type="lichess username"
                                     autoComplete="lichess username"

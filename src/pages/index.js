@@ -6,7 +6,8 @@ import {
   createMuiTheme,
   ThemeProvider,
   Card,
-  IconButton
+  IconButton,
+  Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import nookies from 'nookies';
@@ -19,6 +20,8 @@ import {
     Home,
     NavBarLoggedIn,
 } from "../components"
+
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,6 +104,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     display: 'block' 
+  },
+  login: {
+    color: 'white',    
+    fontFamily: 'Aldrich, sans-serif',
+    textAlign: 'center',
+    cursor: 'pointer',
   }
 }));
 
@@ -140,7 +149,7 @@ function App(props) {
                           <Grid item xs={1} sm={1} md={1} lg={1} xl={1}/>
                           <Grid item xs={9} sm={9} md={8} lg={8} xl={8}>
                               <Card className={classes.home}>
-                                  Store, view, analyze, and organize your PGN files from anywhere. On any device.
+                                Store, view, analyze, and organize your PGN files from anywhere. On any device.
                               </Card>
                           </Grid>
                           <Grid item xs={2} sm={2} md={3} lg={3} xl={3}>
@@ -161,6 +170,11 @@ function App(props) {
                           >
                             sign up
                           </Button>
+                          <Link href='/login'>
+                            <Typography className={classes.login}>
+                              Already have an account? Login
+                            </Typography>
+                          </Link>
                       </Grid>
                       <Grid item xs={1} sm={2} md={3} lg={4} xl={4}/>
                     </Grid>

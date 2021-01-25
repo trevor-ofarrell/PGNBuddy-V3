@@ -199,6 +199,7 @@ const useStyles = makeStyles((theme) => ({
   pgninfocard: {
     background: 'rgba(16,16,16, .35)',
     padding: '1em',
+    paddingTop: '2em',
     height: '100%',
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {

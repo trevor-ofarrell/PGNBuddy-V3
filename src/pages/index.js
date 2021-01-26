@@ -6,7 +6,7 @@ import {
   createMuiTheme,
   ThemeProvider,
   Card,
-  IconButton,
+  Grow,
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,9 +30,7 @@ const useStyles = makeStyles((theme) => ({
       zIndex: '0',
       alignItems: "center",
       justifyContent: "center",
-      background: '#8E2DE2',
-      background: '-webkit-linear-gradient(to right, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
-      background: 'linear-gradient(to right, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
+      background: 'rgb(10, 10, 10)',
   },
   section: {
     width: '100%',
@@ -79,7 +77,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     fontSize: '1.8em',
     bottom: '1em',
-    color: 'white',    
+    color: 'white',
+    border: '0px',
+    background: '-webkit-linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
+    background: 'linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',  
     fontFamily: 'Aldrich, sans-serif',
     marginTop: '18vh',
     [theme.breakpoints.down("lg")]: {
@@ -133,7 +134,7 @@ export const getServerSideProps = async (ctx) => {
     }
 }
 
-function App(props) {
+function App(props, inProp) {
   const classes = useStyles();
 
   return (
@@ -144,19 +145,21 @@ function App(props) {
               <Grid item xs={12} md={12} lg={12}>
                   <Box>
                   <ThemeProvider theme={theme}>
-                    <div className={classes.page}>
-                        <Grid container>
-                          <Grid item xs={1} sm={1} md={1} lg={1} xl={1}/>
-                          <Grid item xs={9} sm={9} md={8} lg={8} xl={8}>
-                              <Card className={classes.home}>
-                                Store, view, analyze, and organize your PGN files from anywhere. On any device.
-                              </Card>
+                    <Grow in={inProp}>
+                      <div className={classes.page}>
+                          <Grid container>
+                            <Grid item xs={1} sm={1} md={1} lg={1} xl={1}/>
+                            <Grid item xs={9} sm={9} md={8} lg={8} xl={8}>
+                                <Card className={classes.home}>
+                                  Store, view, analyze, and organize your PGN files from anywhere. On any device.
+                                </Card>
+                            </Grid>
+                            <Grid item xs={2} sm={2} md={3} lg={3} xl={3}>
+                              
+                            </Grid>
                           </Grid>
-                          <Grid item xs={2} sm={2} md={3} lg={3} xl={3}>
-                            
-                          </Grid>
-                        </Grid>
-                    </div>
+                      </div>
+                    </Grow>
                     <Grid container>
                       <Grid item xs={1} sm={2} md={3} lg={4} xl={4}/>
                       <Grid item xs={10} sm={8} md={6} lg={4} xl={4}>

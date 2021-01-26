@@ -18,7 +18,7 @@ import { DeleteFolderModal, DeletePgnModal } from '../components'
 
 const Accordion = withStyles({
   root: {
-    background: 'rgba(58, 58, 58, 0.4)',
+    background: 'rgb(29, 26, 24)',
     boxShadow: 'none',
     '&:before': {
       display: 'none',
@@ -32,7 +32,7 @@ const Accordion = withStyles({
 
 const PgnAccordion = withStyles({
   root: {
-    background: 'rgba(12,12,12, .475)',
+    background: 'rgb(29, 26, 24)',
     boxShadow: 'none',
     '&:before': {
       display: 'none',
@@ -46,7 +46,24 @@ const PgnAccordion = withStyles({
 
 const AccordionSummary = withStyles({
   root: {
-    backgroundColor: 'rgba(0, 0, 0, .03)',
+    background: 'rgb(49, 46, 44)',
+    marginBottom: -1,
+    minHeight: 56,
+    '&$expanded': {
+      minHeight: 56,
+    },
+  },
+  content: {
+    '&$expanded': {
+      margin: '12px 0',
+    },
+  },
+  expanded: {},
+})(MuiAccordionSummary);
+
+const PgnAccordionSummary = withStyles({
+  root: {
+    background: 'rgb(49, 46, 44)',
     marginBottom: -1,
     minHeight: 56,
     '&$expanded': {
@@ -63,8 +80,8 @@ const AccordionSummary = withStyles({
 
 const AccordionDetails = withStyles((theme) => ({
   root: {
-    padding: theme.spacing(2),
-    paddingRight: theme.spacing(0.1),
+    paddingTop: theme.spacing(2),
+    paddingRight: theme.spacing(.5),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(.8),
     }
@@ -160,17 +177,17 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   pgncontent: {
+    marginBottom: '2em',
     [theme.breakpoints.up('xl')]: {
       marginLeft: '5vw',
       marginRight: '5vw',
     },
     [theme.breakpoints.up('lg')]: {
-      marginLeft: '2vw',
-      marginRight: '4.5vw',
+      marginRight: '3vw',
     },
   },
   iframecard: {
-    background: 'rgba(16,16,16, .35)',
+    background: 'rgb(39, 36, 34)',
     padding: '2em',
     [theme.breakpoints.up('lg')]: {
       marginRight: '2vw'
@@ -187,7 +204,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   pgncard: {
-    background: 'rgba(16,16,16, .35)',
+    background: 'rgb(39, 36, 34)',
     padding: '2em',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
@@ -197,7 +214,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   pgninfocard: {
-    background: 'rgba(16,16,16, .35)',
+    background: 'rgb(39, 36, 34)',
     padding: '1em',
     paddingTop: '2em',
     height: '100%',
@@ -257,16 +274,16 @@ export const Accordian = (props) => {
                     expanded={expandedPgn === 'panel' + String(index)}
                     onChange={handlePgnChange('panel' + String(index))}
                   >
-                    <AccordionSummary aria-controls={`panel${index}b-content`} id={`panel${index}b-content`}>
+                    <PgnAccordionSummary aria-controls={`panel${index}b-content`} id={`panel${index}b-content`}>
                       <Typography className={classes.pgntext}>{pgn.name}</Typography>
                       <DeletePgnModal id={props.id} pgnId={pgn.pgn_id} folderName={folder} pgnName={pgn.name}  />
-                    </AccordionSummary>
+                    </PgnAccordionSummary>
                     <AccordionDetails>
                       <Grid container className={classes.pgncontent}>
                         <Grid item xs={12} sm={12} md={12} lg={9} xl={6}>
-                        <Card className={classes.iframecard} elevation={3}>
-                          <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
-                        </Card>
+                          <Card className={classes.iframecard} elevation={3}>
+                            <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
+                          </Card>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
                           <Card className={classes.pgninfocard} elevation={3}>
@@ -330,7 +347,6 @@ export const Accordian = (props) => {
                               <b>PGN: </b> {pgn.pgn}
                             </Typography>
                           </Card>
-                          <Divider style={{background: '#707070', marginBottom: '3em', marginTop: '3em'}}/>
                         </Grid>
                       </Grid>
                     </AccordionDetails>

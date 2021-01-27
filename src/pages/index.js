@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
   section: {
     width: '100%',
-    height: '95vh',
+    height: '95.25vh',
   },
   page: {
     marginTop: '17vh',

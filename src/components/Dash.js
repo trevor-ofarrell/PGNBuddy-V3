@@ -75,7 +75,10 @@ const useStyles = makeStyles((theme) => ({
     height: '10.14vh',
     color: 'white',
     marginBottom: '1em',
-    background: 'rgba(58,58,58, .5)',
+    background: 'rgb(59, 56, 54)',
+    '&:hover': {
+      background: 'rgb(49, 46, 44)',
+    },
     [theme.breakpoints.down('sm')]: {
       background: 'rgba(12,12,12, .7)',
       marginBottom: '0.6em',

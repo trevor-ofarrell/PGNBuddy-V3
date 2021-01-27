@@ -132,29 +132,28 @@ function App(props, inProp) {
     <Box className={classes.root}>
         { props.id && props.email ? <NavBarLoggedIn/> : <ResponsiveAppBar />}
         <section className={classes.section}>
+        <Grow
+          in={inProp}
+          style={{ transformOrigin: '2 0 -5' }}
+          {...(inProp ? { timeout: 1000 } : {})}
+        >
           <Grid container>
               <Grid item xs={12} md={12} lg={12}>
                   <Box>
                   <ThemeProvider theme={theme}>
-                    <Grow
-                      in={inProp}
-                      style={{ transformOrigin: '2 0 -5' }}
-                      {...(inProp ? { timeout: 1000 } : {})}
-                    >
-                      <div className={classes.page}>
-                          <Grid container>
-                            <Grid item xs={1} sm={1} md={1} lg={2} xl={1}/>
-                            <Grid item xs={9} sm={9} md={8} lg={8} xl={8}>
-                                <Card className={classes.home}>
-                                  Store, view, analyze, and organize your PGN files from anywhere. On any device.
-                                </Card>
-                            </Grid>
-                            <Grid item xs={2} sm={2} md={3} lg={2} xl={3}>
-                              
-                            </Grid>
+                    <div className={classes.page}>
+                        <Grid container>
+                          <Grid item xs={1} sm={1} md={1} lg={2} xl={1}/>
+                          <Grid item xs={9} sm={9} md={8} lg={8} xl={8}>
+                              <Card className={classes.home}>
+                                Store, view, analyze, and organize your PGN files from anywhere. On any device.
+                              </Card>
                           </Grid>
-                      </div>
-                    </Grow>
+                          <Grid item xs={2} sm={2} md={3} lg={2} xl={3}>
+                            
+                          </Grid>
+                        </Grid>
+                    </div>
                     <Grid container>
                       <Grid item xs={1} sm={2} md={3} lg={4} xl={4}/>
                       <Grid item xs={10} sm={8} md={6} lg={4} xl={4}>
@@ -180,8 +179,8 @@ function App(props, inProp) {
                 </Box>
               </Grid>
           </Grid>
-        </section>
- 
+        </Grow>
+      </section>
     </Box>
 
   );

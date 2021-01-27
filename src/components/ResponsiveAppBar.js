@@ -56,7 +56,10 @@ const useStyles = makeStyles((theme) => ({
     padding: '1em',
   },
   appbar: {
-    height: '5vh',
+    height: '4.75vh',
+    [theme.breakpoints.down("xs")]: {
+      height: '6vh',
+    },
   },
 }));
 

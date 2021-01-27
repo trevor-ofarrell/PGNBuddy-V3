@@ -181,8 +181,8 @@ const useStyles = makeStyles((theme) => ({
       height: '42vh',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '83vw',
-      height: '34.5vh',
+      width: '85vw',
+      height: '35.5vh',
     },
   },
   pgncontent: {
@@ -216,6 +216,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('md')]: {
       padding: '1em',
+      marginBottom: '2em',
     },
     [theme.breakpoints.down('sm')]: {
       padding: '1em',

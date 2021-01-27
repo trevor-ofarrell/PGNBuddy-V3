@@ -93,15 +93,14 @@ const PgnAccordionDetails = withStyles((theme) => ({
     paddingTop: theme.spacing(0),
     paddingRight: theme.spacing(.5),
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(.8),
+      padding: theme.spacing(.1),
     }
   },
 }))(MuiAccordionDetails);
 
- const Circle = withStyles({
+const Circle = withStyles({
   circleIndeterminate: {
-   
-  }
+}
 })(CircularProgress);
 
 const useStyles = makeStyles((theme) => ({
@@ -182,12 +181,12 @@ const useStyles = makeStyles((theme) => ({
       height: '42vh',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '80vw',
-      height: '32vh',
+      width: '83vw',
+      height: '34.5vh',
     },
   },
   pgncontent: {
-    marginBottom: '2em',
+    marginBottom: '0em',
     marginTop: '2em',
     [theme.breakpoints.up('xl')]: {
       marginLeft: '1vw',
@@ -196,11 +195,22 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       marginRight: '3vw',
     },
+    [theme.breakpoints.down('md')]: {
+      marginLeft: '-1vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '-1.5vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1em',
+      marginBottom: '1em',
+      marginLeft: '0.2vw',
+
+    },
   },
   iframecard: {
     background: 'rgb(49, 46, 44)',
     padding: '2em',
-
     [theme.breakpoints.up('lg')]: {
       marginRight: '2vw'
     },
@@ -212,6 +222,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       padding: '0em',
+      marginBottom: '1em',
     },
   },
   pgncard: {
@@ -224,6 +235,10 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       padding: '1em',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1em',
+      marginBottom: '1em',
     },
   },
   pgninfocard: {

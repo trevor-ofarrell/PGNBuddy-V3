@@ -58,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     height: '5vh',
+    [theme.breakpoints.down("xs")]: {
+      height: '6.1vh',
+    },
   },
   mobilemenutext: {
     padding: '.7em',

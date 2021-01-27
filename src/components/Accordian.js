@@ -46,7 +46,7 @@ const PgnAccordion = withStyles({
 
 const AccordionSummary = withStyles({
   root: {
-    background: 'rgb(49, 46, 44)',
+    background: 'rgb(59, 56, 54)',
     marginBottom: -1,
     minHeight: 56,
     '&$expanded': {
@@ -81,6 +81,16 @@ const PgnAccordionSummary = withStyles({
 const AccordionDetails = withStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(2),
+    paddingRight: theme.spacing(.5),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(.8),
+    }
+  },
+}))(MuiAccordionDetails);
+
+const PgnAccordionDetails = withStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(0),
     paddingRight: theme.spacing(.5),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(.8),
@@ -178,6 +188,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pgncontent: {
     marginBottom: '2em',
+    marginTop: '2em',
     [theme.breakpoints.up('xl')]: {
       marginLeft: '1vw',
       marginRight: '1vw',
@@ -187,7 +198,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   iframecard: {
-    background: 'rgb(39, 36, 34)',
+    background: 'rgb(49, 46, 44)',
     padding: '2em',
 
     [theme.breakpoints.up('lg')]: {
@@ -204,7 +215,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   pgncard: {
-    background: 'rgb(39, 36, 34)',
+    background: 'rgb(49, 46, 44)',
     padding: '2em',
     marginTop: '2em',
     marginBottom: '2em',
@@ -216,7 +227,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   pgninfocard: {
-    background: 'rgb(39, 36, 34)',
+    background: 'rgb(49, 46, 44)',
     padding: '1em',
     paddingTop: '2em',
     height: '100%',
@@ -280,15 +291,15 @@ export const Accordian = (props) => {
                       <Typography className={classes.pgntext}>{pgn.name}</Typography>
                       <DeletePgnModal id={props.id} pgnId={pgn.pgn_id} folderName={folder} pgnName={pgn.name}  />
                     </PgnAccordionSummary>
-                    <AccordionDetails>
+                    <PgnAccordionDetails>
                       <Grid container className={classes.pgncontent}>
                         <Grid item xs={12} sm={12} md={12} lg={9} xl={6}>
-                          <Card className={classes.iframecard} elevation={3}>
+                          <Card className={classes.iframecard} elevation={0}>
                             <iframe src={pgn.iframe} loading="lazy" className={classes.iframe} frameBorder="0"/>
                           </Card>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
-                          <Card className={classes.pgninfocard} elevation={3}>
+                          <Card className={classes.pgninfocard} elevation={0}>
                             <Typography className={classes.text}>
                               <b>Event: </b> {pgn.rated == true ? "Rated" : "Unrated"} {pgn.speed} game
                             </Typography>
@@ -337,19 +348,19 @@ export const Accordian = (props) => {
                           </Card>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                          <Card className={classes.pgncard} elevation={3}>
+                          <Card className={classes.pgncard} elevation={0}>
                             <Typography className={classes.text}>
                               <b>Moves: </b> {pgn.moves}
                             </Typography>
                           </Card>
-                          <Card className={classes.pgncard} elevation={3}>
+                          <Card className={classes.pgncard} elevation={0}>
                             <Typography className={classes.text}>
                               <b>PGN: </b> {pgn.pgn}
                             </Typography>
                           </Card>
                         </Grid>
                       </Grid>
-                    </AccordionDetails>
+                    </PgnAccordionDetails>
                   </PgnAccordion>
                 </React.Fragment>
             ))}

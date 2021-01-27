@@ -5,7 +5,7 @@ import { firebaseClient } from '../../firebaseClient';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        background: 'rgb(39, 36, 33)',
+        background: 'rgb(29, 26, 24)',
         height: '100vh',
     },
     mask: {

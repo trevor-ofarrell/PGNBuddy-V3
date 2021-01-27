@@ -30,14 +30,13 @@ const useStyles = makeStyles((theme) => ({
       zIndex: '0',
       alignItems: "center",
       justifyContent: "center",
-      background: 'rgb(10, 10, 10)',
-  },
+      background: 'rgb(19, 16, 14)',
+    },
   section: {
     width: '100%',
     height: '95vh',
   },
   page: {
-    opacity: '0.85',
     marginTop: '17vh',
     [theme.breakpoints.down("md")]: {
     },
@@ -55,10 +54,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Aldrich, sans-serif',
     fontSize: '4.6vh',
     color: 'white',
-    background: '-webkit-linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
-    background: 'linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
     padding: '1.8em',
     fontWeight: 'bold',
+    background: 'radial-gradient(100% 225% at 100% 0%, #FF0000 0%, #000000 100%), linear-gradient(236deg, #00C2FF 0%, #000000 100%), linear-gradient(135deg, #CDFFEB 0%, #CDFFEB 36%, #009F9D 36%, #009F9D 60%, #07456F 60%, #07456F 67%, #0F0A3C 67%, #0F0A3C 100%)',
+    backgroundBlendMode: 'overlay, hard-light, normal',
     [theme.breakpoints.down("md")]: {
       fontSize: '3.6vh',
     },
@@ -79,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
     bottom: '1em',
     color: 'white',
     border: '0px',
-    background: '-webkit-linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',
-    background: 'linear-gradient(to right, rgb(74, 0, 224, 0.4), rgb(142, 45, 226, 0.5))',  
+    background: 'radial-gradient(100% 225% at 0% 0%, #DE3E3E 0%, #17115C 100%), radial-gradient(100% 225% at 100% 0%, #FF9040 0%, #FF0000 100%), linear-gradient(180deg, #CE63B7 0%, #ED6283 100%), radial-gradient(100% 120% at 75% 0%, #A74600 0%, #000000 100%), linear-gradient(310deg, #0063D8 0%, #16009A 50%)',
+    backgroundBlendMode: 'overlay, color-dodge, color-burn, color-dodge, normal',
     fontFamily: 'Aldrich, sans-serif',
     marginTop: '18vh',
     [theme.breakpoints.down("lg")]: {
@@ -97,14 +96,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '0.8em',
       bottom: '1em',
     },
-  },
-  downicon: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '15vh',
-    justifyContent: 'center',
-    alignItems: 'center',
-    display: 'block' 
   },
   login: {
     color: 'white',    
@@ -145,16 +136,20 @@ function App(props, inProp) {
               <Grid item xs={12} md={12} lg={12}>
                   <Box>
                   <ThemeProvider theme={theme}>
-                    <Grow in={inProp}>
+                    <Grow
+                      in={inProp}
+                      style={{ transformOrigin: '2 0 -5' }}
+                      {...(inProp ? { timeout: 1000 } : {})}
+                    >
                       <div className={classes.page}>
                           <Grid container>
-                            <Grid item xs={1} sm={1} md={1} lg={1} xl={1}/>
+                            <Grid item xs={1} sm={1} md={1} lg={2} xl={1}/>
                             <Grid item xs={9} sm={9} md={8} lg={8} xl={8}>
                                 <Card className={classes.home}>
                                   Store, view, analyze, and organize your PGN files from anywhere. On any device.
                                 </Card>
                             </Grid>
-                            <Grid item xs={2} sm={2} md={3} lg={3} xl={3}>
+                            <Grid item xs={2} sm={2} md={3} lg={2} xl={3}>
                               
                             </Grid>
                           </Grid>

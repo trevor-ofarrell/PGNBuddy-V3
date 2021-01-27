@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     width: '100vw',
     background: 'rgb(29, 26, 24)',
-    backgroundSize: "cover",
-    backgroundPosition: "center", 
   },
   body: {
     zIndex: '0',

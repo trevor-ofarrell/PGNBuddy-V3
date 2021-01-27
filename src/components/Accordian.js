@@ -179,8 +179,8 @@ const useStyles = makeStyles((theme) => ({
   pgncontent: {
     marginBottom: '2em',
     [theme.breakpoints.up('xl')]: {
-      marginLeft: '5vw',
-      marginRight: '5vw',
+      marginLeft: '1vw',
+      marginRight: '1vw',
     },
     [theme.breakpoints.up('lg')]: {
       marginRight: '3vw',
@@ -189,12 +189,12 @@ const useStyles = makeStyles((theme) => ({
   iframecard: {
     background: 'rgb(39, 36, 34)',
     padding: '2em',
+
     [theme.breakpoints.up('lg')]: {
       marginRight: '2vw'
     },
     [theme.breakpoints.down('md')]: {
       padding: '1em',
-      marginBottom: '1em',
     },
     [theme.breakpoints.down('sm')]: {
       padding: '1em',
@@ -206,6 +206,8 @@ const useStyles = makeStyles((theme) => ({
   pgncard: {
     background: 'rgb(39, 36, 34)',
     padding: '2em',
+    marginTop: '2em',
+    marginBottom: '2em',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
     },
@@ -335,13 +337,11 @@ export const Accordian = (props) => {
                           </Card>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                          <br/>
                           <Card className={classes.pgncard} elevation={3}>
                             <Typography className={classes.text}>
                               <b>Moves: </b> {pgn.moves}
                             </Typography>
                           </Card>
-                          <br/>
                           <Card className={classes.pgncard} elevation={3}>
                             <Typography className={classes.text}>
                               <b>PGN: </b> {pgn.pgn}

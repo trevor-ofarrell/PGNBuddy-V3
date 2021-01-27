@@ -10,11 +10,7 @@ import bluebird, { props } from 'bluebird';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        background: '#8E2DE2',
-        background: '-webkit-linear-gradient(to left, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
-        background: 'linear-gradient(to left, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
-        backgroundSize: "cover",
-        backgroundPosition: "center", 
+        background: 'rgb(29, 26, 24)',
         height: '100vh',
     },
     mask: {

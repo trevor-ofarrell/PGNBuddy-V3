@@ -5,12 +5,7 @@ import { firebaseClient } from '../../firebaseClient';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        background: '#8E2DE2',
-        background: '-webkit-linear-gradient(to right, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
-        background: 'linear-gradient(to right, rgb(74, 0, 224, 0.7), rgb(142, 45, 226, 0.7)), url("/darkbg.png")',
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        background: 'rgb(29, 26, 24)',
         height: '100vh',
     },
     mask: {

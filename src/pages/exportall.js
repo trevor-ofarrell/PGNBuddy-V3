@@ -7,6 +7,9 @@ import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
 import redis from 'redis';
 import bluebird, { props } from 'bluebird';
+import {
+    NavBarLoggedIn,
+} from "../components"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
     },
     mask: {
         width: '100vw',
-        height: '100vh',
+        height: '100%',
     },
     card: {
-        marginTop: '40vh',
+        marginTop: '34vh',
         background: 'linear-gradient(180deg, rgba(120, 120, 120, 0.562) 20%, rgba(83, 83, 83, 0.814) 62%, rgba(30, 30, 30, 0.958) 90%)',
     },
     textfield: {
@@ -88,7 +91,9 @@ export const getServerSideProps = async (ctx) => {
     }
 
     return (
-        <form ref={form} className={classes.root}>
+        <section className={classes.root}>
+        <NavBarLoggedIn />
+        <form ref={form} >
             <Grid container className={classes.mask}>
                 <Grid item xs={1} sm={1} md={3} lg={4}/>
                 <Grid item xs={10} sm={10} md={6} lg={4}>
@@ -166,6 +171,7 @@ export const getServerSideProps = async (ctx) => {
                 <Grid item xs={1} sm={1} md={3} lg={4}/>
             </Grid>
         </form>
+        </section>
     );
 }
 

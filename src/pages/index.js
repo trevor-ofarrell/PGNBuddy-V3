@@ -125,7 +125,7 @@ export const getServerSideProps = async (ctx) => {
     }
 }
 
-function App(props, inProp) {
+function App(props, inProp=true) {
   const classes = useStyles();
 
   return (
@@ -133,7 +133,7 @@ function App(props, inProp) {
         { props.id && props.email ? <NavBarLoggedIn/> : <ResponsiveAppBar />}
         <section className={classes.section}>
         <Grow
-          in={inProp}
+          in={true}
           style={{ transformOrigin: '2 0 -5' }}
           {...(inProp ? { timeout: 1000 } : {})}
         >

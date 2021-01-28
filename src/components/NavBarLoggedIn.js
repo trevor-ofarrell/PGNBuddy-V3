@@ -13,12 +13,20 @@ import {
   AppBar,
   Button,
   Toolbar,
+  Hidden,
+  Grid,
+  Drawer,
+  useTheme
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { firebaseClient } from '../../firebaseClient';
 
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+
 import Link from "next/link"
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -59,11 +67,58 @@ const useStyles = makeStyles((theme) => ({
   appbar: {
     height: '4.75vh',
     [theme.breakpoints.down("xs")]: {
-      height: '6vh',
+      height: '6.25vh',
     },
   },
   mobilemenutext: {
     padding: '.7em',
+  },
+  menuicon: {
+    paddingTop: "45vh",
+    paddingBottom: '45vh',
+    [theme.breakpoints.down('xs')]: {
+      marginLeft: '-2.5vw',
+      marginRight: '-3vw'
+    },
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    marginTop: '6.5vh',
+    background: 'transparent',
+    border: 'none',
+    boxShadow: 'none',
+    [theme.breakpoints.down('md')]: {
+      marginTop: '0vh',
+      backgroundColor: 'rgba(12, 12, 12, 0.875)',
+      paddingRight: '1.75vw',
+    },
+    [theme.breakpoints.up('xl')]: {
+      marginTop: '5vh',
+    },
+  },
+  sidedrawer: {
+    marginLeft: '1em',
+    [theme.breakpoints.down('md')]: {
+      paddingTop: '7vh',
+    },
+    [theme.breakpoints.up('xl')]: {
+      paddingTop: '-3.5vh',
+    },
+  },
+  options: {
+    width: '95%',
+    height: '10.14vh',
+    color: 'white',
+    marginBottom: '1em',
+    background: 'rgb(59, 56, 54)',
+    '&:hover': {
+      background: 'rgb(49, 46, 44)',
+    },
+    [theme.breakpoints.down('sm')]: {
+      background: 'rgba(12,12,12, .7)',
+      marginBottom: '0.6em',
+      width: '100%',
+    }
   },
 }));
 
@@ -71,9 +126,11 @@ export const NavBarLoggedIn = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const theme = useTheme();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -86,6 +143,10 @@ export const NavBarLoggedIn = () => {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
   const menuId = "primary-search-account-menu";
@@ -143,6 +204,28 @@ export const NavBarLoggedIn = () => {
     </Menu>
   );
 
+  const drawer = (
+    <div className={classes.sidedrawer}>
+      <Grid container>
+          <Grid item xs={12} sm={12} lg={12}>
+            <Link href="/exportpgn">
+              <Button className={classes.options} >
+                  Export PGN from Lichess
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+          <Link href="/exportall">
+              <Button className={classes.options}>
+                  Export PGNs by date (100 game limit per request)
+              </Button>
+            </Link>
+          </Grid>
+
+      </Grid>
+    </div>
+  );
+
   return (
     <div className={classes.grow}>
       <AppBar
@@ -152,16 +235,45 @@ export const NavBarLoggedIn = () => {
         className={classes.appbar}
       >
         <Toolbar>
-        <Link href='/'>
-            <Typography
-              className={classes.title}
-              variant="h4"
-              noWrap
-              style={{ color: "white", fontWeight: "bold" }}
+          <Hidden smUp>
+            <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
+                <MenuOpenIcon style={{fill: '#ffffff'}}/>
+            </Button>
+            <Drawer
+              variant="temporary"
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
             >
-              PGNBuddy
-            </Typography>
-          </Link>
+              {drawer}
+            </Drawer>
+            <Link href='/'>
+                <Typography
+                  className={classes.title}
+                  variant="h4"
+                  noWrap
+                  style={{ color: "white", fontWeight: "bold" }}
+                >
+                  PGNBuddy
+                </Typography>
+              </Link>
+          </Hidden>
+          <Link href='/'>
+                <Typography
+                  className={classes.title}
+                  variant="h4"
+                  noWrap
+                  style={{ color: "white", fontWeight: "bold" }}
+                >
+                  PGNBuddy
+                </Typography>
+              </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <Link href='/'>

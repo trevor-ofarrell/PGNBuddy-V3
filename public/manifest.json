@@ -4,19 +4,19 @@
     "backgroundcolor": "#000000",
     "icons": [
       {
-        "src": "/chrome/chrome-extensionmanagementpage-48-48.png",
+        "src": "chrome-extensionmanagementpage-48-48.png",
         "sizes": "48x48"
       },
       {
-        "src": "/chrome/chrome-favicon-16-16.png",
+        "src": "chrome-favicon-16-16.png",
         "sizes": "16x16"
       },
       {
-        "src": "/chrome/chrome-installprocess-128-128.png",
+        "src": "chrome-installprocess-128-128.png",
         "sizes": "128x128"
       },
       {
-        "src": "/chrome/pwaicon-144-144.png",
+        "src": "pwaicon-144-144.png",
         "sizes": "144x144"
       }
     ],

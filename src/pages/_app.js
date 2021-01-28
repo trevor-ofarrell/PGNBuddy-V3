@@ -25,6 +25,7 @@ export default function SaveApp(props) {
     <AuthProvider>
       <React.Fragment>
         <Head>
+          <link rel="shortcut icon" href="/chrome-extensionmanagementpage-48-48.png" />
           <title>PGNBuddy</title>
           <meta
             name="viewport"

@@ -182,7 +182,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       width: '95.5vw',
-      height: '35.5vh',
+      height: '32.25vh',
     },
   },
   pgncontent: {

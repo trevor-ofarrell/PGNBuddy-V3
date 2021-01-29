@@ -1,10 +1,10 @@
-import React from "react";
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 // Material UI
 import {
   makeStyles,
-} from "@material-ui/core/styles";
+} from '@material-ui/core/styles';
 
 import {
   MenuItem,
@@ -14,7 +14,7 @@ import {
   AppBar,
   Button,
   Toolbar,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 // Material icons
 import MenuIcon from '@material-ui/icons/Menu';
@@ -29,25 +29,25 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'Aldrich, sans-serif',
     display: 'none',
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
     },
   },
   sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
   sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
     },
   },
   minbutton: {
     fontFamily: 'Aldrich, sans-serif',
-    color: "#FFFFFF",
+    color: '#FFFFFF',
     width: '100%',
     height: '100%',
     padding: '1em',
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appbar: {
     height: '4.75vh',
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xs')]: {
       height: '6vh',
     },
   },
@@ -84,46 +84,44 @@ export const ResponsiveAppBar = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = "primary-search-account-menu";
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem>
-
-      </MenuItem>
+      <MenuItem />
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <Link href='/'>
+      <Link href="/">
         <MenuItem>
-          <Typography variant='h6' className={classes.mobilemenutext}>
+          <Typography variant="h6" className={classes.mobilemenutext}>
             Home
           </Typography>
         </MenuItem>
       </Link>
-      <Link href='/dashboard'>
+      <Link href="/dashboard">
         <MenuItem>
-        <Typography variant='h6' className={classes.mobilemenutext}>
-          Dashboard          
-        </Typography>
+          <Typography variant="h6" className={classes.mobilemenutext}>
+            DasPhboard
+          </Typography>
         </MenuItem>
       </Link>
       <MenuItem
@@ -131,10 +129,10 @@ export const ResponsiveAppBar = () => {
           window.location.href = '/login';
         }}
       >
-          <Typography variant='h6' className={classes.mobilemenutext}>
-            Login
-          </Typography>
-      </MenuItem>           
+        <Typography variant="h6" className={classes.mobilemenutext}>
+          Login
+        </Typography>
+      </MenuItem>
     </Menu>
   );
 
@@ -147,31 +145,31 @@ export const ResponsiveAppBar = () => {
         className={classes.appbar}
       >
         <Toolbar>
-          <Link href='/'>
+          <Link href="/">
             <Typography
               className={classes.title}
               variant="h4"
               noWrap
-              style={{ color: "white", fontWeight: "bold" }}
+              style={{ color: 'white', fontWeight: 'bold' }}
             >
               PGNBuddy
             </Typography>
           </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Link href='/'>
+            <Link href="/">
               <Button color="inherit" className={classes.minbutton}>
                 home
               </Button>
             </Link>
-            <Link href='/dashboard'>
+            <Link href="/dashboard">
               <Button color="inherit" className={classes.minbutton}>
                 dashboard
               </Button>
             </Link>
-            <Link href='/login'>
+            <Link href="/login">
               <Button color="inherit" className={classes.minbutton}>
-                log in     
+                log in
               </Button>
             </Link>
           </div>
@@ -182,7 +180,7 @@ export const ResponsiveAppBar = () => {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
             >
-              <MenuIcon style={{fill: '#ffffff'}} />
+              <MenuIcon style={{ fill: '#ffffff' }} />
             </IconButton>
           </div>
         </Toolbar>

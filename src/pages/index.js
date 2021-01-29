@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Grid,
   Box,
@@ -7,43 +7,39 @@ import {
   ThemeProvider,
   Card,
   Grow,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import nookies from 'nookies';
+import Link from 'next/link';
 import { firebaseAdmin } from '../../firebaseAdmin';
 
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-
 import {
-    ResponsiveAppBar,
-    Home,
-    NavBarLoggedIn,
-} from "../components"
-
-import Link from "next/link";
+  ResponsiveAppBar,
+  NavBarLoggedIn,
+} from '../components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-      backgroundSize: "cover",
-      backgroundPosition: "center",        
-      zIndex: '0',
-      alignItems: "center",
-      justifyContent: "center",
-      background: 'rgb(19, 16, 14)',
-    },
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    zIndex: '0',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'rgb(19, 16, 14)',
+  },
   section: {
     width: '100%',
     height: '95.25vh',
   },
   page: {
     marginTop: '17vh',
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('md')]: {
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       marginTop: '5vh',
     },
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xs')]: {
       marginTop: '5vh',
       height: '50vh',
 
@@ -58,18 +54,18 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     background: 'radial-gradient(100% 225% at 100% 0%, #FF0000 0%, #000000 100%), linear-gradient(236deg, #00C2FF 0%, #000000 100%), linear-gradient(135deg, #CDFFEB 0%, #CDFFEB 36%, #009F9D 36%, #009F9D 60%, #07456F 60%, #07456F 67%, #0F0A3C 67%, #0F0A3C 100%)',
     backgroundBlendMode: 'overlay, hard-light, normal',
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('md')]: {
       fontSize: '3.6vh',
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       fontSize: '3.6vh',
       padding: '2em',
     },
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xs')]: {
       fontSize: '3.4vh',
       padding: '2em',
     },
-    
+
   },
   cta: {
     padding: '1.2em',
@@ -82,102 +78,98 @@ const useStyles = makeStyles((theme) => ({
     backgroundBlendMode: 'overlay, color-dodge, color-burn, color-dodge, normal',
     fontFamily: 'Aldrich, sans-serif',
     marginTop: '18vh',
-    [theme.breakpoints.down("lg")]: {
+    [theme.breakpoints.down('lg')]: {
     },
-    [theme.breakpoints.down("md")]: {
-        bottom: '1em',
+    [theme.breakpoints.down('md')]: {
+      bottom: '1em',
     },
-    [theme.breakpoints.down("sm")]: {
-        fontSize: '1.2em',
-        bottom: '1em',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '1.2em',
+      bottom: '1em',
     },
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xs')]: {
       marginTop: '18vh',
       fontSize: '0.8em',
       bottom: '1em',
     },
   },
   login: {
-    color: 'white',    
+    color: 'white',
     fontFamily: 'Aldrich, sans-serif',
     textAlign: 'center',
     cursor: 'pointer',
-  }
+  },
 }));
 
 const theme = createMuiTheme({
   palette: {
-    primary: {main: '#FFFFFF'},
+    primary: { main: '#FFFFFF' },
   },
 });
 
 export const getServerSideProps = async (ctx) => {
-    let props = {}
-    const cookies = nookies.get(ctx);
-    try {
-      const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
-      const { uid, email } = token;
-      props = {"id": uid, "email": email}
-      return {props: {"id": uid, "email": email}}
-    } catch (error) {
-      props = {}
-      return {props: {}}
-    }
-}
+  const cookies = nookies.get(ctx);
+  try {
+    const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+    const { uid, email } = token;
+    return { props: { id: uid, email } };
+  } catch (error) {
+    return { props: {} };
+  }
+};
 
-function App(props, inProp=true) {
+function App(props, inProp = true) {
   const classes = useStyles();
+  const { id, email } = props;
 
   return (
     <Box className={classes.root}>
-        { props.id && props.email ? <NavBarLoggedIn/> : <ResponsiveAppBar />}
-        <section className={classes.section}>
+      { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
+      <section className={classes.section}>
         <Grow
-          in={true}
+          in
           style={{ transformOrigin: '2 0 -5' }}
           {...(inProp ? { timeout: 1000 } : {})}
         >
           <Grid container>
-              <Grid item xs={12} md={12} lg={12}>
-                  <Box>
-                  <ThemeProvider theme={theme}>
-                    <div className={classes.page}>
-                        <Grid container>
-                          <Grid item xs={1} sm={1} md={2} lg={2} xl={2}/>
-                          <Grid item xs={10} sm={10} md={8} lg={8} xl={8}>
-                              <Card className={classes.home}>
-                                Store, view, analyze, and organize your PGN files from anywhere. On any device.
-                              </Card>
-                          </Grid>
-                          <Grid item xs={1} sm={1} md={2} lg={2} xl={2}>
-                            
-                          </Grid>
-                        </Grid>
-                    </div>
+            <Grid item xs={12} md={12} lg={12}>
+              <Box>
+                <ThemeProvider theme={theme}>
+                  <div className={classes.page}>
                     <Grid container>
-                      <Grid item xs={1} sm={2} md={3} lg={4} xl={4}/>
-                      <Grid item xs={10} sm={8} md={6} lg={4} xl={4}>
-                      <Button
-                              variant="outlined"
-                              color="primary"
-                              className={classes.cta}
-                              onClick={async () => {
-                                  window.location.href = '/signup';
-                              }}
-                          >
-                            sign up
-                          </Button>
-                          <Link href='/login'>
-                            <Typography className={classes.login}>
-                              Already have an account? Login
-                            </Typography>
-                          </Link>
+                      <Grid item xs={1} sm={1} md={2} lg={2} xl={2} />
+                      <Grid item xs={10} sm={10} md={8} lg={8} xl={8}>
+                        <Card className={classes.home}>
+                          Store, view, analyze, and organize your PGN files from anywhere. On any device.
+                        </Card>
                       </Grid>
-                      <Grid item xs={1} sm={2} md={3} lg={4} xl={4}/>
+                      <Grid item xs={1} sm={1} md={2} lg={2} xl={2} />
                     </Grid>
-                  </ThemeProvider>
-                </Box>
-              </Grid>
+                  </div>
+                  <Grid container>
+                    <Grid item xs={1} sm={2} md={3} lg={4} xl={4} />
+                    <Grid item xs={10} sm={8} md={6} lg={4} xl={4}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        className={classes.cta}
+                        onClick={async () => {
+                          window.location.href = '/signup';
+                        }}
+                      >
+                        sign up
+                      </Button>
+                      <Link href="/login">
+                        <Typography className={classes.login}>
+                          Already have an account? Login
+                        </Typography>
+                      </Link>
+                    </Grid>
+                    <Grid item xs={1} sm={2} md={3} lg={4} xl={4} />
+                  </Grid>
+                </ThemeProvider>
+              </Box>
+            </Grid>
           </Grid>
         </Grow>
       </section>

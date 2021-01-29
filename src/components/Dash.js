@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   CssBaseline,
   Drawer,
@@ -9,10 +9,9 @@ import {
   Grid,
 } from '@material-ui/core';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-import {Accordian} from './Accordian'
-import { useRouter } from 'next/router'
 
-import Link from 'next/link'
+import Link from 'next/link';
+import { Accordian } from './Accordian';
 
 const drawerWidth = 240;
 
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
       flexShrink: 0,
       maxHeight: '94vh',
-      marginTop: '8vh'
+      marginTop: '8vh',
     },
   },
   menuButton: {
@@ -83,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
       background: 'rgba(12,12,12, .7)',
       marginBottom: '0.6em',
       width: '100%',
-    }
+    },
   },
   optionsred: {
     width: '95%',
@@ -94,56 +93,47 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       marginBottom: '0.6em',
       width: '100%',
-    }
-},
+    },
+  },
   menuicon: {
-    paddingTop: "45vh",
+    paddingTop: '45vh',
     paddingBottom: '45vh',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '-2.5vw',
-      marginRight: '-3vw'
+      marginRight: '-3vw',
     },
-  }
+  },
 }));
 
 export const Dash = (props, windows) => {
   const { window } = windows;
-  const {id, email, pgns, folders} = props
+  const {
+    id, email, pgns, folders,
+  } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const router = useRouter()
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const clearDb = async (event) => {
-    event.preventDefault();
-    const data = {
-      'collectionPath': `${props.id}`,
-    }
-    await fetch('/api/deletepgns', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
-    router.reload()
-  }
-
   const drawer = (
     <div className={classes.sidedrawer}>
       <Grid container>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Link href="/exportpgn">
-              <Button className={classes.options} >
-                  Export PGN from Lichess
-              </Button>
-            </Link>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
+        <Grid item xs={12} sm={12} lg={12}>
+          <Link href="/exportpgn">
+            <Button className={classes.options}>
+              Export PGN from Lichess
+            </Button>
+          </Link>
+        </Grid>
+        <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
-              <Button className={classes.options}>
-                  Export PGNs by date (100 game limit per request)
-              </Button>
-            </Link>
-          </Grid>
+            <Button className={classes.options}>
+              Export PGNs by date (100 game limit per request)
+            </Button>
+          </Link>
+        </Grid>
 
       </Grid>
     </div>
@@ -158,7 +148,7 @@ export const Dash = (props, windows) => {
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden lgUp implementation="css">
           <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
-              <MenuOpenIcon style={{fill: '#ffffff'}}/>
+            <MenuOpenIcon style={{ fill: '#ffffff' }} />
           </Button>
           <Drawer
             container={container}
@@ -189,8 +179,8 @@ export const Dash = (props, windows) => {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <Accordian id={id} email={email} pgns={pgns} folders={folders}/>
+        <Accordian id={id} email={email} pgns={pgns} folders={folders} />
       </main>
     </div>
   );
-}
+};

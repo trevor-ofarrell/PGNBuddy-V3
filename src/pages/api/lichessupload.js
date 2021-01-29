@@ -1,119 +1,114 @@
-const axios = require('axios');
 import redis from 'redis';
-import bluebird, { props } from 'bluebird';
+import bluebird from 'bluebird';
+
+const axios = require('axios');
 
 async function lichessUpload(req, res) {
   if (req.method === 'POST') {
-    let pgn_name = req.body.name    
-    let game_string = req.body.game_string
-    console.log([pgn_name, game_string])
-    console.log(game_string.slice(0,7))
+    let pgnName = req.body.name;
+    let { gameString } = req.body;
+    console.log([pgnName, gameString]);
+    console.log(gameString.slice(0, 7));
 
-    if (game_string.slice(0,7) == 'lichess') {
-      game_string = game_string.slice(12)
-      console.log("game string 1" + game_string)
+    if (gameString.slice(0, 7) == 'lichess') {
+      gameString = gameString.slice(12);
+      console.log(`game string 1${gameString}`);
+    } else if (gameString.slice(0, 5) == 'https') {
+      console.log(gameString.slice(20));
+      gameString = gameString.slice(20);
+      console.log(`game string 2${gameString}`);
+    } else if (gameString.slice(0, 5) == 'http:') {
+      console.log(gameString.slice(19));
+      gameString = gameString.slice(19);
+      console.log(`game string 3${gameString}`);
     }
 
-    else if (game_string.slice(0,5) == 'https') {
-      console.log(game_string.slice(20))
-      game_string = game_string.slice(20)
-      console.log("game string 2" + game_string)
+    if (gameString.length !== 8) {
+      gameString = gameString.slice(0, 8);
+      console.log(`game string 4${gameString}`);
     }
 
-    else if (game_string.slice(0,5) == 'http:') {
-      console.log(game_string.slice(19))
-      game_string = game_string.slice(19)
-      console.log("game string 3" + game_string)
-    }
+    let pgnFolder = req.body.folder;
+    const { userData } = req.body;
+    const iframeLink = `https://lichess.org/embed/${gameString}?theme=wood4&bg=dark`;
+    let whitePlayer = '';
+    let blackPlayer = '';
 
-    if (game_string.length !== 8) {
-      game_string = game_string.slice(0,8)
-      console.log("game string 4" + game_string)
-    }
-
-    let pgn_folder = req.body.folder
-    let user_data = req.body.user_data
-    let iframeLink = "https://lichess.org/embed/" + game_string + "?theme=wood4&bg=dark"
-    let whitePlayer = ""
-    let blackPlayer = ""
-
-    let response = await axios.get(
-      "https://lichess.org/game/export/" + game_string,
-      { 
+    const response = await axios.get(
+      `https://lichess.org/game/export/${gameString}`,
+      {
         params: {
-          pgnInJson: "true",
-          clocks: "true",
+          pgnInJson: 'true',
+          clocks: 'true',
         },
         headers: {
-          "Accept": "application/json" 
+          Accept: 'application/json',
         },
-      }
+      },
     );
 
     if (response) {
-      console.log("res received", response.data)
+      console.log('res received', response.data);
 
-        bluebird.promisifyAll(redis.RedisClient.prototype);
-        const cache = redis.createClient({
-            port: process.env.LAMBDA_REDIS_PORT,
-            host: process.env.LAMBDA_REDIS_ENDPOINT,
-            password: process.env.LAMBDA_REDIS_PW,
-        });
+      bluebird.promisifyAll(redis.RedisClient.prototype);
+      const cache = redis.createClient({
+        port: process.env.LAMBDA_REDIS_PORT,
+        host: process.env.LAMBDA_REDIS_ENDPOINT,
+        password: process.env.LAMBDA_REDIS_PW,
+      });
 
-        if (!pgn_folder) {
-          let date = new Date
-          date.setMilliseconds(0)
-          date.setSeconds(0)
-          pgn_folder = `lichess upload ${date}`
-        }
+      if (!pgnFolder) {
+        const date = new Date();
+        date.setMilliseconds(0);
+        date.setSeconds(0);
+        pgnFolder = `lichess upload ${date}`;
+      }
 
-        if (!pgn_name) {
-          pgn_name = `${response.data.opening.name} - ${response.data.variant} - ${response.data.speed} - id: ${game_string}`
-        }
+      if (!pgnName) {
+        pgnName = `${response.data.opening.name} - ${response.data.variant} - ${response.data.speed} - id: ${gameString}`;
+      }
 
-        if (!response.data.players.black.user) {blackPlayer = 'None'}else {blackPlayer = `${response.data.players.black.user.name} ${response.data.players.black.rating}`}
-        if (!response.data.players.white.user) {whitePlayer = 'None'}else {whitePlayer = `${response.data.players.white.user.name} ${response.data.players.white.rating}`}
+      if (!response.data.players.black.user) { blackPlayer = 'None'; } else { blackPlayer = `${response.data.players.black.user.name} ${response.data.players.black.rating}`; }
+      if (!response.data.players.white.user) { whitePlayer = 'None'; } else { whitePlayer = `${response.data.players.white.user.name} ${response.data.players.white.rating}`; }
 
-        let pgn = {
-          name: pgn_name,
-          pgn_id: game_string,
-          folder: pgn_folder,
-          pgn: response.data.pgn,
-          moves: response.data.moves,
-          user_id: user_data.id,
-          user_email: user_data.email,
-          iframe: iframeLink,
-          rated: response.data.rated,
-          variant: response.data.variant,
-          speed: response.data.speed,
-          status: response.data.status,
-          winner: response.data.winner,
-          opening: response.data.opening,
-          clock: response.data.clock,
-          black: blackPlayer,
-          white:  whitePlayer,
-        }
+      const pgn = {
+        name: pgnName,
+        pgn_id: gameString,
+        folder: pgnFolder,
+        pgn: response.data.pgn,
+        moves: response.data.moves,
+        user_id: userData.id,
+        user_email: userData.email,
+        iframe: iframeLink,
+        rated: response.data.rated,
+        variant: response.data.variant,
+        speed: response.data.speed,
+        status: response.data.status,
+        winner: response.data.winner,
+        opening: response.data.opening,
+        clock: response.data.clock,
+        black: blackPlayer,
+        white: whitePlayer,
+      };
 
-        if (pgn) {
-          console.log(pgn.players)
-          await cache.saddAsync(`${user_data.id}-folder-names`, pgn.folder)
-          await cache.hsetnxAsync(`${user_data.id}-${pgn.folder}`, `${game_string}`, JSON.stringify(pgn))
-            .then(async reply => {
-              if (reply !== 1) {
-                cache.quit()
-                return res.status(500).end()
-              } else {
-                cache.quit()
-                return res.status(200).end()
-              }
-            })
-        }
-        else {
-          cache.quit()
-          res.status(500).end()
-        }
+      if (pgn) {
+        console.log(pgn.players);
+        await cache.saddAsync(`${userData.id}-folder-names`, pgn.folder);
+        await cache.hsetnxAsync(`${userData.id}-${pgn.folder}`, `${gameString}`, JSON.stringify(pgn))
+          .then(async (reply) => {
+            if (reply !== 1) {
+              cache.quit();
+              return res.status(500).end();
+            }
+            cache.quit();
+            return res.status(200).end();
+          });
+      } else {
+        cache.quit();
+        res.status(500).end();
+      }
     } else {
-      return res.status(405).end()
+      return res.status(405).end();
     }
   }
 }

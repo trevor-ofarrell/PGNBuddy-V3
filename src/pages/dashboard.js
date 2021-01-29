@@ -1,29 +1,27 @@
 import React from 'react';
 import nookies from 'nookies';
-import { firebaseAdmin } from '../../firebaseAdmin';
 import {
   Box,
-} from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import fire from '../../fire-config';
-import {
+
   CssBaseline,
   Drawer,
   Hidden,
   Button,
   Grid,
 } from '@material-ui/core';
-import {
-    NavBarLoggedIn,
-    Dash,
-    Accordian
-} from "../components"
-import redis from 'redis';
-import bluebird, { props } from 'bluebird';
-import MenuOpenIcon from '@material-ui/icons/MenuOpen';
-import { useRouter } from 'next/router'
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import Link from 'next/link'
+import redis from 'redis';
+import bluebird from 'bluebird';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+
+import Link from 'next/link';
+import fire from '../../fire-config';
+import {
+  NavBarLoggedIn,
+  Accordian,
+} from '../components';
+import { firebaseAdmin } from '../../firebaseAdmin';
 
 const drawerWidth = 240;
 
@@ -36,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
   body: {
     zIndex: '0',
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dash: {
     display: 'flex',
@@ -47,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
       flexShrink: 0,
       maxHeight: '94vh',
-      marginTop: '8vh'
+      marginTop: '8vh',
     },
   },
   menuButton: {
@@ -105,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
       background: 'rgba(12,12,12, .7)',
       marginBottom: '0.6em',
       width: '100%',
-    }
+    },
   },
   optionsred: {
     width: '95%',
@@ -116,27 +114,27 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       marginBottom: '0.6em',
       width: '100%',
-    }
-},
+    },
+  },
   menuicon: {
-    paddingTop: "45vh",
+    paddingTop: '45vh',
     paddingBottom: '45vh',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '-2.5vw',
-      marginRight: '-3vw'
+      marginRight: '-3vw',
     },
-  }
+  },
 }));
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export const getServerSideProps = async (ctx) => {
   try {
     const cookies = nookies.get(ctx);
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
-    let user = fire.auth().currentUser;
+    const user = fire.auth().currentUser;
     const { uid, email } = token;
 
     bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -146,49 +144,47 @@ export const getServerSideProps = async (ctx) => {
       password: process.env.LAMBDA_REDIS_PW,
     });
 
-    let pgnList = []
-    let userFolders = []
-    let userPgns = []
+    let pgnList = [];
+    let userFolders = [];
+    let userPgns = [];
 
-    await cache.smembersAsync(`${uid}-folder-names`).then(async function(folders) {
-      userFolders = folders
+    await cache.smembersAsync(`${uid}-folder-names`).then(async (folders) => {
+      userFolders = folders;
       for (let i = 0; i < folders.length; i++) {
-        await cache.hgetallAsync(`${uid}-${folders[i]}`).then(async function(value) {
+        await cache.hgetallAsync(`${uid}-${folders[i]}`).then(async (value) => {
           if (value) {
-            pgnList = Object.values(value)
-            pgnList = pgnList.map(JSON.parse)
-            userPgns.push(...pgnList)
-            console.log(pgnList.length)
+            pgnList = Object.values(value);
+            pgnList = pgnList.map(JSON.parse);
+            userPgns.push(...pgnList);
+            console.log(pgnList.length);
           } else {
-            userPgns = []
-            userFolders = []
+            userPgns = [];
+            userFolders = [];
           }
-        })
+        });
       }
-     
-  
-    })
+    });
     await sleep(10).then(() => {
       if (userFolders && userPgns) {
-        console.log("cache hit", userFolders, userPgns.length)
-        cache.quit()
+        console.log('cache hit', userFolders, userPgns.length);
+        cache.quit();
+      } else {
+        userPgns = [];
+        userFolders = [];
+        console.log("cache missed :'(");
+        cache.quit();
       }
-      else {
-        userPgns = []
-        userFolders = []
-        console.log("cache missed :'(")
-        cache.quit()
-      }
-  
-      cache.quit()
-    })
+
+      cache.quit();
+    });
 
     return {
-      props: { "id": uid, "email": email, "user": user, 'pgns': userPgns, 'folders': userFolders},
-    }
-    
+      props: {
+        id: uid, email, user, pgns: userPgns, folders: userFolders,
+      },
+    };
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return {
       redirect: {
         permanent: false,
@@ -200,42 +196,34 @@ export const getServerSideProps = async (ctx) => {
 };
 
 const dashboard = (props) => {
-  const {id, email, pgns, folders} = props
+  const {
+    id, email, pgns, folders,
+  } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const router = useRouter()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const clearDb = async (event) => {
-    event.preventDefault();
-    const data = {
-      'collectionPath': `${props.id}`,
-    }
-    await fetch('/api/deletepgns', {method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'}})
-    router.reload()
-  }
-
   const drawer = (
     <div className={classes.sidedrawer}>
       <Grid container>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Link href="/exportpgn">
-              <Button className={classes.options} >
-                  Export PGN from Lichess
-              </Button>
-            </Link>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
+        <Grid item xs={12} sm={12} lg={12}>
+          <Link href="/exportpgn">
+            <Button className={classes.options}>
+              Export PGN from Lichess
+            </Button>
+          </Link>
+        </Grid>
+        <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
-              <Button className={classes.options}>
-                  Export PGNs by date (100 game limit per request)
-              </Button>
-            </Link>
-          </Grid>
+            <Button className={classes.options}>
+              Export PGNs by date (100 game limit per request)
+            </Button>
+          </Link>
+        </Grid>
 
       </Grid>
     </div>
@@ -243,49 +231,49 @@ const dashboard = (props) => {
 
   return (
     <div className={classes.root}>
-    <NavBarLoggedIn handleDrawerToggle={handleDrawerToggle}/>
+      <NavBarLoggedIn handleDrawerToggle={handleDrawerToggle} />
       <Box className={classes.body}>
         <div className={classes.dash}>
-        <CssBaseline />
-        <nav className={classes.drawer} aria-label="options menu">
-          <Hidden only={['xs', 'lg', 'xl']}>
-          <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
-              <MenuOpenIcon style={{fill: '#ffffff'}}/>
-          </Button>
-          <Drawer
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-          </Hidden>
-          <Hidden mdDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-        </nav>
-        <main className={classes.content}>
-          <Accordian id={props.id} email={props.email} pgns={props.pgns} folders={props.folders}/>
-        </main>
-      </div>      
-    </Box>
-  </div>
+          <CssBaseline />
+          <nav className={classes.drawer} aria-label="options menu">
+            <Hidden only={['xs', 'lg', 'xl']}>
+              <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
+                <MenuOpenIcon style={{ fill: '#ffffff' }} />
+              </Button>
+              <Drawer
+                variant="temporary"
+                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                ModalProps={{
+                  keepMounted: true, // Better open performance on mobile.
+                }}
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+            <Hidden mdDown implementation="css">
+              <Drawer
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                variant="permanent"
+                open
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+          </nav>
+          <main className={classes.content}>
+            <Accordian id={id} email={email} pgns={pgns} folders={folders} />
+          </main>
+        </div>
+      </Box>
+    </div>
   );
-}
+};
 
 export default dashboard;

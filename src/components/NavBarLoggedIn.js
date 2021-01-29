@@ -1,9 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from 'react';
 // Material UI
 import {
-  fade,
   makeStyles,
-} from "@material-ui/core/styles";
+} from '@material-ui/core/styles';
 
 import {
   MenuItem,
@@ -16,15 +15,14 @@ import {
   Hidden,
   Grid,
   Drawer,
-  useTheme
-} from "@material-ui/core";
+  useTheme,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-
-import { firebaseClient } from '../../firebaseClient';
 
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 
-import Link from "next/link"
+import Link from 'next/link';
+import { firebaseClient } from '../../firebaseClient';
 
 const drawerWidth = 240;
 
@@ -37,36 +35,36 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontFamily: 'Aldrich, sans-serif',
-    display: "none",
+    display: 'none',
     WebkitTouchCallout: 'none',
     WebkitUserSelect: 'none',
     KhtmlUserSelect: 'none',
     MozUserSelect: 'none',
     MsUserSelect: 'none',
     userSelect: 'none',
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
     },
   },
   sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
   sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
     },
   },
   minbutton: {
     fontFamily: 'Aldrich, sans-serif',
-    color: "#FFFFFF",
+    color: '#FFFFFF',
   },
   appbar: {
     height: '4.75vh',
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down('xs')]: {
       height: '6.25vh',
     },
   },
@@ -74,11 +72,11 @@ const useStyles = makeStyles((theme) => ({
     padding: '.7em',
   },
   menuicon: {
-    paddingTop: "45vh",
+    paddingTop: '45vh',
     paddingBottom: '45vh',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '-2.5vw',
-      marginRight: '-3vw'
+      marginRight: '-3vw',
     },
   },
   drawerPaper: {
@@ -118,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
       background: 'rgba(12,12,12, .7)',
       marginBottom: '0.6em',
       width: '100%',
-    }
+    },
   },
 }));
 
@@ -149,46 +147,44 @@ export const NavBarLoggedIn = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const menuId = "primary-search-account-menu";
+  const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem>
-
-      </MenuItem>
+      <MenuItem />
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <Link href='/'>
+      <Link href="/">
         <MenuItem>
-          <Typography variant='h6' className={classes.mobilemenutext}>
+          <Typography variant="h6" className={classes.mobilemenutext}>
             Home
           </Typography>
         </MenuItem>
       </Link>
-      <Link href='/dashboard'>
+      <Link href="/dashboard">
         <MenuItem>
-        <Typography variant='h6' className={classes.mobilemenutext}>
-          Dashboard          
-        </Typography>
+          <Typography variant="h6" className={classes.mobilemenutext}>
+            Dashboard
+          </Typography>
         </MenuItem>
       </Link>
       <MenuItem
@@ -197,30 +193,30 @@ export const NavBarLoggedIn = () => {
           window.location.href = '/';
         }}
       >
-          <Typography variant='h6' className={classes.mobilemenutext}>
-            Log Out
-          </Typography>
-      </MenuItem>           
+        <Typography variant="h6" className={classes.mobilemenutext}>
+          Log Out
+        </Typography>
+      </MenuItem>
     </Menu>
   );
 
   const drawer = (
     <div className={classes.sidedrawer}>
       <Grid container>
-          <Grid item xs={12} sm={12} lg={12}>
-            <Link href="/exportpgn">
-              <Button className={classes.options} >
-                  Export PGN from Lichess
-              </Button>
-            </Link>
-          </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
+        <Grid item xs={12} sm={12} lg={12}>
+          <Link href="/exportpgn">
+            <Button className={classes.options}>
+              Export PGN from Lichess
+            </Button>
+          </Link>
+        </Grid>
+        <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
-              <Button className={classes.options}>
-                  Export PGNs by date (100 game limit per request)
-              </Button>
-            </Link>
-          </Grid>
+            <Button className={classes.options}>
+              Export PGNs by date (100 game limit per request)
+            </Button>
+          </Link>
+        </Grid>
 
       </Grid>
     </div>
@@ -237,7 +233,7 @@ export const NavBarLoggedIn = () => {
         <Toolbar>
           <Hidden smUp>
             <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
-                <MenuOpenIcon style={{fill: '#ffffff'}}/>
+              <MenuOpenIcon style={{ fill: '#ffffff' }} />
             </Button>
             <Drawer
               variant="temporary"
@@ -253,48 +249,48 @@ export const NavBarLoggedIn = () => {
             >
               {drawer}
             </Drawer>
-            <Link href='/'>
-                <Typography
-                  className={classes.title}
-                  variant="h4"
-                  noWrap
-                  style={{ color: "white", fontWeight: "bold" }}
-                >
-                  PGNBuddy
-                </Typography>
-              </Link>
+            <Link href="/">
+              <Typography
+                className={classes.title}
+                variant="h4"
+                noWrap
+                style={{ color: 'white', fontWeight: 'bold' }}
+              >
+                PGNBuddy
+              </Typography>
+            </Link>
           </Hidden>
-          <Link href='/'>
-                <Typography
-                  className={classes.title}
-                  variant="h4"
-                  noWrap
-                  style={{ color: "white", fontWeight: "bold" }}
-                >
-                  PGNBuddy
-                </Typography>
-              </Link>
+          <Link href="/">
+            <Typography
+              className={classes.title}
+              variant="h4"
+              noWrap
+              style={{ color: 'white', fontWeight: 'bold' }}
+            >
+              PGNBuddy
+            </Typography>
+          </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Link href='/'>
+            <Link href="/">
               <Button color="inherit" className={classes.minbutton}>
                 home
               </Button>
             </Link>
-            <Link href='/dashboard'>
+            <Link href="/dashboard">
               <Button color="inherit" className={classes.minbutton}>
                 dashboard
               </Button>
             </Link>
             <Button
-                color="inherit"
-                className={classes.minbutton}
-                onClick={async () => {
-                    await firebaseClient.auth().signOut();
-                    window.location.href = '/';
-                }}
+              color="inherit"
+              className={classes.minbutton}
+              onClick={async () => {
+                await firebaseClient.auth().signOut();
+                window.location.href = '/';
+              }}
             >
-                Log Out
+              Log Out
             </Button>
           </div>
           <div className={classes.sectionMobile}>
@@ -305,7 +301,7 @@ export const NavBarLoggedIn = () => {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MenuIcon style={{fill: '#ffffff'}} />
+              <MenuIcon style={{ fill: '#ffffff' }} />
             </IconButton>
           </div>
         </Toolbar>

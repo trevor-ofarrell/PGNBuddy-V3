@@ -35,6 +35,7 @@ async function deletefolder(req, res) {
     cache.quit();
     return res.status(200).end();
   }
+  return res.status(500).end();
 }
 
 export default deletefolder;

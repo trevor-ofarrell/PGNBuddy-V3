@@ -74,7 +74,7 @@ const ExportPGN = (props) => {
     await fetch('/api/lichessupload', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
       .then(async () => {
         await sleep(1000);
-        return window.location.href = '/dashboard';
+        window.location.href = '/dashboard';
       });
   };
 

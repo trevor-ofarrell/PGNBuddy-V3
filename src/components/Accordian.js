@@ -280,7 +280,7 @@ export const Accordian = (props) => {
   return pgns && (
     <div className={classes.root}>
       {folders.length !== 0 ? folders.map((folder, i) => (
-        <React.Fragment key={`folder-${uuid()}-${i}`}>
+        <React.Fragment key={`folder-${uuid()}-${folder}`}>
           <Accordion
             TransitionProps={{ unmountOnExit: true }}
             expanded={expandedFolder === `panel${String(i)}`}
@@ -294,7 +294,7 @@ export const Accordian = (props) => {
             <AccordionDetails>
               <div className={classes.pgns}>
                 {pgns.filter((game) => game.folder === folder).map((pgn, j) => (
-                  <React.Fragment key={`pgn-${uuid()}-${j}`}>
+                  <React.Fragment key={`pgn-${uuid()}-${pgn.pgn_id}`}>
                     <PgnAccordion
                       TransitionProps={{ unmountOnExit: true }}
                       expanded={expandedPgn === `panel${String(j)}`}

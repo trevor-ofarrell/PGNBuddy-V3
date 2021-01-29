@@ -120,7 +120,7 @@ export const ResponsiveAppBar = () => {
       <Link href="/dashboard">
         <MenuItem>
           <Typography variant="h6" className={classes.mobilemenutext}>
-            DasPhboard
+            Dashboard
           </Typography>
         </MenuItem>
       </Link>

@@ -10,14 +10,14 @@ async function lichessUpload(req, res) {
     console.log([pgnName, gameString]);
     console.log(gameString.slice(0, 7));
 
-    if (gameString.slice(0, 7) == 'lichess') {
+    if (gameString.slice(0, 7) === 'lichess') {
       gameString = gameString.slice(12);
       console.log(`game string 1${gameString}`);
-    } else if (gameString.slice(0, 5) == 'https') {
+    } else if (gameString.slice(0, 5) === 'https') {
       console.log(gameString.slice(20));
       gameString = gameString.slice(20);
       console.log(`game string 2${gameString}`);
-    } else if (gameString.slice(0, 5) == 'http:') {
+    } else if (gameString.slice(0, 5) === 'http:') {
       console.log(gameString.slice(19));
       gameString = gameString.slice(19);
       console.log(`game string 3${gameString}`);
@@ -111,6 +111,7 @@ async function lichessUpload(req, res) {
       return res.status(405).end();
     }
   }
+  return res.status(500).end();
 }
 
 export default lichessUpload;

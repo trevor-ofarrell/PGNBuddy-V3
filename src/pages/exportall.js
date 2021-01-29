@@ -88,7 +88,7 @@ const ExportAll = (props) => {
       userData: { id, email },
     };
     await fetch('/api/exportall', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
-      .then(async () => window.location.href = '/dashboard');
+      .then(window.location.href = '/dashboard');
   };
 
   return (

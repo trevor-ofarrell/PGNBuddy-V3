@@ -74,16 +74,17 @@ export const DeleteFolderModal = ({ folderName, id }) => {
         <Fade in={open}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">
-              Delete folder "
+              Delete folder
+              {' '}
               {folderName}
-              "?
+              ?
             </h2>
             <p id="transition-modal-description">Are you sure? The data cannot be recovered.</p>
             <Grid container>
               <Grid item xs={3} xl={3} />
               <Grid item xs={6} xl={6}>
                 <Button variant="outlined" className={classes.button} onClick={handleDelete}>
-                  Yes I'm Sure
+                  Yes I&#39;m Sure
                 </Button>
               </Grid>
               <Grid item xs={3} xl={3} />

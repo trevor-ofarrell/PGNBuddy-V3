@@ -140,7 +140,8 @@ function App(props, inProp = true) {
                       <Grid item xs={1} sm={1} md={2} lg={2} xl={2} />
                       <Grid item xs={10} sm={10} md={8} lg={8} xl={8}>
                         <Card className={classes.home}>
-                          Store, view, analyze, and organize your PGN files from anywhere. On any device.
+                          Store, view, analyze, and organize your PGN files from anywhere.
+                          On any device.
                         </Card>
                       </Grid>
                       <Grid item xs={1} sm={1} md={2} lg={2} xl={2} />

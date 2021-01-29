@@ -1,6 +1,90 @@
 import redis from 'redis';
 import bluebird from 'bluebird';
 
+class NdjsonStreamer {
+  constructor(props) {
+    this.props = props || {};
+    this.token = this.props.token;
+    this.streaming = false;
+  }
+
+  close() {
+    if (!this.streaming) {
+      return;
+    }
+
+    this.streaming = false;
+
+    if (this.readable) {
+      this.readable.destroy();
+      this.readable = null;
+      console.log('stream closed', this.props.url);
+    }
+  }
+
+  stream() {
+    this.streaming = true;
+    this.readable = null;
+    const headers = {
+      Accept: 'application/x-ndjson',
+    };
+
+    if (this.token) headers.Authorization = `Bearer ${this.token}`;
+
+    let lastTick = new Date().getTime();
+
+    if (this.props.timeout) {
+      const checkInterval = setInterval(() => {
+        if ((new Date().getTime() - lastTick) > this.props.timeout * 1000) {
+          clearInterval(checkInterval);
+          if (this.props.timeoutCallback) this.props.timeoutCallback();
+        }
+      }, this.props.timeout / 3);
+    }
+
+    let buffer = '';
+
+    console.log('streamNdjson', this.props);
+
+    fetch(this.props.url, {
+      headers,
+    })
+      .then((response) => {
+        console.log('stream started', this.props.url);
+        this.readable = response.body;
+        this.readable.on('end', () => {
+          if (this.props.endcallback) this.props.endcallback();
+        });
+
+        this.readable.on('data', (chunk) => {
+          lastTick = new Date().getTime();
+
+          buffer += chunk.toString();
+
+          if (buffer.match(/\n/)) {
+            const parts = buffer.split(/\n/);
+
+            buffer = parts.pop();
+
+            for (const part of parts) {
+              try {
+                const blob = JSON.parse(part);
+                if (this.props.log) console.log(this.props.blob);
+                if (this.props.callback) {
+                  try {
+                    this.props.callback(blob);
+                  } catch (err) {
+                    console.log('stream callback error', err);
+                  }
+                }
+              } catch (err) { return (err); }
+            }
+          }
+        });
+      });
+  }
+}
+
 async function exportAll(req, res) {
   if (req.method === 'POST') {
     const { lichessUsername } = req.body;
@@ -37,7 +121,7 @@ async function exportAll(req, res) {
       token: process.env.LICHESS_API_TOKEN,
       timeout: 15000,
 
-      timeoutCallback: (_) => res.status(405).end(),
+      timeoutCallback: () => res.status(405).end(),
       callback: (obj) => {
         if (obj.opening) {
           opening = obj.opening.name;
@@ -114,19 +198,19 @@ async function exportAll(req, res) {
       endcallback: async () => {
         // do something when stream has ended
         if (usersFolders) {
-          usersFolders.forEach(async (folder) => {
-            await cache.existsAsync(`${userData.id}-${folder}`).then(async (reply) => {
+          usersFolders.forEach(async (callbackFolder) => {
+            await cache.existsAsync(`${userData.id}-${callbackFolder}`).then(async (reply) => {
               if (reply !== 1) {
-                await cache.saddAsync(`${userData.id}-folder-names`, folder);
+                await cache.saddAsync(`${userData.id}-folder-names`, callbackFolder);
                 pgnList.forEach(async (elem) => {
-                  console.log(`${userData.id}-${folder}`);
+                  console.log(`${userData.id}-${callbackFolder}`);
 
                   await cache.hsetAsync(
-                    `${userData.id}-${folder}`,
+                    `${userData.id}-${callbackFolder}`,
                     `${elem.pgn_id}`,
                     JSON.stringify(elem),
-                  ).then(async (reply) => {
-                    if (reply !== 1) {
+                  ).then(async (determinationReply) => {
+                    if (determinationReply !== 1) {
                       console.log('hsetnx set failed');
                     } else {
                       console.log('hsetnx succeded');
@@ -138,16 +222,16 @@ async function exportAll(req, res) {
                 return res.status(200).end();
               }
 
-              await cache.saddAsync(`${userData.id}-folder-names`, folder);
+              await cache.saddAsync(`${userData.id}-folder-names`, callbackFolder);
               pgnList.forEach(async (elem) => {
-                console.log(`${userData.id}-${folder}`);
+                console.log(`${userData.id}-${callbackFolder}`);
 
                 await cache.hsetnxAsync(
-                  `${userData.id}-${folder}`,
+                  `${userData.id}-${callbackFolder}`,
                   `${elem.pgn_id}`,
                   JSON.stringify(elem),
-                ).then(async (reply) => {
-                  if (reply !== 1) {
+                ).then(async (determinationReply2) => {
+                  if (determinationReply2 !== 1) {
                     console.log('hsetnx set failed');
                   } else {
                     console.log('hsetnx succeded');
@@ -163,93 +247,10 @@ async function exportAll(req, res) {
           console.log('cache failed');
           return res.status(500).end();
         }
+        return res.status(500).end();
       },
     });
     eventStreamer.stream();
-  }
-}
-
-class NdjsonStreamer {
-  constructor(props) {
-    this.props = props || {};
-    this.token = this.props.token;
-    this.streaming = false;
-  }
-
-  close() {
-    if (!this.streaming) {
-      return;
-    }
-
-    this.streaming = false;
-
-    if (this.readable) {
-      this.readable.destroy();
-      this.readable = null;
-      console.log('stream closed', this.props.url);
-    }
-  }
-
-  stream() {
-    this.streaming = true;
-    this.readable = null;
-    const headers = {
-      Accept: 'application/x-ndjson',
-    };
-
-    if (this.token) headers.Authorization = `Bearer ${this.token}`;
-
-    let lastTick = new Date().getTime();
-
-    if (this.props.timeout) {
-      const checkInterval = setInterval((_) => {
-        if ((new Date().getTime() - lastTick) > this.props.timeout * 1000) {
-          clearInterval(checkInterval);
-          if (this.props.timeoutCallback) this.props.timeoutCallback();
-        }
-      }, this.props.timeout / 3);
-    }
-
-    let buffer = '';
-
-    console.log('streamNdjson', this.props);
-
-    fetch(this.props.url, {
-      headers,
-    })
-      .then((response) => {
-        console.log('stream started', this.props.url);
-        this.readable = response.body;
-        this.readable.on('end', (_) => {
-          if (this.props.endcallback) this.props.endcallback();
-        });
-
-        this.readable.on('data', (chunk) => {
-          lastTick = new Date().getTime();
-
-          buffer += chunk.toString();
-
-          if (buffer.match(/\n/)) {
-            const parts = buffer.split(/\n/);
-
-            buffer = parts.pop();
-
-            for (const part of parts) {
-              try {
-                const blob = JSON.parse(part);
-                if (this.props.log) console.log(this.props.blob);
-                if (this.props.callback) {
-                  try {
-                    this.props.callback(blob);
-                  } catch (err) {
-                    console.log('stream callback error', err);
-                  }
-                }
-              } catch (err) {}
-            }
-          }
-        });
-      });
   }
 }
 

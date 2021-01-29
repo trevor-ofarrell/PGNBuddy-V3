@@ -195,7 +195,7 @@ export const getServerSideProps = async (ctx) => {
   }
 };
 
-const dashboard = (props) => {
+const Dashboard = (props) => {
   const {
     id, email, pgns, folders,
   } = props;
@@ -276,4 +276,4 @@ const dashboard = (props) => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

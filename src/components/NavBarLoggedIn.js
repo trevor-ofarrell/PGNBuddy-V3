@@ -68,8 +68,14 @@ const useStyles = makeStyles((theme) => ({
       height: '6.25vh',
     },
   },
+  mobileMenu: {
+    '& .MuiPaper-root': {
+      backgroundColor: 'rgb(39, 36, 34)',
+    },
+  },
   mobilemenutext: {
     padding: '.7em',
+    color: 'white',
   },
   menuicon: {
     paddingTop: '45vh',
@@ -116,6 +122,7 @@ const useStyles = makeStyles((theme) => ({
       background: 'rgba(12,12,12, .7)',
       marginBottom: '0.6em',
       width: '100%',
+      height: '13.5vh',
     },
   },
 }));
@@ -172,6 +179,7 @@ export const NavBarLoggedIn = () => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      className={classes.mobileMenu}
     >
       <Link href="/">
         <MenuItem>
@@ -217,7 +225,6 @@ export const NavBarLoggedIn = () => {
             </Button>
           </Link>
         </Grid>
-
       </Grid>
     </div>
   );

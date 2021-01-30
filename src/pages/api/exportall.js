@@ -195,51 +195,58 @@ async function exportAll(req, res) {
           usersFolders.push(pgn.folder);
         }
       },
-      endcallback: async () => {
+      endcallback: () => {
         // do something when stream has ended
         if (usersFolders) {
           usersFolders.forEach(async (callbackFolder) => {
             await cache.existsAsync(`${userData.id}-${callbackFolder}`).then(async (reply) => {
+              const promises = [];
               if (reply !== 1) {
                 await cache.saddAsync(`${userData.id}-folder-names`, callbackFolder);
-                pgnList.forEach(async (elem) => {
+                pgnList.forEach((elem) => {
                   console.log(`${userData.id}-${callbackFolder}`);
-
-                  await cache.hsetAsync(
-                    `${userData.id}-${callbackFolder}`,
-                    `${elem.pgn_id}`,
-                    JSON.stringify(elem),
-                  ).then(async (determinationReply) => {
-                    if (determinationReply !== 1) {
-                      console.log('hsetnx set failed');
-                    } else {
-                      console.log('hsetnx succeded');
-                    }
-                  });
+                  promises.push(
+                    cache.hsetAsync(
+                      `${userData.id}-${callbackFolder}`,
+                      `${elem.pgn_id}`,
+                      JSON.stringify(elem),
+                    ).then(async (determinationReply) => {
+                      if (determinationReply !== 1) {
+                        console.log('hsetnx set failed');
+                      } else {
+                        console.log('hsetnx succeded');
+                      }
+                    }),
+                  );
                 });
+                await Promise.all(promises);
 
                 cache.quit();
                 return res.status(200).end();
               }
 
               await cache.saddAsync(`${userData.id}-folder-names`, callbackFolder);
-              pgnList.forEach(async (elem) => {
+              pgnList.forEach((elem) => {
                 console.log(`${userData.id}-${callbackFolder}`);
-
-                await cache.hsetnxAsync(
-                  `${userData.id}-${callbackFolder}`,
-                  `${elem.pgn_id}`,
-                  JSON.stringify(elem),
-                ).then(async (determinationReply2) => {
-                  if (determinationReply2 !== 1) {
-                    console.log('hsetnx set failed');
-                  } else {
-                    console.log('hsetnx succeded');
-                  }
-                });
+                promises.push(
+                  cache.hsetnxAsync(
+                    `${userData.id}-${callbackFolder}`,
+                    `${elem.pgn_id}`,
+                    JSON.stringify(elem),
+                  ).then(async (determinationReply2) => {
+                    if (determinationReply2 !== 1) {
+                      console.log('hsetnx set failed');
+                    } else {
+                      console.log('hsetnx succeded');
+                    }
+                  }),
+                );
               });
+              await Promise.all(promises);
 
               cache.quit();
+              console.log('cache succeded');
+
               return res.status(200).end();
             });
           });
@@ -247,7 +254,7 @@ async function exportAll(req, res) {
           console.log('cache failed');
           return res.status(500).end();
         }
-        return res.status(500).end();
+        console.log('cache failed2');
       },
     });
     eventStreamer.stream();

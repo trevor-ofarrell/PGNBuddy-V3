@@ -42,6 +42,7 @@
         "react/prop-types": 0,
         "no-restricted-syntax": 0,
         "consistent-return": "off",
+        "no-unused-vars": "off",
         "react/jsx-filename-extension": [
             1,
             {

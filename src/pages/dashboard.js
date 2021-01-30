@@ -391,7 +391,7 @@ export const getServerSideProps = async (ctx) => {
       });
       await Promise.all(promises);
     });
-    await sleep(50).then(() => {
+    await sleep(5).then(() => {
       if (userFolders && userPgns) {
         console.log('cache hit', userFolders, userPgns.length);
         cache.quit();

@@ -7,25 +7,17 @@ async function lichessUpload(req, res) {
   if (req.method === 'POST') {
     let pgnName = req.body.name;
     let { gameString } = req.body;
-    console.log([pgnName, gameString]);
-    console.log(gameString.slice(0, 7));
 
     if (gameString.slice(0, 7) === 'lichess') {
       gameString = gameString.slice(12);
-      console.log(`game string 1${gameString}`);
     } else if (gameString.slice(0, 5) === 'https') {
-      console.log(gameString.slice(20));
       gameString = gameString.slice(20);
-      console.log(`game string 2${gameString}`);
     } else if (gameString.slice(0, 5) === 'http:') {
-      console.log(gameString.slice(19));
       gameString = gameString.slice(19);
-      console.log(`game string 3${gameString}`);
     }
 
     if (gameString.length !== 8) {
       gameString = gameString.slice(0, 8);
-      console.log(`game string 4${gameString}`);
     }
 
     let pgnFolder = req.body.folder;
@@ -48,8 +40,6 @@ async function lichessUpload(req, res) {
     );
 
     if (response) {
-      console.log('res received', response.data);
-
       bluebird.promisifyAll(redis.RedisClient.prototype);
       const cache = redis.createClient({
         port: process.env.LAMBDA_REDIS_PORT,
@@ -92,7 +82,6 @@ async function lichessUpload(req, res) {
       };
 
       if (pgn) {
-        console.log(pgn.players);
         await cache.saddAsync(`${userData.id}-folder-names`, pgn.folder);
         await cache.hsetnxAsync(`${userData.id}-${pgn.folder}`, `${gameString}`, JSON.stringify(pgn))
           .then(async (reply) => {

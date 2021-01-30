@@ -19,6 +19,8 @@ import {
   NavBarLoggedIn,
 } from '../components';
 
+//  TODO add nav bar to login/signup pages
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundSize: 'cover',

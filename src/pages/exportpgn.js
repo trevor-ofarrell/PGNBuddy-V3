@@ -6,6 +6,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import Link from 'next/link';
 import nookies from 'nookies';
+import Router from 'next/router';
 import { firebaseAdmin } from '../../firebaseAdmin';
 import {
   NavBarLoggedIn,
@@ -72,10 +73,7 @@ const ExportPGN = (props) => {
       userData: { id: props.id, email: props.email },
     };
     await fetch('/api/lichessupload', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
-      .then(async () => {
-        await sleep(1000);
-        window.location.href = '/dashboard';
-      });
+      .then((response) => { Router.push('/dashboard'); });
   };
 
   return (

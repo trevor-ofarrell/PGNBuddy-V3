@@ -1,3 +1,4 @@
+// eslint no-unused-vars: ["error", { "args": "none" }]
 import React, { useRef, useState } from 'react';
 import {
   Grid, TextField, Button, Card,
@@ -8,6 +9,7 @@ import Link from 'next/link';
 import nookies from 'nookies';
 import redis from 'redis';
 import bluebird from 'bluebird';
+import Router from 'next/router';
 import { firebaseAdmin } from '../../firebaseAdmin';
 import {
   NavBarLoggedIn,
@@ -88,7 +90,7 @@ const ExportAll = (props) => {
       userData: { id, email },
     };
     await fetch('/api/exportall', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
-      .then(window.location.href = '/dashboard');
+      .then((response) => { Router.push('/dashboard'); });
   };
 
   return (

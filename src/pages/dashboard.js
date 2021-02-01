@@ -11,6 +11,7 @@ import {
   Typography,
   Card,
 } from '@material-ui/core';
+
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
@@ -348,10 +349,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export const getServerSideProps = async (ctx) => {
   try {
     const cookies = nookies.get(ctx);
@@ -381,7 +378,7 @@ export const getServerSideProps = async (ctx) => {
               pgnList = Object.values(value);
               pgnList = pgnList.map(JSON.parse);
               userPgns.push(...pgnList);
-              console.log(pgnList.length);
+              //  console.log(pgnList.length);
             } else {
               userPgns = [];
               userFolders = [];
@@ -389,20 +386,20 @@ export const getServerSideProps = async (ctx) => {
           }),
         );
       });
-      await Promise.all(promises);
-    });
-    await sleep(5).then(() => {
-      if (userFolders && userPgns) {
-        console.log('cache hit', userFolders, userPgns.length);
-        cache.quit();
-      } else {
-        userPgns = [];
-        userFolders = [];
-        console.log("cache missed :'(");
-        cache.quit();
-      }
 
-      cache.quit();
+      await Promise.all(promises).then(() => {
+        if (userFolders && userPgns) {
+          //  console.log('cache hit', userFolders, userPgns.length);
+          cache.quit();
+        } else {
+          userPgns = [];
+          userFolders = [];
+          //  console.log("cache missed :'(");
+          cache.quit();
+        }
+
+        cache.quit();
+      });
     });
 
     return {

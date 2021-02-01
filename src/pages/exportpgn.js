@@ -60,10 +60,6 @@ const ExportPGN = (props) => {
   const [folder, setFolder] = useState('');
   const form = useRef(null);
 
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {

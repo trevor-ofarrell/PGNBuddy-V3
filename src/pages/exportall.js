@@ -56,7 +56,6 @@ export const getServerSideProps = async (ctx) => {
     });
       // TODO: add hash map for finding users lichess profile
     const username = await cache.hgetAsync('users', email);
-    console.log(username);
     return {
       props: { id: uid, email, username },
     };

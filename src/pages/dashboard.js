@@ -247,25 +247,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   iframe: {
-    width: '45vw',
+    width: '100%',
     height: '45vh',
-    [theme.breakpoints.up('xl')]: {
-      width: '37vw',
-    },
     [theme.breakpoints.down('lg')]: {
-      width: '50vw',
+      width: '100%',
       height: '50vh',
     },
     [theme.breakpoints.down('md')]: {
-      width: '85vw',
-      height: '42vh',
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: '80vw',
       height: '42vh',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '95.5vw',
       height: '32.25vh',
     },
   },
@@ -277,7 +268,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: '1vw',
     },
     [theme.breakpoints.up('lg')]: {
-      marginRight: '3vw',
+      marginRight: '1.5vw',
     },
     [theme.breakpoints.down('md')]: {
       marginLeft: '-1vw',
@@ -626,16 +617,16 @@ const Dashboard = (props) => {
                                   <Grid item xs={12} sm={12} md={12} lg={12}>
                                     <Card className={classes.pgncard} elevation={0}>
                                       <Typography className={classes.text}>
-                                        <b>Moves: </b>
+                                        <b>PGN: </b>
                                         {' '}
-                                        {pgn.moves}
+                                        {pgn.pgn}
                                       </Typography>
                                     </Card>
                                     <Card className={classes.pgncard} elevation={0}>
                                       <Typography className={classes.text}>
-                                        <b>PGN: </b>
+                                        <b>Moves: </b>
                                         {' '}
-                                        {pgn.pgn}
+                                        {pgn.moves}
                                       </Typography>
                                     </Card>
                                   </Grid>

@@ -46,6 +46,12 @@ const useStyles = makeStyles((theme) => ({
       display: 'block',
     },
   },
+  title2: {
+    display: 'block',
+    textAlign: 'center',
+    paddingLeft: 'auto',
+    paddingRight: 'auto',
+  },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -256,10 +262,11 @@ export const NavBarLoggedIn = () => {
             >
               {drawer}
             </Drawer>
+            <div className={classes.grow} />
             <Link href="/">
               <Typography
-                className={classes.title}
-                variant="h4"
+                className={classes.title2}
+                variant="h6"
                 noWrap
                 style={{ color: 'white', fontWeight: 'bold' }}
               >

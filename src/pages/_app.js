@@ -3,8 +3,6 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { AuthProvider } from '../../auth';
-import '../theme/font.css';
-import theme from '../theme';
 
 //
 // A note about Server Side Rendering w/ stylesheets & Material UI
@@ -38,11 +36,9 @@ export default function SaveApp(props) {
           <link rel="apple-touch-icon" href="mobileicon-96-96.png" />
           <meta name="apple-mobile-web-app-status-bar" content="rgb(29, 26, 24)" />
         </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component {...pageProps} />
-        </ThemeProvider>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <Component {...pageProps} />
       </>
     </AuthProvider>
   );

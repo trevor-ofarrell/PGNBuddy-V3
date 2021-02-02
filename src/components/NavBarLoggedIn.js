@@ -49,8 +49,6 @@ const useStyles = makeStyles((theme) => ({
   title2: {
     display: 'block',
     textAlign: 'center',
-    paddingLeft: 'auto',
-    paddingRight: 'auto',
   },
   sectionDesktop: {
     display: 'none',

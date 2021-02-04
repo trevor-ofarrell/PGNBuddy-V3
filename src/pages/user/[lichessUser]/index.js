@@ -1,7 +1,6 @@
-import { useRouter } from 'next/router';
 import ErrorPage from 'next/error';
 import {
-  Grid, TextField, Button, Card, makeStyles,
+  Grid, makeStyles,
 } from '@material-ui/core';
 import {
   NavBarLoggedIn,
@@ -34,7 +33,6 @@ export const getServerSideProps = async ({ params, res }) => {
         },
       },
     );
-    const data = JSON.stringify(response.data);
     const perfs = Object.keys(response.data.perfs);
     const perfList = [];
     perfs.forEach((elem) => {
@@ -43,7 +41,7 @@ export const getServerSideProps = async ({ params, res }) => {
     const playerData = response.data.count;
 
     return {
-      props: { data, perfList, playerData },
+      props: { perfList, playerData },
     };
   } catch {
     res.statusCode = 404;
@@ -54,12 +52,10 @@ export const getServerSideProps = async ({ params, res }) => {
 };
 
 const User = (props) => {
-  const router = useRouter();
-  const { lichessUser } = router.query;
-  const { data, perfList, playerData } = props;
+  const { perfList, playerData } = props;
   const classes = useStyles();
 
-  if (!data) {
+  if (!perfList && !playerData) {
     return <ErrorPage statusCode={404} />;
   }
 

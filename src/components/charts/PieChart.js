@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import 'chartjs-plugin-datalabels';
 
 export const PieChart = ({ playerData }) => {
   const wins = playerData.win;
@@ -36,9 +37,26 @@ export const PieChart = ({ playerData }) => {
             labels: {
               // This more specific font property overrides the global property
               fontColor: 'white',
-              fontSize: 14,
+              fontSize: 16,
             },
           },
+          plugins: {
+            datalabels: {
+                formatter: (value, ctx) => {
+                
+                  let sum = 0;
+                  let dataArr = ctx.chart.data.datasets[0].data;
+                  dataArr.map(data => {
+                      sum += data;
+                  });
+                  let percentage = (value*100 / sum).toFixed(2)+"%";
+                  return percentage;
+
+              
+                },
+                color: '#fff',
+                     }
+        }
         }}
       />
     </div>

@@ -45,7 +45,7 @@ export const RadarChart = ({ perfList }) => {
             labels: {
               // This more specific font property overrides the global property
               fontColor: 'white',
-              fontSize: 14,
+              fontSize: 16,
             },
           },
           scale: {
@@ -56,7 +56,7 @@ export const RadarChart = ({ perfList }) => {
               color: 'white',
             },
             pointLabels: {
-              fontSize: 14,
+              fontSize: 16,
               fontColor: 'white',
             },
           },

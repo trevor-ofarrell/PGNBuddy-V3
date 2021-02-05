@@ -27,6 +27,7 @@ export const RadarChart = ({ perfList }) => {
         pointBorderWidth: '8',
         pointBackgroundColor: 'blue',
         pointBorderColor: 'white',
+        pointHitRadius: '2',
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: '#ffffff',
         data: games,

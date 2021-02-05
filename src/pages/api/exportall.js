@@ -179,8 +179,8 @@ async function exportAll(req, res) {
           clock,
           black: blackPlayer,
           white: whitePlayer,
-          black_rating: blackRating,
-          white_rating: whiteRating,
+          blackRating,
+          whiteRating,
         };
 
         pgnList.push(pgn);

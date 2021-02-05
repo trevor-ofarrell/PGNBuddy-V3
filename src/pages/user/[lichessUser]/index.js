@@ -1,7 +1,8 @@
 import ErrorPage from 'next/error';
 import {
-  Grid, makeStyles, Typography,
+  Grid, makeStyles, Typography, Card,
 } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Link from 'next/link';
 import {
   NavBarLoggedIn,
@@ -20,38 +21,111 @@ const useStyles = makeStyles((theme) => ({
   },
   body: {
     width: '100vw',
-    paddingTop: '2em',
+  },
+  link: {
+    color: '#FFF',
+    '&:hover': {
+      color: '#FFF',
+      textDecoration: 'underline #FFFFFF',
+    },
   },
   radar: {
     position: 'relative',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     [theme.breakpoints.up('lg')]: {
-      width: '42vw',
-      marginLeft: '5vw',
-      marginTop: '4vh',
+      height: 'auto',
+      maxHeight: '80vh',
+      maxWidth: '41vw',
+      width: 'auto',
+      marginTop: '1.5vh',
     },
     [theme.breakpoints.up('xl')]: {
       height: 'auto',
-      width: '35vw',
+      width: '32vw',
       position: 'relative',
-      marginLeft: '5vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      height: 'auto',
+      width: 'auto',
     },
   },
   pie: {
     position: 'relative',
     [theme.breakpoints.up('lg')]: {
       width: '45vw',
-      marginTop: '9vh',
+      marginTop: '1.5vh',
     },
     [theme.breakpoints.up('xl')]: {
-      height: '100%',
+      height: 'auto',
       width: '45vw',
       position: 'relative',
     },
   },
   title: {
     color: 'white',
-    marginLeft: '2.5vw',
     textAlign: 'center',
+    fontFamily: 'Aldrich, sans-serif',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '3vh',
+    },
+  },
+  pgncard: {
+    background: 'rgb(49, 46, 44)',
+    padding: '2em',
+    marginTop: '2em',
+    marginBottom: '2em',
+    [theme.breakpoints.down('md')]: {
+      padding: '1em',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '1em',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '1em',
+      marginBottom: '1em',
+    },
+  },
+  radarcard: {
+    background: 'rgb(49, 46, 44)',
+    padding: '1em',
+    margin: '2em',
+    marginRight: '1em',
+    paddingTop: '2em',
+    height: '82vh',
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]: {
+      padding: '1em',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '1em',
+      margin: '2em',
+      height: '100%',
+    },
+    [theme.breakpoints.down('xs')]: {
+      margin: '0em',
+      padding: '0em',
+    },
+  },
+  piecard: {
+    background: 'rgb(49, 46, 44)',
+    padding: '1em',
+    margin: '2em',
+    marginLeft: '1em',
+    paddingTop: '2em',
+    height: '82vh',
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]: {
+      padding: '1em',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '1em',
+      margin: '2em',
+      marginTop: '2em',
+    },
+    [theme.breakpoints.down('xs')]: {
+      margin: '0em',
+    },
   },
 }));
 
@@ -99,20 +173,24 @@ const User = (props) => {
         <Typography variant="h4" className={classes.title}>
           lichess.org account
           {' '}
-          <Link href={`https://lichess.org/@/${JSON.parse(username)}`} color="inherit">
+          <a href={`https://lichess.org/@/${JSON.parse(username)}`} className={classes.link}>
             {JSON.parse(username)}
-          </Link>
+          </a>
         </Typography>
         <Grid container className={classes.body}>
           <Grid item xs={12} sm={12} md={7} lg={6} xl={6}>
-            <div className={classes.radar}>
-              <RadarChart perfList={perfList} />
-            </div>
+            <Card className={classes.radarcard} elevation={0}>
+              <div className={classes.radar}>
+                <RadarChart perfList={perfList} />
+              </div>
+            </Card>
           </Grid>
           <Grid item xs={12} sm={12} md={5} lg={6} xl={6}>
-            <div className={classes.pie}>
-              <PieChart playerData={playerData} />
-            </div>
+            <Card className={classes.piecard} elevation={0}>
+              <div className={classes.pie}>
+                <PieChart playerData={playerData} />
+              </div>
+            </Card>
           </Grid>
         </Grid>
       </div>

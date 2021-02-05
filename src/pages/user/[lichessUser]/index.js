@@ -47,13 +47,15 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       height: 'auto',
-      width: 'auto',
+      width: '100vw',
     },
   },
   pie: {
     position: 'relative',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     [theme.breakpoints.up('lg')]: {
-      width: '45vw',
+      width: '40vw',
       marginTop: '1.5vh',
     },
     [theme.breakpoints.up('xl')]: {

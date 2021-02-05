@@ -577,13 +577,13 @@ const Dashboard = (props) => {
                                       </Typography>
                                       {pgn.black !== 'None'
                                         ? (
-                                          <a href={`https://lichess.org/@/${pgn.black}`} className={classes.link}>
+                                          <a href={`/user/${pgn.black}`} className={classes.link}>
                                             <Typography className={classes.text}>
                                               <b>Black: </b>
                                               {' '}
                                               {pgn.black}
                                               {' '}
-                                              {pgn.black_rating}
+                                              {pgn.blackRating}
                                             </Typography>
                                           </a>
                                         )
@@ -594,13 +594,13 @@ const Dashboard = (props) => {
                                         )}
                                       {pgn.white !== 'None'
                                         ? (
-                                          <a href={`https://lichess.org/@/${pgn.white}`} className={classes.link}>
+                                          <a href={`/user/${pgn.white}`} className={classes.link}>
                                             <Typography className={classes.text}>
                                               <b>White: </b>
                                               {' '}
                                               {pgn.white}
                                               {' '}
-                                              {pgn.white_rating}
+                                              {pgn.whiteRating}
                                             </Typography>
                                           </a>
                                         )

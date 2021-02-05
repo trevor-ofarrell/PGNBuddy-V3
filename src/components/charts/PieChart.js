@@ -6,11 +6,12 @@ export const PieChart = ({ playerData }) => {
   const wins = playerData.win;
   const losses = playerData.loss;
   const draws = playerData.draw;
+  const totalGames = wins + losses + draws;
   const data = {
     labels: [
-      'Wins',
-      'Losses',
-      'Draws',
+      'Win',
+      'Loss',
+      'Draw',
     ],
     datasets: [{
       data: [wins, losses, draws],
@@ -19,6 +20,8 @@ export const PieChart = ({ playerData }) => {
         'red',
         'grey',
       ],
+      borderColor: 'rgb(49, 46, 44)',
+      borderWidth: '8',
       hoverBackgroundColor: [
         'green',
         'red',
@@ -40,6 +43,12 @@ export const PieChart = ({ playerData }) => {
               fontSize: 16,
             },
           },
+          title: {
+            display: true,
+            text: `win, loss, draw percentage over ${totalGames} games`,
+            fontColor: 'white',
+            fontSize: 16,
+          },
           plugins: {
             datalabels: {
               formatter: (value, ctx) => {
@@ -52,6 +61,7 @@ export const PieChart = ({ playerData }) => {
                 return percentage;
               },
               color: '#fff',
+              fontSize: 16,
             },
           },
         }}

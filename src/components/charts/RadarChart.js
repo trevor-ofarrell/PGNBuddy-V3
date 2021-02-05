@@ -20,11 +20,13 @@ export const RadarChart = ({ perfList }) => {
     labels: names,
     datasets: [
       {
-        label: 'Distribution of games played across standard time controls',
-        backgroundColor: 'rgba(179,181,198,0.15)',
+        label: 'Distribution of games across standard time controls',
+        backgroundColor: 'rgba(179,181,198,0.25)',
+        borderWidth: '5',
         borderColor: 'green',
+        pointBorderWidth: '8',
         pointBackgroundColor: 'blue',
-        pointBorderColor: 'green',
+        pointBorderColor: 'white',
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: '#ffffff',
         data: games,

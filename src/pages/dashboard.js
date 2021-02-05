@@ -577,7 +577,7 @@ const Dashboard = (props) => {
                                       </Typography>
                                       {pgn.black !== 'None'
                                         ? (
-                                          <a href={`/user/${pgn.black}`} className={classes.link}>
+                                          <a href={`/player/${pgn.black}`} className={classes.link}>
                                             <Typography className={classes.text}>
                                               <b>Black: </b>
                                               {' '}
@@ -594,7 +594,7 @@ const Dashboard = (props) => {
                                         )}
                                       {pgn.white !== 'None'
                                         ? (
-                                          <a href={`/user/${pgn.white}`} className={classes.link}>
+                                          <a href={`/player/${pgn.white}`} className={classes.link}>
                                             <Typography className={classes.text}>
                                               <b>White: </b>
                                               {' '}

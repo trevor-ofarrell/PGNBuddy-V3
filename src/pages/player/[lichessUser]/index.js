@@ -18,9 +18,16 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
     height: '100%',
     width: '100vw',
+    maxWidth: '100vw',
   },
-  body: {
-    width: '100vw',
+  aspect: {
+    aspectRatio: '16 / 9',
+    maxHeight: '95vh',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    [theme.breakpoints.down('xs')]: {
+      background: 'rgb(49, 46, 44)',
+    },
   },
   link: {
     color: '#FFF',
@@ -33,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     marginLeft: 'auto',
     marginRight: 'auto',
+    height: 'auto',
+    width: '100%',
     [theme.breakpoints.up('lg')]: {
       height: 'auto',
       maxHeight: '80vh',
@@ -42,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('xl')]: {
       height: 'auto',
-      width: '32vw',
+      width: '30vw',
       position: 'relative',
     },
     [theme.breakpoints.down('xs')]: {
-      height: 'auto',
-      width: '100vw',
+      height: '100%',
+      width: '92vw',
     },
   },
   pie: {
@@ -60,32 +69,18 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up('xl')]: {
       height: 'auto',
-      width: '45vw',
+      width: '30vw',
       position: 'relative',
     },
   },
   title: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Aldrich, sans-serif',
     [theme.breakpoints.down('sm')]: {
-      marginTop: '3vh',
-    },
-  },
-  pgncard: {
-    background: 'rgb(49, 46, 44)',
-    padding: '2em',
-    marginTop: '2em',
-    marginBottom: '2em',
-    [theme.breakpoints.down('md')]: {
-      padding: '1em',
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '1em',
+      paddingTop: '2vh',
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: '1em',
-      marginBottom: '1em',
+      padding: '2vh',
     },
   },
   radarcard: {
@@ -96,17 +91,20 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '2em',
     height: '82vh',
     textAlign: 'center',
+    width: 'auto',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
     },
     [theme.breakpoints.down('sm')]: {
+      height: 'auto',
       padding: '1em',
       margin: '2em',
-      height: '100%',
+      marginBottom: '0em',
     },
     [theme.breakpoints.down('xs')]: {
       margin: '0em',
       padding: '0em',
+      marginBottom: '2em',
     },
   },
   piecard: {
@@ -121,6 +119,7 @@ const useStyles = makeStyles((theme) => ({
       padding: '1em',
     },
     [theme.breakpoints.down('sm')]: {
+      height: 'auto',
       padding: '1em',
       margin: '2em',
       marginTop: '2em',
@@ -172,29 +171,31 @@ const User = (props) => {
     <>
       <div className={classes.root}>
         <NavBarLoggedIn />
-        <Typography variant="h4" className={classes.title}>
-          lichess.org account
-          {' '}
-          <a href={`https://lichess.org/@/${JSON.parse(username)}`} className={classes.link}>
-            {JSON.parse(username)}
-          </a>
-        </Typography>
-        <Grid container className={classes.body}>
-          <Grid item xs={12} sm={12} md={7} lg={6} xl={6}>
-            <Card className={classes.radarcard} elevation={0}>
-              <div className={classes.radar}>
-                <RadarChart perfList={perfList} />
-              </div>
-            </Card>
+        <div className={classes.aspect}>
+          <Typography variant="h5" className={classes.title}>
+            lichess.org account
+            {' '}
+            <a href={`https://lichess.org/@/${JSON.parse(username)}`} className={classes.link}>
+              {JSON.parse(username)}
+            </a>
+          </Typography>
+          <Grid container>
+            <Grid item xs={12} sm={12} md={7} lg={6} xl={6}>
+              <Card className={classes.radarcard} elevation={0}>
+                <div className={classes.radar}>
+                  <RadarChart perfList={perfList} />
+                </div>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={12} md={5} lg={6} xl={6}>
+              <Card className={classes.piecard} elevation={0}>
+                <div className={classes.pie}>
+                  <PieChart playerData={playerData} />
+                </div>
+              </Card>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={5} lg={6} xl={6}>
-            <Card className={classes.piecard} elevation={0}>
-              <div className={classes.pie}>
-                <PieChart playerData={playerData} />
-              </div>
-            </Card>
-          </Grid>
-        </Grid>
+        </div>
       </div>
     </>
   );

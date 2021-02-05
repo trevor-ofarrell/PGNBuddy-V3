@@ -60,11 +60,13 @@ async function lichessUpload(req, res) {
         pgnName = `${response.data.opening.name} - ${response.data.variant} - ${response.data.speed} - id: ${gameString}`;
       }
 
-      if (!response.data.players.black.user) { blackPlayer = 'None'; }
-      else { blackPlayer = `${response.data.players.black.user.name}`; blackRating = `${response.data.players.black.rating}`; }
+      if (!response.data.players.black.user) {
+        blackPlayer = 'None';
+      } else { blackPlayer = `${response.data.players.black.user.name}`; blackRating = `${response.data.players.black.rating}`; }
 
-      if (!response.data.players.white.user) { whitePlayer = 'None'; }
-      else { whitePlayer = `${response.data.players.white.user.name}`; whiteRating = `${response.data.players.white.rating}`; }
+      if (!response.data.players.white.user) {
+        whitePlayer = 'None';
+      } else { whitePlayer = `${response.data.players.white.user.name}`; whiteRating = `${response.data.players.white.rating}`; }
 
       const pgn = {
         name: pgnName,

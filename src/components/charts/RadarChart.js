@@ -20,7 +20,7 @@ export const RadarChart = ({ perfList }) => {
     labels: names,
     datasets: [
       {
-        label: 'Distribution of games across standard time controls',
+        label: '',
         backgroundColor: 'rgba(179,181,198,0.25)',
         borderWidth: '5',
         borderColor: 'green',
@@ -44,10 +44,17 @@ export const RadarChart = ({ perfList }) => {
         options={{
           responsive: true,
           maintainAspectRatio: true,
+          title: {
+            display: true,
+            text: 'distribution of games across standard time controls',
+            fontColor: 'white',
+            fontSize: 16,
+          },
           legend: {
             labels: {
               // This more specific font property overrides the global property
               fontColor: 'white',
+              fontStyle: 'bold',
               fontSize: 16,
             },
           },

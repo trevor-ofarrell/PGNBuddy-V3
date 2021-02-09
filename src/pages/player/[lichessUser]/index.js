@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '8em',
     [theme.breakpoints.up('xl')]: {
       aspectRatio: '16 / 9',
-      maxHeight: '95vh',
+      height: '100%',
       marginLeft: 'auto',
       marginRight: 'auto',
       overflowX: 'hidden',
@@ -177,8 +177,10 @@ const useStyles = makeStyles((theme) => ({
   },
   grid: {
     background: 'rgb(39, 36, 34)',
-    height: '100%',
     overflowY: 'auto',
+    [theme.breakpoints.down('lg')]: {
+      height: '100%',
+    },
   },
 }));
 

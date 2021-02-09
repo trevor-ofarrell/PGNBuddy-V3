@@ -2,7 +2,7 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
 
-export const PieChart = ({ playerData }) => {
+export const PieChart = ({ playerData, playerUsername }) => {
   const wins = playerData.win;
   const losses = playerData.loss;
   const draws = playerData.draw;
@@ -21,7 +21,7 @@ export const PieChart = ({ playerData }) => {
         'grey',
       ],
       borderColor: 'rgb(49, 46, 44)',
-      borderWidth: '8',
+      borderWidth: '5',
       hoverBackgroundColor: [
         'green',
         'red',
@@ -41,14 +41,16 @@ export const PieChart = ({ playerData }) => {
           legend: {
             labels: {
               // This more specific font property overrides the global property
-              fontColor: 'white',
+              fontColor: 'rgb(229, 226, 224)',
               fontSize: 16,
+              borderWidth: '0',
             },
+            usePointStyle: true,
           },
           title: {
             display: true,
-            text: `win, loss, draw percentage over ${totalGames} games`,
-            fontColor: 'white',
+            text: `${playerUsername}'s win, loss, draw percentage over ${totalGames} games`,
+            fontColor: 'rgb(229, 226, 224)',
             fontSize: 16,
           },
           plugins: {
@@ -62,7 +64,7 @@ export const PieChart = ({ playerData }) => {
                 const percentage = `${(value * 100 / sum).toFixed(2)}%`;
                 return percentage;
               },
-              color: '#f4f0ec',
+              color: 'rgb(229, 226, 224)',
               font: {
                 size: 15,
                 weight: 'bold',

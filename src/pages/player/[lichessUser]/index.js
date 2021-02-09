@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     [theme.breakpoints.up('lg')]: {
       height: 'auto',
-      maxHeight: '80vh',
       maxWidth: '41vw',
       width: 'auto',
       marginTop: '1.5vh',
@@ -98,22 +97,23 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: 'white',
     textAlign: 'center',
-    marginBottom: '0.75em',
+    marginBottom: '0.5em',
     [theme.breakpoints.down('sm')]: {
-      paddingTop: '2vh',
+      paddingTop: '0.5vh',
     },
     [theme.breakpoints.down('xs')]: {
-      padding: '2vh',
+      paddingTop: '0.25vh',
+      paddingBottom: '0vh',
     },
   },
   radarcard: {
     background: 'rgb(49, 46, 44)',
     padding: '1em',
+    paddingBottom: '5vh',
     margin: '2em',
     marginTop: '1em',
     marginRight: '1em',
-    paddingTop: '2em',
-    height: '82vh',
+    height: 'auto',
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
@@ -133,11 +133,11 @@ const useStyles = makeStyles((theme) => ({
   piecard: {
     background: 'rgb(49, 46, 44)',
     padding: '1em',
+    paddingBottom: '6.65vh',
     margin: '2em',
     marginTop: '1em',
     marginLeft: '1em',
-    paddingTop: '2em',
-    height: '82vh',
+    height: 'auto',
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
@@ -168,6 +168,7 @@ const useStyles = makeStyles((theme) => ({
       height: 'auto',
       padding: '1em',
       margin: '2em',
+      marginTop: '0em',
       marginBottom: '0em',
     },
     [theme.breakpoints.down('xs')]: {
@@ -279,7 +280,7 @@ const User = (props) => {
       <div className={classes.root}>
         <NavBarLoggedIn />
         <div className={classes.aspect}>
-          <Typography variant="h5" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             lichess.org account
             {' '}
             <a href={`https://lichess.org/@/${JSON.parse(username)}`} className={classes.link}>
@@ -290,21 +291,30 @@ const User = (props) => {
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Card className={classes.linecard} elevation={0}>
                 <div className={classes.line}>
-                  <LineChart pastYearRatingHistory={pastYearRatingHistory} />
+                  <LineChart
+                    pastYearRatingHistory={pastYearRatingHistory}
+                    playerUsername={JSON.parse(username)}
+                  />
                 </div>
               </Card>
             </Grid>
             <Grid item xs={12} sm={12} md={7} lg={6} xl={6}>
               <Card className={classes.radarcard} elevation={0}>
                 <div className={classes.radar}>
-                  <RadarChart perfList={perfList} />
+                  <RadarChart
+                    perfList={perfList}
+                    playerUsername={JSON.parse(username)}
+                  />
                 </div>
               </Card>
             </Grid>
             <Grid item xs={12} sm={12} md={5} lg={6} xl={6}>
               <Card className={classes.piecard} elevation={0}>
                 <div className={classes.pie}>
-                  <PieChart playerData={playerData} />
+                  <PieChart
+                    playerData={playerData}
+                    playerUsername={JSON.parse(username)}
+                  />
                 </div>
               </Card>
             </Grid>

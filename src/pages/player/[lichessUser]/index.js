@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: 'white',
     textAlign: 'center',
-    marginBottom: '0.5em',
+    marginBottom: '0.75em',
     [theme.breakpoints.down('sm')]: {
       paddingTop: '2vh',
     },
@@ -157,7 +157,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '2em',
     margin: '2em',
     marginTop: '0em',
-    paddingTop: '2em',
+    paddingTop: '1em',
+    marginBottom: '1em',
     height: 'auto',
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {

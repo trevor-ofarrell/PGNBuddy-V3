@@ -52,7 +52,6 @@ export const RadarChart = ({ perfList }) => {
           },
           legend: {
             labels: {
-              // This more specific font property overrides the global property
               fontColor: 'white',
               fontStyle: 'bold',
               fontSize: 16,

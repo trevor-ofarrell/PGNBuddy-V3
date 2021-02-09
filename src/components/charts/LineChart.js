@@ -3,33 +3,46 @@ import { Line } from 'react-chartjs-2';
 
 export const LineChart = ({ pastYearRatingHistory }) => {
   const dataSets = [];
+  let monthList = [];
   const monthNumberToLabelMap = {
-    [0]: 'January',
-    [1]: 'February',
-    [2]: 'March',
-    [3]: 'April',
-    [4]: 'May',
-    [5]: 'June',
-    [6]: 'July',
-    [7]: 'August',
-    [8]: 'September',
-    [9]: 'October',
-    [10]: 'November',
-    [11]: 'December',
-  }
-  const allChartData = []
+    0: 'January',
+    1: 'February',
+    2: 'March',
+    3: 'April',
+    4: 'May',
+    5: 'June',
+    6: 'July',
+    7: 'August',
+    8: 'September',
+    9: 'October',
+    10: 'November',
+    11: 'December',
+  };
+  const colorToVariantMap = {
+    0: '#e41a1c',
+    1: '#377eb8',
+    2: '#4daf4a',
+    3: '#984ea3',
+    4: '#ff7f00',
+    5: '#ffff33',
+    6: '#a65628',
+    7: '#f781bf',
+    8: '#fa9fb5',
+    9: '#e0ecf4',
+    10: '#edf8b1',
+    11: '#bcbddc',
+  };
+  const allChartData = [];
+  let index = 0;
   pastYearRatingHistory.map((ele) => {
-    const dataSet = []
-    console.log('ele', ele)
+    const dataSet = [];
     Object.keys(ele).forEach((elem) => {
       const monthKeys = Object.keys(ele[[elem]]);
       monthKeys.forEach((keyName) => {
-        console.log('fuckin eh', ele[[elem]][keyName]);
         if (Number.isNaN(ele[[elem]][keyName])) {
           delete ele[[elem]][keyName];
         } else {
-          const item = { [monthNumberToLabelMap[keyName]]: ele[[elem]][keyName] };
-          console.log('item', item);
+          const item = { [monthNumberToLabelMap[keyName]]: Math.round(ele[[elem]][keyName]) };
           dataSet.push(item);
         }
       });
@@ -39,7 +52,7 @@ export const LineChart = ({ pastYearRatingHistory }) => {
         fill: false,
         lineTension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
+        borderColor: colorToVariantMap[index],
         borderCapStyle: 'butt',
         borderDash: [],
         borderDashOffset: 0.0,
@@ -53,16 +66,21 @@ export const LineChart = ({ pastYearRatingHistory }) => {
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
-        data: dataSet.map(e => Object.values(e)[0]),
+        data: dataSet.map((e) => Object.values(e)[0]),
       };
-      allChartData.push(chartData)
+      console.log('index', index);
+      index += 1;
+      let label = [];
+      label = dataSet.map((e) => Object.keys(e)[0]);
+      monthList.push(label);
+      allChartData.push(chartData);
     });
   });
-  console.log("finished data", allChartData);
-  console.log(dataSets[1].Blitz);
-
+  const lengths = monthList.map((a) => a.length);
+  const arrayWithDataMostPoints = lengths.indexOf(Math.max(...lengths));
+  console.log(monthList, arrayWithDataMostPoints)
   const data = {
-    labels: ['jan', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    labels: monthList[arrayWithDataMostPoints],
     datasets: allChartData,
   };
   return (

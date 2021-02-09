@@ -203,13 +203,11 @@ export const getServerSideProps = async ({ params, res }) => {
     const username = JSON.stringify(response.data.username);
     const perfs = Object.keys(response.data.perfs);
     const perfList = [];
-    // console.log(res2);
     const pastYearRatingHistory = [];
     response2.data.forEach((timeControl) => {
       try {
         if (timeControl.points.length > 0) {
           const timeControlName = timeControl.name;
-          console.log(timeControlName)
           const currentDate = new Date();
           const month = currentDate.getUTCMonth();
           const year = currentDate.getUTCFullYear();
@@ -221,7 +219,6 @@ export const getServerSideProps = async ({ params, res }) => {
             const pointDate = new Date(point[0], point[1], point[2]);
             return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);
           });
-          console.log(pastYearData)
           const avgs = Object.fromEntries(
             Object.entries(
               pastYearData.reduce(
@@ -237,8 +234,6 @@ export const getServerSideProps = async ({ params, res }) => {
             ).map(([k, { total, count }]) => [k, total / count]),
           );
           pastYearRatingHistory.push({ [timeControlName]: avgs });
-        } else {
-          return null;
         }
       } catch {}
     });
@@ -250,7 +245,9 @@ export const getServerSideProps = async ({ params, res }) => {
     const playerData = response.data.count;
 
     return {
-      props: { perfList, playerData, username, pastYearRatingHistory },
+      props: {
+        perfList, playerData, username, pastYearRatingHistory,
+      },
     };
   } catch {
     res.statusCode = 404;

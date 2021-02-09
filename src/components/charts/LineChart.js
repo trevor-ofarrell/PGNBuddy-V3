@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2';
 
 export const LineChart = ({ pastYearRatingHistory }) => {
   const dataSets = [];
-  let monthList = [];
+  const monthList = [];
   const monthNumberToLabelMap = {
     0: 'January',
     1: 'February',
@@ -34,10 +34,17 @@ export const LineChart = ({ pastYearRatingHistory }) => {
   };
   const allChartData = [];
   let index = 0;
+
   pastYearRatingHistory.map((ele) => {
     const dataSet = [];
+
     Object.keys(ele).forEach((elem) => {
-      const monthKeys = Object.keys(ele[[elem]]);
+      let monthKeys = Object.keys(ele[[elem]]);
+
+      const currentDate = new Date();
+      const month = currentDate.getUTCMonth();
+      monthKeys = monthKeys.splice(month).concat(monthKeys);
+
       monthKeys.forEach((keyName) => {
         if (Number.isNaN(ele[[elem]][keyName])) {
           delete ele[[elem]][keyName];
@@ -46,7 +53,9 @@ export const LineChart = ({ pastYearRatingHistory }) => {
           dataSet.push(item);
         }
       });
+
       dataSets.push({ [elem]: dataSet });
+
       const chartData = {
         label: elem,
         fill: false,
@@ -68,7 +77,7 @@ export const LineChart = ({ pastYearRatingHistory }) => {
         pointHitRadius: 10,
         data: dataSet.map((e) => Object.values(e)[0]),
       };
-      console.log('index', index);
+
       index += 1;
       let label = [];
       label = dataSet.map((e) => Object.keys(e)[0]);
@@ -76,13 +85,21 @@ export const LineChart = ({ pastYearRatingHistory }) => {
       allChartData.push(chartData);
     });
   });
+
   const lengths = monthList.map((a) => a.length);
-  const arrayWithDataMostPoints = lengths.indexOf(Math.max(...lengths));
-  console.log(monthList, arrayWithDataMostPoints)
+  const indexForLargestArray = lengths.indexOf(Math.max(...lengths));
+  let largestArray = monthList[indexForLargestArray];
+
+  const currentDate = new Date();
+  const month = currentDate.getUTCMonth();
+
+  largestArray = largestArray.splice(month).concat(largestArray);
+
   const data = {
-    labels: monthList[arrayWithDataMostPoints],
+    labels: largestArray,
     datasets: allChartData,
   };
+
   return (
     <div>
       <Line

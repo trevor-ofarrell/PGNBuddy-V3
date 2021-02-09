@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   aspect: {
     height: '100%',
-    paddingBottom: '8em',
+    paddingBottom: '6em',
     [theme.breakpoints.up('xl')]: {
       aspectRatio: '16 / 9',
       height: '100%',
@@ -194,6 +194,7 @@ export const getServerSideProps = async ({ params, res }) => {
         },
       },
     );
+
     const response2 = await axios.get(
       `http://lichess.org/api/user/${params.lichessUser}/rating-history`,
       {
@@ -202,10 +203,12 @@ export const getServerSideProps = async ({ params, res }) => {
         },
       },
     );
+
     const username = JSON.stringify(response.data.username);
     const perfs = Object.keys(response.data.perfs);
     const perfList = [];
     const pastYearRatingHistory = [];
+
     response2.data.forEach((timeControl) => {
       try {
         if (timeControl.points.length > 0) {
@@ -221,6 +224,7 @@ export const getServerSideProps = async ({ params, res }) => {
             const pointDate = new Date(point[0], point[1], point[2]);
             return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);
           });
+
           const avgs = Object.fromEntries(
             Object.entries(
               pastYearData.reduce(
@@ -235,11 +239,11 @@ export const getServerSideProps = async ({ params, res }) => {
               ),
             ).map(([k, { total, count }]) => [k, total / count]),
           );
+
           pastYearRatingHistory.push({ [timeControlName]: avgs });
         }
       } catch {}
     });
-    console.log(pastYearRatingHistory);
 
     perfs.forEach((elem) => {
       perfList.push({ [elem]: response.data.perfs[elem] });

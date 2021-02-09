@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-export const LineChart = ({ pastYearRatingHistory }) => {
+export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
   const dataSets = [];
   const monthList = [];
   const monthNumberToLabelMap = {
@@ -59,7 +59,7 @@ export const LineChart = ({ pastYearRatingHistory }) => {
       const chartData = {
         label: elem,
         fill: false,
-        lineTension: 0.1,
+        lineTension: 0.099,
         backgroundColor: 'rgba(75,192,192,0.1)',
         borderColor: colorToVariantMap[index],
         borderCapStyle: 'butt',
@@ -113,19 +113,19 @@ export const LineChart = ({ pastYearRatingHistory }) => {
           spanGaps: true,
           legend: {
             labels: {
-              fontColor: '#f4f0ec',
+              fontColor: 'rgb(229, 226, 224)',
               fontSize: 14,
             },
           },
           title: {
             display: true,
-            text: 'Rating history over the past 12 months',
-            fontColor: '#f4f0ec',
+            text: `${playerUsername}'s rating history over the past 12 months on lichess.org`,
+            fontColor: 'rgb(229, 226, 224)',
             fontSize: 16,
           },
           plugins: {
             datalabels: {
-              color: '#f4f0ec',
+              color: 'rgb(219, 216, 214)',
               font: {
                 size: 13,
               },
@@ -134,20 +134,20 @@ export const LineChart = ({ pastYearRatingHistory }) => {
           scales: {
             xAxes: [{
               gridLines: {
-                color: '#404040',
+                color: 'rgb(59, 56, 54)',
               },
               ticks: {
-                fontColor: '#959595',
+                fontColor: 'rgb(119, 116, 114)',
                 fontSize: 14,
               },
             }],
             yAxes: [{
               ticks: {
-                fontColor: '#959595',
+                fontColor: 'rgb(119, 116, 114)',
                 fontSize: 14,
               },
               gridLines: {
-                color: '#404040',
+                color: 'rgb(59, 56, 54)',
               },
             }],
           },

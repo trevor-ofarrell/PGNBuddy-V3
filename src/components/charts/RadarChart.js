@@ -1,7 +1,7 @@
 import React from 'react';
 import { Radar } from 'react-chartjs-2';
 
-export const RadarChart = ({ perfList }) => {
+export const RadarChart = ({ perfList, playerUsername }) => {
   const perfListRef = perfList;
 
   const mappedTimeControls = ['correspondence', 'classical', 'rapid', 'blitz', 'bullet', 'ultraBullet'];
@@ -21,11 +21,11 @@ export const RadarChart = ({ perfList }) => {
     datasets: [
       {
         label: '',
-        backgroundColor: 'rgba(179,181,198,0.25)',
+        backgroundColor: 'rgb(255, 0, 255, 0.125)',
         borderWidth: '5',
-        borderColor: 'green',
+        borderColor: 'rgb(123, 104, 238, 0.75)',
         pointBorderWidth: '8',
-        pointBackgroundColor: 'blue',
+        pointBackgroundColor: 'rgb(255,0,255, 0.75)',
         pointBorderColor: 'white',
         pointHitRadius: '2',
         pointHoverBackgroundColor: '#fff',
@@ -46,13 +46,13 @@ export const RadarChart = ({ perfList }) => {
           maintainAspectRatio: true,
           title: {
             display: true,
-            text: 'distribution of games across standard time controls',
-            fontColor: 'white',
+            text: `distribution of ${playerUsername}'s games across standard time controls`,
+            fontColor: 'rgb(229, 226, 224)',
             fontSize: 16,
           },
           legend: {
             labels: {
-              fontColor: 'white',
+              fontColor: 'rgb(229, 226, 224)',
               fontStyle: 'bold',
               fontSize: 16,
             },
@@ -65,8 +65,8 @@ export const RadarChart = ({ perfList }) => {
               color: 'white',
             },
             pointLabels: {
-              fontSize: 16,
-              fontColor: 'white',
+              fontSize: 14,
+              fontColor: 'rgb(169, 166, 164)',
             },
           },
           tooltips: {

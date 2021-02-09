@@ -60,19 +60,20 @@ export const LineChart = ({ pastYearRatingHistory }) => {
         label: elem,
         fill: false,
         lineTension: 0.1,
-        backgroundColor: 'rgba(75,192,192,0.4)',
+        backgroundColor: 'rgba(75,192,192,0.1)',
         borderColor: colorToVariantMap[index],
         borderCapStyle: 'butt',
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: 'miter',
-        pointBorderColor: 'rgba(75,192,192,1)',
+        borderWidth: 4,
+        pointBorderColor: colorToVariantMap[index],
         pointBackgroundColor: '#fff',
-        pointBorderWidth: 1,
+        pointBorderWidth: 6,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
+        pointHoverBackgroundColor: colorToVariantMap[index],
+        pointHoverBorderColor: '#fafafa',
+        pointHoverBorderWidth: 1,
         pointRadius: 1,
         pointHitRadius: 10,
         data: dataSet.map((e) => Object.values(e)[0]),
@@ -106,6 +107,51 @@ export const LineChart = ({ pastYearRatingHistory }) => {
         data={data}
         width="auto"
         height="100%"
+        options={{
+          responsive: true,
+          maintainAspectRatio: true,
+          spanGaps: true,
+          legend: {
+            labels: {
+              fontColor: '#f4f0ec',
+              fontSize: 14,
+            },
+          },
+          title: {
+            display: true,
+            text: 'Rating history over the past 12 months',
+            fontColor: '#f4f0ec',
+            fontSize: 16,
+          },
+          plugins: {
+            datalabels: {
+              color: '#f4f0ec',
+              font: {
+                size: 13,
+              },
+            },
+          },
+          scales: {
+            xAxes: [{
+              gridLines: {
+                color: '#404040',
+              },
+              ticks: {
+                fontColor: '#959595',
+                fontSize: 14,
+              },
+            }],
+            yAxes: [{
+              ticks: {
+                fontColor: '#959595',
+                fontSize: 14,
+              },
+              gridLines: {
+                color: '#404040',
+              },
+            }],
+          },
+        }}
       />
     </div>
   );

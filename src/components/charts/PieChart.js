@@ -62,8 +62,11 @@ export const PieChart = ({ playerData }) => {
                 const percentage = `${(value * 100 / sum).toFixed(2)}%`;
                 return percentage;
               },
-              color: '#fff',
-              fontSize: 16,
+              color: '#f4f0ec',
+              font: {
+                size: 15,
+                weight: 'bold',
+              },
             },
           },
         }}

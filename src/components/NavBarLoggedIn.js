@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   appbar: {
     height: '4.75vh',
     [theme.breakpoints.down('xs')]: {
-      height: '6.25vh',
+      height: '7.75vh',
     },
   },
   mobileMenu: {

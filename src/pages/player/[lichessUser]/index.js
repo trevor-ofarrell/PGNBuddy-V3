@@ -93,6 +93,16 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     marginLeft: 'auto',
     marginRight: 'auto',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      height: '50vh',
+      position: 'relative',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    [theme.breakpoints.down('xs')]: {
+      height: '70vh',
+    },
   },
   title: {
     color: 'white',

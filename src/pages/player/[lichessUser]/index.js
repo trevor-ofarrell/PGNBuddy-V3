@@ -1,14 +1,12 @@
 import ErrorPage from 'next/error';
 import {
-  Grid, makeStyles, Typography, Card, Hidden,
+  Grid, makeStyles, Typography, Card,
 } from '@material-ui/core';
-import Link from 'next/link';
 import {
   NavBarLoggedIn,
   PieChart,
   RadarChart,
   LineChart,
-  LineChartMobile,
 } from '../../../components';
 
 const axios = require('axios');
@@ -44,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
       overflowX: 'hidden',
     },
     [theme.breakpoints.down('xs')]: {
-      background: 'rgb(49, 46, 44)',
     },
   },
   link: {
@@ -143,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       margin: '0em',
       padding: '0em',
-      marginBottom: '2em',
+      marginBottom: '1em',
     },
   },
   piecard: {
@@ -190,7 +187,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       margin: '0em',
       padding: '0em',
-      marginBottom: '2em',
+      marginBottom: '1em',
     },
   },
   grid: {
@@ -288,8 +285,9 @@ const User = (props) => {
   const {
     perfList, playerData, username, pastYearRatingHistory,
   } = props;
+
   const classes = useStyles();
-  // console.log(pastYearRatingHistory)
+
   if (!perfList && !playerData) {
     return <ErrorPage statusCode={404} />;
   }
@@ -307,30 +305,16 @@ const User = (props) => {
             </a>
           </Typography>
           <Grid container className={classes.grid}>
-            <Hidden mdUp>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Card className={classes.linecard} elevation={0}>
-                  <div className={classes.line}>
-                    <LineChartMobile
-                      pastYearRatingHistory={pastYearRatingHistory}
-                      playerUsername={JSON.parse(username)}
-                    />
-                  </div>
-                </Card>
-              </Grid>
-            </Hidden>
-            <Hidden smDown>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Card className={classes.linecard} elevation={0}>
-                  <div className={classes.line}>
-                    <LineChart
-                      pastYearRatingHistory={pastYearRatingHistory}
-                      playerUsername={JSON.parse(username)}
-                    />
-                  </div>
-                </Card>
-              </Grid>
-            </Hidden>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <Card className={classes.linecard} elevation={0}>
+                <div className={classes.line}>
+                  <LineChart
+                    pastYearRatingHistory={pastYearRatingHistory}
+                    playerUsername={JSON.parse(username)}
+                  />
+                </div>
+              </Card>
+            </Grid>
             <Grid item xs={12} sm={12} md={7} lg={6} xl={6}>
               <Card className={classes.radarcard} elevation={0}>
                 <div className={classes.radar}>

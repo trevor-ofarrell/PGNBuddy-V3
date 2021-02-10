@@ -1,12 +1,30 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
+import { useMediaQuery, useTheme } from '@material-ui/core';
 
 export const PieChart = ({ playerData, playerUsername }) => {
   const wins = playerData.win;
   const losses = playerData.loss;
   const draws = playerData.draw;
   const totalGames = wins + losses + draws;
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+  const mobileFontSizes = {
+    title: 13,
+    legendFontSize: 12,
+    legendBoxWidth: 40,
+    dataLabelFontSize: 12,
+  };
+  const defaultFontSizes = {
+    title: 17,
+    legendFontSize: 14,
+    legendBoxWidth: 45,
+    dataLabelFontSize: 16,
+  };
+  const fontSize = (matches === true) ? defaultFontSizes : mobileFontSizes;
+
   const data = {
     labels: [
       'Win',
@@ -29,6 +47,7 @@ export const PieChart = ({ playerData, playerUsername }) => {
       ],
     }],
   };
+
   return (
     <div>
       <Pie
@@ -41,9 +60,9 @@ export const PieChart = ({ playerData, playerUsername }) => {
           animation: { duration: 0 },
           legend: {
             labels: {
-              // This more specific font property overrides the global property
               fontColor: 'rgb(229, 226, 224)',
-              fontSize: 16,
+              fontSize: fontSize.legendFontSize,
+              boxWidth: fontSize.legendBoxWidth,
               borderWidth: '0',
             },
             usePointStyle: true,
@@ -52,7 +71,7 @@ export const PieChart = ({ playerData, playerUsername }) => {
             display: true,
             text: `${playerUsername}'s win, loss, draw percentage over ${totalGames} games`,
             fontColor: 'rgb(229, 226, 224)',
-            fontSize: 16,
+            fontSize: fontSize.title,
           },
           plugins: {
             datalabels: {
@@ -67,7 +86,7 @@ export const PieChart = ({ playerData, playerUsername }) => {
               },
               color: 'rgb(229, 226, 224)',
               font: {
-                size: 15,
+                size: fontSize.dataLabelFontSize,
                 weight: 'bold',
               },
             },

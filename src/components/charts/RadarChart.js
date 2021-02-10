@@ -1,5 +1,6 @@
 import React from 'react';
 import { Radar } from 'react-chartjs-2';
+import { useMediaQuery, useTheme } from '@material-ui/core';
 
 export const RadarChart = ({ perfList, playerUsername }) => {
   const perfListRef = perfList;
@@ -15,6 +16,22 @@ export const RadarChart = ({ perfList, playerUsername }) => {
   const variantNames = variantList.flatMap((x) => Object.keys(x));
   const variantGames = [];
   variantList.forEach((x) => { const game = Object.values(x)[0]; variantGames.push(game.games); });
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+  const mobileFontSizes = {
+    title: 13,
+    legendFontSize: 12,
+    legendBoxWidth: 40,
+    dataLabelFontSize: 12,
+  };
+  const defaultFontSizes = {
+    title: 17,
+    legendFontSize: 14,
+    legendBoxWidth: 45,
+    dataLabelFontSize: 15,
+  };
+  const fontSize = (matches === true) ? defaultFontSizes : mobileFontSizes;
 
   const data = {
     labels: names,
@@ -48,13 +65,14 @@ export const RadarChart = ({ perfList, playerUsername }) => {
             display: true,
             text: `distribution of ${playerUsername}'s games across standard time controls`,
             fontColor: 'rgb(229, 226, 224)',
-            fontSize: 16,
+            fontSize: fontSize.title,
           },
           legend: {
             labels: {
               fontColor: 'rgb(229, 226, 224)',
               fontStyle: 'bold',
-              fontSize: 16,
+              fontSize: fontSize.legendFontSize,
+              boxWidth: fontSize.legendBoxWidth,
             },
           },
           scale: {
@@ -65,7 +83,7 @@ export const RadarChart = ({ perfList, playerUsername }) => {
               color: 'white',
             },
             pointLabels: {
-              fontSize: 14,
+              fontSize: fontSize.dataLabelFontSize,
               fontColor: 'rgb(169, 166, 164)',
             },
           },

@@ -1,6 +1,6 @@
 import ErrorPage from 'next/error';
 import {
-  Grid, makeStyles, Typography, Card,
+  Grid, makeStyles, Typography, Card, Hidden,
 } from '@material-ui/core';
 import Link from 'next/link';
 import {
@@ -8,6 +8,7 @@ import {
   PieChart,
   RadarChart,
   LineChart,
+  LineChartMobile,
 } from '../../../components';
 
 const axios = require('axios');
@@ -241,23 +242,26 @@ export const getServerSideProps = async ({ params, res }) => {
             const pointDate = new Date(point[0], point[1], point[2]);
             return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);
           });
+          const averages = {};
 
-          const avgs = Object.fromEntries(
-            Object.entries(
-              pastYearData.reduce(
-                (acc, cur) => ({
-                  ...acc,
-                  [cur[1]]: {
-                    ...acc[cur[1]],
-                    count: (acc[cur[1]]?.count ?? 0) + 1,
-                    total: (acc[cur[1]]?.total ?? 0) + cur[3],
-                  },
-                }),
-              ),
-            ).map(([k, { total, count }]) => [k, total / count]),
+          // Loop through the source data
+          pastYearData.forEach((row) => {
+            // Create an array as this month's value if not set
+            if (!averages[row[1]]) { averages[row[1]] = []; }
+
+            // Lump the same-month values into the correct array. Use parseInt to avoid
+            // potential NaN errors
+            averages[row[1]].push(parseInt(row[3], 10));
+          });
+
+          // Calculate the averages by looping through each key in the object (each month),
+          // using reduce to get the sum of the array and then use the length property to
+          // get the average of that array.
+          Object.keys(averages).forEach(
+            (m) => averages[m] = averages[m].reduce((v, i) => v + i, 0) / averages[m].length,
           );
 
-          pastYearRatingHistory.push({ [timeControlName]: avgs });
+          pastYearRatingHistory.push({ [timeControlName]: averages });
         }
       } catch {}
     });
@@ -285,7 +289,7 @@ const User = (props) => {
     perfList, playerData, username, pastYearRatingHistory,
   } = props;
   const classes = useStyles();
-
+  // console.log(pastYearRatingHistory)
   if (!perfList && !playerData) {
     return <ErrorPage statusCode={404} />;
   }
@@ -303,16 +307,30 @@ const User = (props) => {
             </a>
           </Typography>
           <Grid container className={classes.grid}>
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <Card className={classes.linecard} elevation={0}>
-                <div className={classes.line}>
-                  <LineChart
-                    pastYearRatingHistory={pastYearRatingHistory}
-                    playerUsername={JSON.parse(username)}
-                  />
-                </div>
-              </Card>
-            </Grid>
+            <Hidden mdUp>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Card className={classes.linecard} elevation={0}>
+                  <div className={classes.line}>
+                    <LineChartMobile
+                      pastYearRatingHistory={pastYearRatingHistory}
+                      playerUsername={JSON.parse(username)}
+                    />
+                  </div>
+                </Card>
+              </Grid>
+            </Hidden>
+            <Hidden smDown>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Card className={classes.linecard} elevation={0}>
+                  <div className={classes.line}>
+                    <LineChart
+                      pastYearRatingHistory={pastYearRatingHistory}
+                      playerUsername={JSON.parse(username)}
+                    />
+                  </div>
+                </Card>
+              </Grid>
+            </Hidden>
             <Grid item xs={12} sm={12} md={7} lg={6} xl={6}>
               <Card className={classes.radarcard} elevation={0}>
                 <div className={classes.radar}>

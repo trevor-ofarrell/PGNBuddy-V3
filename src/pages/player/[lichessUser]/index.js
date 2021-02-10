@@ -96,7 +96,8 @@ const useStyles = makeStyles((theme) => ({
   line: {
     position: 'relative',
     marginLeft: 'auto',
-    marginRight: 'auto',
+    marginRiht: 'auto',
+    height: '50vh',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       height: '50vh',

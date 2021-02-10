@@ -38,6 +38,7 @@ export const PieChart = ({ playerData, playerUsername }) => {
         options={{
           responsive: true,
           maintainAspectRatio: true,
+          animation: { duration: 0 },
           legend: {
             labels: {
               // This more specific font property overrides the global property

@@ -1,7 +1,26 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import { useMediaQuery, useTheme } from '@material-ui/core';
 
 export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+  const mobileFontSizes = {
+    title: 13,
+    legendFontSize: 12,
+    legendBoxWidth: 15,
+    dataLabelFontSize: 11,
+    axesTickFontSize: 12,
+  };
+  const defaultFontSizes = {
+    title: 17,
+    legendFontSize: 14,
+    legendBoxWidth: 33,
+    dataLabelFontSize: 13,
+    axesTickFontSize: 14,
+  };
+  const fontSize = (matches === true) ? defaultFontSizes : mobileFontSizes;
+
   const dataSets = [];
   const monthList = [];
   const monthNumberToLabelMap = {
@@ -35,16 +54,21 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
   const allChartData = [];
   let index = 0;
 
+  // iterate through the timecontrols/variants
   pastYearRatingHistory.map((ele) => {
     const dataSet = [];
 
+    // iterate through the given data points for each timecontrol/variant
     Object.keys(ele).forEach((elem) => {
       let monthKeys = Object.keys(ele[[elem]]);
 
       const currentDate = new Date();
       const month = currentDate.getUTCMonth();
+      // rotate array to have the current month at the right,
+      // and farthest month to the left of the chart.
       monthKeys = monthKeys.splice(month).concat(monthKeys);
 
+      // remove objects which values are not numbers
       monthKeys.forEach((keyName) => {
         if (Number.isNaN(ele[[elem]][keyName])) {
           delete ele[[elem]][keyName];
@@ -56,6 +80,7 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
 
       dataSets.push({ [elem]: dataSet });
 
+      // create object for each dataset to be shown on chart
       const chartData = {
         label: elem,
         fill: false,
@@ -88,13 +113,13 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
   });
 
   const lengths = monthList.map((a) => a.length);
-  const indexForLargestArray = lengths.indexOf(Math.max(...lengths));
-  let largestArray = monthList[indexForLargestArray];
 
-  const currentDate = new Date();
-  const month = currentDate.getUTCMonth();
+  // get timecontrol/variant with most months containing datapoints
+  let largestArray = monthList[lengths.indexOf(Math.max(...lengths))];
 
-  largestArray = largestArray.splice(month).concat(largestArray);
+  // rotate array to have the current month at the right,
+  // and farthest month to the left of the chart.
+  largestArray = largestArray.splice(new Date().getUTCMonth()).concat(largestArray);
 
   const data = {
     labels: largestArray,
@@ -110,24 +135,24 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
         options={{
           responsive: true,
           maintainAspectRatio: false,
-          spanGaps: true,
           legend: {
             labels: {
               fontColor: 'rgb(229, 226, 224)',
-              fontSize: 14,
+              fontSize: fontSize.legendFontSize,
+              boxWidth: fontSize.legendBoxWidth,
             },
           },
           title: {
             display: true,
-            text: `${playerUsername}'s rating history over the past 12 months on lichess.org`,
+            text: `${playerUsername}'s rating history over the past ${largestArray.length} months on lichess.org`,
             fontColor: 'rgb(229, 226, 224)',
-            fontSize: 16,
+            fontSize: fontSize.title,
           },
           plugins: {
             datalabels: {
               color: 'rgb(219, 216, 214)',
               font: {
-                size: 13,
+                size: fontSize.dataLabelFontSize,
               },
             },
           },
@@ -138,13 +163,13 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
               },
               ticks: {
                 fontColor: 'rgb(119, 116, 114)',
-                fontSize: 14,
+                fontSize: fontSize.axesTickFontSize,
               },
             }],
             yAxes: [{
               ticks: {
                 fontColor: 'rgb(119, 116, 114)',
-                fontSize: 14,
+                fontSize: fontSize.axesTickFontSize,
               },
               gridLines: {
                 color: 'rgb(59, 56, 54)',

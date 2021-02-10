@@ -207,8 +207,8 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       background: 'rgb(49, 46, 44)',
     },
-    [theme.breakpoints.down('sm')]: {
-      background: 'rgba(12,12,12, .7)',
+    [theme.breakpoints.down('md')]: {
+      background: 'rgb(39, 36, 34)',
       marginBottom: '0.6em',
       width: '100%',
     },

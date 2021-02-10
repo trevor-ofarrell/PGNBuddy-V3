@@ -123,10 +123,10 @@ const useStyles = makeStyles((theme) => ({
       background: 'rgb(49, 46, 44)',
     },
     [theme.breakpoints.down('sm')]: {
-      background: 'rgba(12,12,12, .7)',
+      background: 'rgb(39, 36, 34)',
       marginBottom: '0.6em',
       width: '100%',
-      height: '13.5vh',
+      height: '15vh',
     },
   },
 }));
@@ -145,11 +145,6 @@ export const NavBarLoggedIn = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -157,21 +152,6 @@ export const NavBarLoggedIn = () => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem />
-    </Menu>
-  );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -319,7 +299,6 @@ export const NavBarLoggedIn = () => {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
     </div>
   );
 };

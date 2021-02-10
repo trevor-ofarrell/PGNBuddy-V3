@@ -52,8 +52,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     padding: '1em',
   },
+  mobileMenu: {
+    '& .MuiPaper-root': {
+      backgroundColor: 'rgb(39, 36, 34)',
+    },
+  },
   mobilemenutext: {
-    padding: '1em',
+    padding: '.7em',
+    color: 'white',
   },
   appbar: {
     height: '4.75vh',
@@ -109,6 +115,7 @@ export const ResponsiveAppBar = () => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      className={classes.mobileMenu}
     >
       <Link href="/">
         <MenuItem>

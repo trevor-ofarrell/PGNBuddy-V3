@@ -125,7 +125,7 @@ function App(props, inProp = true) {
   const { id, email } = props;
 
   return (
-    <Box className={classes.root}>
+    <div className={classes.root}>
       { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
       <section className={classes.section}>
         <Grow
@@ -176,7 +176,7 @@ function App(props, inProp = true) {
           </Grid>
         </Grow>
       </section>
-    </Box>
+    </div>
 
   );
 }

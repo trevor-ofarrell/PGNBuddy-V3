@@ -163,6 +163,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       margin: '0em',
+      marginBottom: '1.5em',
     },
   },
   linecard: {
@@ -258,7 +259,9 @@ export const getServerSideProps = async ({ params, res }) => {
             (m) => averages[m] = averages[m].reduce((v, i) => v + i, 0) / averages[m].length,
           );
 
-          pastYearRatingHistory.push({ [timeControlName]: averages });
+          if (Object.keys(averages).length > 1) {
+            pastYearRatingHistory.push({ [timeControlName]: averages });
+          }
         }
       } catch {}
     });

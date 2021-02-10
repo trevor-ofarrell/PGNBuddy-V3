@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { AuthProvider } from '../../auth';
 
@@ -18,6 +18,18 @@ export default function SaveApp(props) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
+
+  const theme = createMuiTheme({
+    overrides: {
+      MuiCssBaseline: {
+        '@global': {
+          body: {
+            overflow: 'hidden',
+          },
+        },
+      },
+    },
+  });
 
   return (
     <AuthProvider>
@@ -37,8 +49,10 @@ export default function SaveApp(props) {
           <meta name="apple-mobile-web-app-status-bar" content="rgb(29, 26, 24)" />
         </Head>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Component {...pageProps} />
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </MuiThemeProvider>
       </>
     </AuthProvider>
   );

@@ -88,6 +88,10 @@ const useStyles = makeStyles((theme) => ({
       width: '30vw',
       position: 'relative',
     },
+    [theme.breakpoints.down('xs')]: {
+      height: '100%',
+      width: '92vw',
+    },
   },
   line: {
     position: 'relative',

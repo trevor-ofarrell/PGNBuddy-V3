@@ -107,8 +107,6 @@ async function exportAll(req, res) {
       password: process.env.LAMBDA_REDIS_PW,
     });
 
-    console.log(startDate, endDate);
-
     const usersFolders = [];
     const pgnList = [];
 
@@ -185,7 +183,6 @@ async function exportAll(req, res) {
 
         pgnList.push(pgn);
         i += 1;
-        console.log(i);
 
         if (usersFolders) {
           if (!usersFolders.includes(pgn.folder)) {
@@ -204,7 +201,6 @@ async function exportAll(req, res) {
               if (reply !== 1) {
                 await cache.saddAsync(`${userData.id}-folder-names`, callbackFolder);
                 pgnList.forEach((elem) => {
-                  console.log(`${userData.id}-${callbackFolder}`);
                   promises.push(
                     cache.hsetAsync(
                       `${userData.id}-${callbackFolder}`,
@@ -227,7 +223,6 @@ async function exportAll(req, res) {
 
               await cache.saddAsync(`${userData.id}-folder-names`, callbackFolder);
               pgnList.forEach((elem) => {
-                console.log(`${userData.id}-${callbackFolder}`);
                 promises.push(
                   cache.hsetnxAsync(
                     `${userData.id}-${callbackFolder}`,
@@ -245,16 +240,13 @@ async function exportAll(req, res) {
               await Promise.all(promises);
 
               cache.quit();
-              console.log('cache succeded');
 
               return res.status(200).end();
             });
           });
         } else {
-          console.log('cache failed');
           return res.status(500).end();
         }
-        console.log('cache failed2');
       },
     });
     eventStreamer.stream();

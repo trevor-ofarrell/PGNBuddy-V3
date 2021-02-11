@@ -168,10 +168,11 @@ const useStyles = makeStyles((theme) => ({
     background: 'transparent',
     border: 'none',
     boxShadow: 'none',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     [theme.breakpoints.down('md')]: {
       marginTop: '0vh',
       backgroundColor: 'rgba(12, 12, 12, 0.875)',
-      paddingRight: '1.75vw',
     },
     [theme.breakpoints.up('xl')]: {
       marginTop: '5vh',
@@ -190,17 +191,22 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   sidedrawer: {
-    marginLeft: '1em',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '94%',
     [theme.breakpoints.down('md')]: {
-      paddingTop: '7vh',
+      paddingTop: '0.65vh',
     },
     [theme.breakpoints.up('xl')]: {
       paddingTop: '-3.5vh',
     },
   },
-  options: {
-    width: '95%',
-    height: '11vh',
+  sideDrawerButton: {
+    width: '100%',
+    height: 'auto',
+    padding: '2.15em',
+    paddingLeft: 'auto',
+    paddingRight: 'auto',
     color: 'white',
     marginBottom: '1em',
     background: 'rgb(59, 56, 54)',
@@ -210,7 +216,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       background: 'rgb(39, 36, 34)',
       marginBottom: '0.6em',
-      width: '100%',
     },
   },
   menuicon: {
@@ -453,14 +458,14 @@ const Dashboard = (props) => {
       <Grid container>
         <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportpgn">
-            <Button className={classes.options}>
+            <Button className={classes.sideDrawerButton}>
               Export PGN from Lichess
             </Button>
           </Link>
         </Grid>
         <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
-            <Button className={classes.options}>
+            <Button className={classes.sideDrawerButton}>
               Export PGNs by date (100 game limit per request)
             </Button>
           </Link>
@@ -469,7 +474,7 @@ const Dashboard = (props) => {
            && (
            <Grid item xs={12} sm={12} lg={12}>
              <Link href={playerLink}>
-               <Button className={classes.options}>
+               <Button className={classes.sideDrawerButton}>
                  View my lichess stats
                </Button>
              </Link>
@@ -485,7 +490,7 @@ const Dashboard = (props) => {
       <Box>
         <div className={classes.dash}>
           <CssBaseline />
-          <nav className={classes.drawer} aria-label="options menu">
+          <nav className={classes.drawer} aria-label="sideDrawerButton menu">
             <Hidden only={['xs', 'lg', 'xl']}>
               <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
                 <MenuOpenIcon style={{ fill: '#ffffff' }} />

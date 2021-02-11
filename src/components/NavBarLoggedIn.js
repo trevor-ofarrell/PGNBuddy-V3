@@ -98,24 +98,30 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       marginTop: '0vh',
       backgroundColor: 'rgba(12, 12, 12, 0.875)',
-      paddingRight: '1.75vw',
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
     [theme.breakpoints.up('xl')]: {
       marginTop: '5vh',
     },
   },
   sidedrawer: {
-    marginLeft: '1em',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '94%',
     [theme.breakpoints.down('md')]: {
-      paddingTop: '7vh',
+      paddingTop: '0.5em',
     },
     [theme.breakpoints.up('xl')]: {
       paddingTop: '-3.5vh',
     },
   },
-  options: {
-    width: '95%',
-    height: '10.14vh',
+  sideDrawerButton: {
+    width: '94%',
+    height: 'auto',
+    padding: '2em',
+    paddingLeft: 'auto',
+    paddingRight: 'auto',
     color: 'white',
     marginBottom: '1em',
     background: 'rgb(59, 56, 54)',
@@ -126,18 +132,15 @@ const useStyles = makeStyles((theme) => ({
       background: 'rgb(39, 36, 34)',
       marginBottom: '0.6em',
       width: '100%',
-      height: '15vh',
     },
   },
 }));
 
 export const NavBarLoggedIn = ({ lichessUsername }) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const theme = useTheme();
 
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -198,14 +201,14 @@ export const NavBarLoggedIn = ({ lichessUsername }) => {
       <Grid container>
         <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportpgn">
-            <Button className={classes.options}>
+            <Button className={classes.sideDrawerButton}>
               Export PGN from Lichess
             </Button>
           </Link>
         </Grid>
         <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
-            <Button className={classes.options}>
+            <Button className={classes.sideDrawerButton}>
               Export PGNs by date (100 game limit per request)
             </Button>
           </Link>
@@ -214,7 +217,7 @@ export const NavBarLoggedIn = ({ lichessUsername }) => {
            && (
            <Grid item xs={12} sm={12} lg={12}>
              <Link href={playerLink}>
-               <Button className={classes.options}>
+               <Button className={classes.sideDrawerButton}>
                  View my lichess stats
                </Button>
              </Link>

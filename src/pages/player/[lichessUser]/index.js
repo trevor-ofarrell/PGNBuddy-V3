@@ -282,10 +282,6 @@ export const getServerSideProps = async ({ params, res }) => {
   } catch {
     res.statusCode = 404;
     return {
-      redirect: {
-        permanent: false,
-        destination: '/login',
-      },
       props: {},
     };
   }

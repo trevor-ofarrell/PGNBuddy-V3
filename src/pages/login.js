@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { firebaseClient } from '../../firebaseClient';
+import fire from '../../fire-config';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -73,7 +74,10 @@ const Login = () => {
                 <Button
                   className={classes.button}
                   onClick={async () => {
-                    await firebaseClient.auth().signInWithEmailAndPassword(email, pass);
+                    await firebaseClient.auth()
+                      .setPersistence(firebaseClient.auth.Auth.Persistence.LOCAL);
+                    await firebaseClient.auth()
+                      .signInWithEmailAndPassword(email, pass);
                     window.location.href = '/dashboard';
                   }}
                 >

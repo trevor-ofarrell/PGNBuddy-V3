@@ -382,7 +382,6 @@ export const getServerSideProps = async (ctx) => {
               pgnList = Object.values(value);
               pgnList = pgnList.map(JSON.parse);
               userPgns.push(...pgnList);
-              //  console.log(pgnList.length);
             } else {
               userPgns = [];
               userFolders = [];
@@ -393,12 +392,10 @@ export const getServerSideProps = async (ctx) => {
 
       await Promise.all(promises).then(() => {
         if (userFolders && userPgns) {
-          //  console.log('cache hit', userFolders, userPgns.length);
           cache.quit();
         } else {
           userPgns = [];
           userFolders = [];
-          //  console.log("cache missed :'(");
           cache.quit();
         }
 

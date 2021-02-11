@@ -2,6 +2,7 @@ import ErrorPage from 'next/error';
 import {
   Grid, makeStyles, Typography, Card,
 } from '@material-ui/core';
+
 import {
   NavBarLoggedIn,
   PieChart,
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
       '-webkit-box-shadow': 'inset 0 0 6px rgba(29, 26, 24)',
     },
     '*::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(19, 16, 14)',
+      backgroundColor: 'rgba(29, 26, 24)',
     },
   },
   root: {
@@ -263,7 +264,9 @@ export const getServerSideProps = async ({ params, res }) => {
             pastYearRatingHistory.push({ [timeControlName]: averages });
           }
         }
-      } catch {}
+      } catch (err) {
+        console.log(err);
+      }
     });
 
     perfs.forEach((elem) => {
@@ -273,12 +276,16 @@ export const getServerSideProps = async ({ params, res }) => {
 
     return {
       props: {
-        perfList, playerData, username, pastYearRatingHistory,
+        perfList, playerData, username, pastYearRatingHistory, lichessUsername: params.lichessUser,
       },
     };
   } catch {
     res.statusCode = 404;
     return {
+      redirect: {
+        permanent: false,
+        destination: '/login',
+      },
       props: {},
     };
   }
@@ -286,7 +293,7 @@ export const getServerSideProps = async ({ params, res }) => {
 
 const User = (props) => {
   const {
-    perfList, playerData, username, pastYearRatingHistory,
+    perfList, playerData, username, pastYearRatingHistory, lichessUsername,
   } = props;
 
   const classes = useStyles();
@@ -298,7 +305,7 @@ const User = (props) => {
   return (
     <>
       <div className={classes.root}>
-        <NavBarLoggedIn />
+        <NavBarLoggedIn lichessUsername={lichessUsername} />
         <div className={classes.aspect}>
           <Typography variant="h6" className={classes.title}>
             lichess.org account

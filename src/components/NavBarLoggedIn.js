@@ -131,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const NavBarLoggedIn = () => {
+export const NavBarLoggedIn = ({ lichessUsername }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -192,6 +192,7 @@ export const NavBarLoggedIn = () => {
     </Menu>
   );
 
+  const playerLink = `/player/${lichessUsername}`;
   const drawer = (
     <div className={classes.sidedrawer}>
       <Grid container>
@@ -209,6 +210,16 @@ export const NavBarLoggedIn = () => {
             </Button>
           </Link>
         </Grid>
+        {lichessUsername
+           && (
+           <Grid item xs={12} sm={12} lg={12}>
+             <Link href={playerLink}>
+               <Button className={classes.options}>
+                 View my lichess stats
+               </Button>
+             </Link>
+           </Grid>
+           )}
       </Grid>
     </div>
   );

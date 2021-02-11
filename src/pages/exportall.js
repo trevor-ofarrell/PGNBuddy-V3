@@ -48,14 +48,16 @@ export const getServerSideProps = async (ctx) => {
     const cookies = nookies.get(ctx);
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     const { uid, email } = token;
+
     bluebird.promisifyAll(redis.RedisClient.prototype);
     const cache = redis.createClient({
       port: process.env.LAMBDA_REDIS_PORT,
       host: process.env.LAMBDA_REDIS_ENDPOINT,
       password: process.env.LAMBDA_REDIS_PW,
     });
-      // TODO: add hash map for finding users lichess profile
+
     const username = await cache.hgetAsync('users', email);
+
     return {
       props: { id: uid, email, username },
     };

@@ -370,6 +370,8 @@ export const getServerSideProps = async (ctx) => {
     let userPgns = [];
     const promises = [];
 
+    const lichessUsername = await cache.hgetAsync('users', email);
+
     await cache.smembersAsync(`${uid}-folder-names`).then(async (folders) => {
       userFolders = folders;
 
@@ -406,7 +408,7 @@ export const getServerSideProps = async (ctx) => {
 
     return {
       props: {
-        id: uid, email, user, pgns: userPgns, folders: userFolders,
+        id: uid, email, user, pgns: userPgns, folders: userFolders, lichessUsername,
       },
     };
   } catch (err) {
@@ -423,7 +425,7 @@ export const getServerSideProps = async (ctx) => {
 
 const Dashboard = (props) => {
   const {
-    id, pgns, folders,
+    id, pgns, folders, lichessUsername,
   } = props;
 
   const classes = useStyles();
@@ -448,6 +450,7 @@ const Dashboard = (props) => {
     setExpandedPgn(newExpanded ? panel : false);
   };
 
+  const playerLink = `/player/${lichessUsername}`;
   const drawer = (
     <div className={classes.sidedrawer}>
       <Grid container>
@@ -465,14 +468,23 @@ const Dashboard = (props) => {
             </Button>
           </Link>
         </Grid>
-
+        {lichessUsername
+           && (
+           <Grid item xs={12} sm={12} lg={12}>
+             <Link href={playerLink}>
+               <Button className={classes.options}>
+                 View my lichess stats
+               </Button>
+             </Link>
+           </Grid>
+           )}
       </Grid>
     </div>
   );
 
   return (
     <div className={classes.root}>
-      <NavBarLoggedIn handleDrawerToggle={handleDrawerToggle} />
+      <NavBarLoggedIn handleDrawerToggle={handleDrawerToggle} lichessUsername={lichessUsername} />
       <Box>
         <div className={classes.dash}>
           <CssBaseline />

@@ -170,13 +170,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    [theme.breakpoints.up('xl')]: {
-      marginTop: '0vh',
-    },
-    [theme.breakpoints.down('md')]: {
-      paddingLeft: theme.spacing(0),
-      paddingRight: theme.spacing(0),
-    },
   },
   sidedrawer: {
     marginLeft: 'auto',

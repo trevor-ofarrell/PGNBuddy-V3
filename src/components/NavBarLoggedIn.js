@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
   sideDrawerButton: {
     width: '94%',
     height: 'auto',
-    padding: '2em',
+    padding: '1.5em',
     paddingLeft: 'auto',
     paddingRight: 'auto',
     color: 'white',

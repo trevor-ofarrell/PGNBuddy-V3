@@ -102,7 +102,6 @@ const PgnAccordionSummary = withStyles({
 const AccordionDetails = withStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(2),
-    paddingRight: theme.spacing(0.5),
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(0.8),
     },
@@ -120,17 +119,6 @@ const PgnAccordionDetails = withStyles((theme) => ({
 }))(MuiAccordionDetails);
 
 const useStyles = makeStyles((theme) => ({
-  '@global': {
-    '*::-webkit-scrollbar': {
-      width: '1.25em',
-    },
-    '*::-webkit-scrollbar-track': {
-      '-webkit-box-shadow': 'inset 0 0 6px rgba(29, 26, 24)',
-    },
-    '*::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(19, 16, 14)',
-    },
-  },
   root: {
     overflowY: 'hidden',
     height: '100vh',
@@ -153,7 +141,7 @@ const useStyles = makeStyles((theme) => ({
       width: drawerWidth,
       flexShrink: 0,
       maxHeight: '94vh',
-      marginTop: '8vh',
+      marginTop: '6vh',
     },
   },
   menuButton: {
@@ -163,13 +151,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   drawerPaper: {
+    marginTop: '4.5em',
     width: drawerWidth,
-    marginTop: '6.5vh',
     background: 'transparent',
     border: 'none',
     boxShadow: 'none',
     marginLeft: 'auto',
     marginRight: 'auto',
+    zIndex: '10',
+    marginBottom: 'auto',
     [theme.breakpoints.down('md')]: {
       marginTop: '0vh',
       backgroundColor: 'rgba(12, 12, 12, 0.875)',
@@ -180,8 +170,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    marginTop: '1.5vh',
-    paddingLeft: theme.spacing(1),
     [theme.breakpoints.up('xl')]: {
       marginTop: '0vh',
     },
@@ -193,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
   sidedrawer: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: '94%',
+    width: '90%',
     [theme.breakpoints.down('md')]: {
       paddingTop: '0.65vh',
     },
@@ -204,7 +192,7 @@ const useStyles = makeStyles((theme) => ({
   sideDrawerButton: {
     width: '100%',
     height: 'auto',
-    padding: '2.15em',
+    padding: '1.5em',
     paddingLeft: 'auto',
     paddingRight: 'auto',
     color: 'white',

@@ -4,6 +4,9 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { firebaseClient } from '../../firebaseClient';
+import {
+  ResponsiveAppBar,
+} from '../components';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,6 +40,7 @@ const SignUp = () => {
 
   return (
     <form ref={form} className={classes.root}>
+      <ResponsiveAppBar />
       <Grid container className={classes.mask}>
         <Grid item xs={1} sm={1} md={3} lg={4} />
         <Grid item xs={10} sm={10} md={6} lg={4}>

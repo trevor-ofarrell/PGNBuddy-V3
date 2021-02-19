@@ -2,8 +2,11 @@ import React, { useRef, useState } from 'react';
 import {
   Grid, TextField, Button, Card,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, responsiveFontSizes } from '@material-ui/core/styles';
 import { firebaseClient } from '../../firebaseClient';
+import {
+  ResponsiveAppBar,
+} from '../components';
 import fire from '../../fire-config';
 
 const useStyles = makeStyles(() => ({
@@ -37,6 +40,7 @@ const Login = () => {
 
   return (
     <form ref={form} className={classes.root}>
+      <ResponsiveAppBar />
       <Grid container className={classes.mask}>
         <Grid item xs={1} sm={1} md={3} lg={4} />
         <Grid item xs={10} sm={10} md={6} lg={4}>

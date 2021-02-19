@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     MozUserSelect: 'none',
     MsUserSelect: 'none',
     userSelect: 'none',
+    cursor: 'pointer',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -52,6 +53,8 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionDesktop: {
     display: 'none',
+    marginTop: 'auto',
+    marginBottom: 'auto',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
@@ -66,12 +69,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Aldrich, sans-serif',
     color: '#FFFFFF',
   },
-  appbar: {
-    height: '4.75vh',
-    [theme.breakpoints.down('xs')]: {
-      height: '6.5vh',
-    },
-  },
   mobileMenu: {
     '& .MuiPaper-root': {
       backgroundColor: 'rgb(39, 36, 34)',
@@ -82,11 +79,9 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
   },
   menuicon: {
-    paddingTop: '45vh',
-    paddingBottom: '45vh',
     [theme.breakpoints.down('xs')]: {
       marginLeft: '-2.5vw',
-      marginRight: '-3vw',
+      marginRight: '-2.5vw',
     },
   },
   drawerPaper: {
@@ -233,7 +228,6 @@ export const NavBarLoggedIn = ({ lichessUsername }) => {
         position="static"
         color="transparent"
         elevation={0}
-        className={classes.appbar}
       >
         <Toolbar>
           <Hidden smUp>

@@ -23,6 +23,15 @@ export default function SaveApp(props) {
     overrides: {
       MuiCssBaseline: {
         '@global': {
+          '*::-webkit-scrollbar': {
+            width: '1.25em',
+          },
+          '*::-webkit-scrollbar-track': {
+            '-webkit-box-shadow': 'inset 0 0 6px rgba(29, 26, 24)',
+          },
+          '*::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(19, 16, 14)',
+          },
           body: {
             overflow: 'hidden',
           },

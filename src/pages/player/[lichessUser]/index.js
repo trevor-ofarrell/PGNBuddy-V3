@@ -13,17 +13,6 @@ import {
 const axios = require('axios');
 
 const useStyles = makeStyles((theme) => ({
-  '@global': {
-    '*::-webkit-scrollbar': {
-      width: '1.25em',
-    },
-    '*::-webkit-scrollbar-track': {
-      '-webkit-box-shadow': 'inset 0 0 6px rgba(29, 26, 24)',
-    },
-    '*::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(29, 26, 24)',
-    },
-  },
   root: {
     background: 'rgb(39, 36, 34)',
     minHeight: '100vh',

@@ -15,15 +15,19 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '10vw',
   },
   paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    backgroundColor: 'rgb(59, 56, 54)',
+    border: '0px solid rgb(59, 56, 54)',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    outline: 'none',
+    color: 'white',
   },
   button: {
     width: '100%',
     marginTop: '1.5em',
     marginBottom: '1em',
+    color: 'white',
+    borderColor: 'white',
   },
   icon: {
     marginLeft: '2vw',
@@ -76,7 +80,9 @@ export const DeleteFolderModal = ({ folderName, id }) => {
             <h2 id="transition-modal-title">
               Delete folder
               {' '}
+              {'"'}
               {folderName}
+              {'"'}
               ?
             </h2>
             <p id="transition-modal-description">Are you sure? The data cannot be recovered.</p>

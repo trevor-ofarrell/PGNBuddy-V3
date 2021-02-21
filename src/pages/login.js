@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import {
-  Grid, TextField, Button, Card,
+  Grid, TextField, Button, Card, Typography,
 } from '@material-ui/core';
 import { makeStyles, responsiveFontSizes } from '@material-ui/core/styles';
+import Link from 'next/link';
 import { firebaseClient } from '../../firebaseClient';
 import {
   ResponsiveAppBar,
@@ -29,6 +30,13 @@ const useStyles = makeStyles(() => ({
   button: {
     width: '100%',
     color: 'white',
+  },
+  signup: {
+    color: 'white',
+    fontFamily: 'Aldrich, sans-serif',
+    textAlign: 'center',
+    cursor: 'pointer',
+    marginTop: '2em',
   },
 }));
 
@@ -90,6 +98,13 @@ const Login = () => {
               </div>
             </Grid>
           </Card>
+          <Grid item xs={12} sm={12} md={12} lg={12}>
+            <Link href="/signup">
+              <Typography className={classes.signup}>
+                Don&#39;t have an account? Sign up.
+              </Typography>
+            </Link>
+          </Grid>
         </Grid>
         <Grid item xs={1} sm={1} md={3} lg={4} />
       </Grid>

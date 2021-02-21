@@ -35,23 +35,11 @@ import {
   DeletePgnModal,
 } from '../components';
 
+// TODO add player/folder/pgn bookmarks
+
 const drawerWidth = 240;
 
 const Accordion = withStyles({
-  root: {
-    background: 'rgb(29, 26, 24)',
-    boxShadow: 'none',
-    '&:before': {
-      display: 'none',
-    },
-    '&$expanded': {
-      margin: 'auto',
-    },
-  },
-  expanded: {},
-})(MuiAccordion);
-
-const PgnAccordion = withStyles({
   root: {
     background: 'rgb(29, 26, 24)',
     boxShadow: 'none',
@@ -522,7 +510,7 @@ const Dashboard = (props) => {
                       <div className={classes.pgns}>
                         {pgns.filter((game) => game.folder === folder).map((pgn, j) => (
                           <React.Fragment key={`pgn-${uuid()}-${pgn.pgn_id}`}>
-                            <PgnAccordion
+                            <Accordion
                               TransitionProps={{ unmountOnExit: true }}
                               expanded={expandedPgn === `panel${String(j)}`}
                               onChange={handlePgnChange(`panel${String(j)}`)}
@@ -638,7 +626,7 @@ const Dashboard = (props) => {
                                   </Grid>
                                 </Grid>
                               </PgnAccordionDetails>
-                            </PgnAccordion>
+                            </Accordion>
                           </React.Fragment>
                         ))}
                       </div>

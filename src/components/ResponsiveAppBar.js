@@ -14,6 +14,7 @@ import {
   AppBar,
   Button,
   Toolbar,
+  Hidden,
 } from '@material-ui/core';
 
 // Material icons
@@ -32,6 +33,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+  },
+  title2: {
+    fontFamily: 'Aldrich, sans-serif',
+    display: 'block',
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
   },
   sectionDesktop: {
     display: 'none',
@@ -66,6 +74,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       height: '6vh',
     },
+  },
+  kingsvg: {
+    alignItems: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
+    marginTop: '-0.65vh',
   },
 }));
 
@@ -152,34 +166,46 @@ export const ResponsiveAppBar = () => {
         className={classes.appbar}
       >
         <Toolbar>
-          <Link href="/">
-            <Typography
-              className={classes.title}
-              variant="h4"
-              noWrap
-              style={{ color: 'white', fontWeight: 'bold' }}
-            >
-              PGNBuddy
-            </Typography>
-          </Link>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
+          <Hidden smUp>
+            <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
             <Link href="/">
-              <Button color="inherit" className={classes.minbutton}>
-                home
-              </Button>
+              <Typography className={classes.title2} variant="h6" noWrap>
+                PGNBuddy
+              </Typography>
             </Link>
-            <Link href="/dashboard">
-              <Button color="inherit" className={classes.minbutton}>
-                dashboard
-              </Button>
+            <div className={classes.grow} />
+          </Hidden>
+          <Hidden xsDown>
+            <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
+            <Link href="/">
+              <Typography
+                className={classes.title}
+                variant="h4"
+                noWrap
+                style={{ color: 'white', fontWeight: 'bold' }}
+              >
+                PGNBuddy
+              </Typography>
             </Link>
-            <Link href="/login">
-              <Button color="inherit" className={classes.minbutton}>
-                log in
-              </Button>
-            </Link>
-          </div>
+            <div className={classes.grow} />
+            <div className={classes.sectionDesktop}>
+              <Link href="/">
+                <Button color="inherit" className={classes.minbutton}>
+                  home
+                </Button>
+              </Link>
+              <Link href="/dashboard">
+                <Button color="inherit" className={classes.minbutton}>
+                  dashboard
+                </Button>
+              </Link>
+              <Link href="/login">
+                <Button color="inherit" className={classes.minbutton}>
+                  log in
+                </Button>
+              </Link>
+            </div>
+          </Hidden>
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"

@@ -52,8 +52,6 @@ export const PieChart = ({ playerData, playerUsername }) => {
     <div>
       <Pie
         data={data}
-        width="100%"
-        height="100%"
         options={{
           responsive: true,
           maintainAspectRatio: true,

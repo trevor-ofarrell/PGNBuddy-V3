@@ -55,8 +55,6 @@ export const RadarChart = ({ perfList, playerUsername }) => {
   return (
     <div>
       <Radar
-        width="100%"
-        height="100%"
         data={data}
         options={{
           responsive: true,
@@ -66,6 +64,12 @@ export const RadarChart = ({ perfList, playerUsername }) => {
             text: `distribution of ${playerUsername}'s games across standard time controls`,
             fontColor: 'rgb(229, 226, 224)',
             fontSize: fontSize.title,
+          },
+          layout: {
+            padding: {
+              left: 0,
+              right: 0,
+            },
           },
           legend: {
             labels: {

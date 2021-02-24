@@ -131,8 +131,6 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
     <div style={{ minHeight: '100%' }}>
       <Line
         data={data}
-        width="100%"
-        height="100%"
         options={{
           responsive: true,
           maintainAspectRatio: false,

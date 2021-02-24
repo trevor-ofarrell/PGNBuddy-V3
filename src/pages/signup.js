@@ -36,6 +36,9 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center',
     cursor: 'pointer',
     marginTop: '2em',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
 }));
 

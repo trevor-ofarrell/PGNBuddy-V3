@@ -28,11 +28,11 @@ const useStyles = makeStyles((theme) => ({
     zIndex: '0',
     alignItems: 'center',
     justifyContent: 'center',
-    background: 'rgb(19, 16, 14)',
+    background: 'rgb(29, 26, 24)',
   },
   section: {
     width: '100%',
-    height: '95.25vh',
+    height: '95.5vh',
   },
   page: {
     marginTop: '17vh',
@@ -50,22 +50,21 @@ const useStyles = makeStyles((theme) => ({
   home: {
     borderRadius: '8px',
     fontFamily: 'Aldrich, sans-serif',
-    fontSize: '4.6vh',
+    fontSize: '3.6em',
     color: 'white',
     padding: '1.8em',
     fontWeight: 'bold',
-    background: 'radial-gradient(100% 225% at 100% 0%, #FF0000 0%, #000000 100%), linear-gradient(236deg, #00C2FF 0%, #000000 100%), linear-gradient(135deg, #CDFFEB 0%, #CDFFEB 36%, #009F9D 36%, #009F9D 60%, #07456F 60%, #07456F 67%, #0F0A3C 67%, #0F0A3C 100%)',
-    backgroundBlendMode: 'overlay, hard-light, normal',
+    background: 'rgb(39, 36, 34)',
     [theme.breakpoints.down('md')]: {
-      fontSize: '3.6vh',
+      fontSize: '2.75em',
     },
     [theme.breakpoints.down('sm')]: {
-      fontSize: '3.6vh',
+      fontSize: '2.75em',
       padding: '2em',
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: '3.4vh',
-      padding: '2em',
+      fontSize: '2.1em',
+      padding: '0.5em',
     },
 
   },
@@ -75,11 +74,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.8em',
     bottom: '1em',
     color: 'white',
-    border: '0px',
-    background: 'radial-gradient(100% 225% at 0% 0%, #DE3E3E 0%, #17115C 100%), radial-gradient(100% 225% at 100% 0%, #FF9040 0%, #FF0000 100%), linear-gradient(180deg, #CE63B7 0%, #ED6283 100%), radial-gradient(100% 120% at 75% 0%, #A74600 0%, #000000 100%), linear-gradient(310deg, #0063D8 0%, #16009A 50%)',
-    backgroundBlendMode: 'overlay, color-dodge, color-burn, color-dodge, normal',
+    borderColor: 'rgb(39, 36, 34)',
+    background: 'rgb(39, 36, 34)',
     fontFamily: 'Aldrich, sans-serif',
     marginTop: '18vh',
+    '&:hover': {
+      borderColor: 'rgb(59, 56, 54)',
+    },
     [theme.breakpoints.down('lg')]: {
     },
     [theme.breakpoints.down('md')]: {
@@ -90,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
       bottom: '1em',
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: '18vh',
+      marginTop: '15vh',
       fontSize: '0.8em',
       bottom: '1em',
     },
@@ -100,6 +101,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Aldrich, sans-serif',
     textAlign: 'center',
     cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
 }));
 

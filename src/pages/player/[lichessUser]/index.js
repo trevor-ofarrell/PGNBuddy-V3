@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   aspect: {
     height: '100%',
     paddingBottom: '6em',
+    maxWidth: '100%',
     [theme.breakpoints.up('xl')]: {
       aspectRatio: '16 / 9',
       height: '100%',
@@ -84,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   line: {
     position: 'relative',
     marginLeft: 'auto',
-    marginRiht: 'auto',
+    marginRight: 'auto',
     height: '50vh',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
@@ -184,6 +185,7 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     background: 'rgb(39, 36, 34)',
     overflowY: 'auto',
+    paddingBottom: '2em',
     [theme.breakpoints.down('lg')]: {
       height: '100%',
     },
@@ -310,7 +312,7 @@ const User = (props) => {
                 </div>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={12} md={7} lg={6} xl={6}>
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
               <Card className={classes.radarcard} elevation={0}>
                 <div className={classes.radar}>
                   <RadarChart
@@ -320,7 +322,7 @@ const User = (props) => {
                 </div>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={12} md={5} lg={6} xl={6}>
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
               <Card className={classes.piecard} elevation={0}>
                 <div className={classes.pie}>
                   <PieChart

@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   drawerPaper: {
-    marginTop: '4.5em',
+    marginTop: '4.545em',
     width: drawerWidth,
     background: 'transparent',
     border: 'none',
@@ -153,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'rgba(12, 12, 12, 0.875)',
     },
     [theme.breakpoints.up('xl')]: {
-      marginTop: '5vh',
+      marginTop: '4.545em',
     },
   },
   content: {

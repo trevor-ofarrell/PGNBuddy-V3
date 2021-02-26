@@ -18,7 +18,7 @@ async function uploadpgnfile(req, res) {
     pgns.forEach((pgn) => {
       const properties = {
         name: pgn[0],
-        pgn_id: '',
+        pgn_id: pgn[0],
         folder: body.uploadFolderName,
         pgn: pgn[1],
         moves: '',

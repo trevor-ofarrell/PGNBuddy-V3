@@ -195,15 +195,16 @@ async function exportAll(req, res) {
       endcallback: () => {
         // do something when stream has ended
         if (usersFolders) {
-          usersFolders.forEach(async (callbackFolder) => {
-            await cache.existsAsync(`${userData.id}-${callbackFolder}`).then(async (reply) => {
+          usersFolders.forEach(async (currentFolder) => {
+            await cache.existsAsync(`${userData.id}-${currentFolder}`).then(async (reply) => {
               const promises = [];
+              // if folder doesnt exist
               if (reply !== 1) {
-                await cache.saddAsync(`${userData.id}-folder-names`, callbackFolder);
+                await cache.saddAsync(`${userData.id}-folder-names`, currentFolder);
                 pgnList.forEach((elem) => {
                   promises.push(
                     cache.hsetAsync(
-                      `${userData.id}-${callbackFolder}`,
+                      `${userData.id}-${currentFolder}`,
                       `${elem.pgn_id}`,
                       JSON.stringify(elem),
                     ).then(async (determinationReply) => {
@@ -221,11 +222,11 @@ async function exportAll(req, res) {
                 return res.status(200).end();
               }
 
-              await cache.saddAsync(`${userData.id}-folder-names`, callbackFolder);
+              await cache.saddAsync(`${userData.id}-folder-names`, currentFolder);
               pgnList.forEach((elem) => {
                 promises.push(
                   cache.hsetnxAsync(
-                    `${userData.id}-${callbackFolder}`,
+                    `${userData.id}-${currentFolder}`,
                     `${elem.pgn_id}`,
                     JSON.stringify(elem),
                   ).then(async (determinationReply2) => {

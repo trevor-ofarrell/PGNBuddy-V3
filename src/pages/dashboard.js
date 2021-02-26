@@ -33,6 +33,7 @@ import {
   NavBarLoggedIn,
   DeleteFolderModal,
   DeletePgnModal,
+  NameFolderModal,
 } from '../components';
 
 // TODO add player/folder/pgn bookmarks
@@ -426,16 +427,22 @@ const Dashboard = (props) => {
     <div className={classes.sidedrawer}>
       <Grid container>
         <Grid item xs={12} sm={12} lg={12}>
+          <NameFolderModal
+            label="Upload Single File"
+            userId={id}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportpgn">
             <Button className={classes.sideDrawerButton}>
-              Export PGN from Lichess
+              Export PGN from lichess
             </Button>
           </Link>
         </Grid>
         <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
             <Button className={classes.sideDrawerButton}>
-              Export PGNs by date (100 game limit per request)
+              Export PGNs from lichess by date (100 game limit per request)
             </Button>
           </Link>
         </Grid>
@@ -455,7 +462,11 @@ const Dashboard = (props) => {
 
   return (
     <div className={classes.root}>
-      <NavBarLoggedIn handleDrawerToggle={handleDrawerToggle} lichessUsername={lichessUsername} />
+      <NavBarLoggedIn
+        handleDrawerToggle={handleDrawerToggle}
+        lichessUsername={lichessUsername}
+        userId={id}
+      />
       <Box>
         <div className={classes.dash}>
           <CssBaseline />
@@ -526,17 +537,19 @@ const Dashboard = (props) => {
                               </PgnAccordionSummary>
                               <PgnAccordionDetails>
                                 <Grid container className={classes.pgncontent}>
-                                  <Grid item xs={12} sm={12} md={12} lg={9} xl={6}>
-                                    <Card className={classes.iframecard} elevation={0}>
-                                      <iframe
-                                        src={pgn.iframe}
-                                        loading="lazy"
-                                        className={classes.iframe}
-                                        title={`lichess iframe game:${pgn.pgn_id}`}
-                                        frameBorder="0"
-                                      />
-                                    </Card>
-                                  </Grid>
+                                  {pgn.iframe !== '' && (
+                                    <Grid item xs={12} sm={12} md={12} lg={9} xl={6}>
+                                      <Card className={classes.iframecard} elevation={0}>
+                                        <iframe
+                                          src={pgn.iframe}
+                                          loading="lazy"
+                                          className={classes.iframe}
+                                          title={`lichess iframe game:${pgn.pgn_id}`}
+                                          frameBorder="0"
+                                        />
+                                      </Card>
+                                    </Grid>
+                                  )}
                                   <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
                                     <Card className={classes.pgninfocard} elevation={0}>
                                       <Typography className={classes.text}>
@@ -616,6 +629,7 @@ const Dashboard = (props) => {
                                         {pgn.pgn}
                                       </Typography>
                                     </Card>
+                                    {pgn.moves && (
                                     <Card className={classes.pgncard} elevation={0}>
                                       <Typography className={classes.text}>
                                         <b>Moves: </b>
@@ -623,6 +637,7 @@ const Dashboard = (props) => {
                                         {pgn.moves}
                                       </Typography>
                                     </Card>
+                                    )}
                                   </Grid>
                                 </Grid>
                               </PgnAccordionDetails>

@@ -17,7 +17,7 @@ async function deletepgn(req, res) {
 
     cache.hlen(`${id}-${folderName}`, async (error, number) => {
       if (number > 1) {
-        cache.hdel(`${id}-${folderName}`, pgnId, (err, reply) => {
+        await cache.hdelAsync(`${id}-${folderName}`, pgnId, (err, reply) => {
           if (!err) {
             if (reply === 1) {
               console.log(`${id} is deleted`);
@@ -34,8 +34,8 @@ async function deletepgn(req, res) {
           cache.quit();
         });
       } else {
-        cache.srem(`${id}-folder-names`, folderName);
-        cache.del(`${id}-${folderName}`);
+        await cache.sremAsync(`${id}-folder-names`, folderName);
+        await cache.delAsync(`${id}-${folderName}`);
       }
       cache.quit();
       return res.status(200).end();

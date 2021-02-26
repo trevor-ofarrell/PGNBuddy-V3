@@ -7,8 +7,6 @@ async function deletepgn(req, res) {
     const { folderName } = req.body;
     const { pgnId } = req.body;
 
-    console.log(req.body);
-
     bluebird.promisifyAll(redis.RedisClient.prototype);
 
     const cache = redis.createClient({
@@ -17,24 +15,16 @@ async function deletepgn(req, res) {
       password: process.env.LAMBDA_REDIS_PW,
     });
 
-    cache.hdel(`${id}-${folderName}`, pgnId, (err, reply) => {
-      if (!err) {
-        if (reply === 1) {
-          console.log(`${id} is deleted`);
-        } else {
-          console.log(`${id} doesn't exists`);
-        }
-      } else if (err) {
-        console.log(err);
+    cache.hlen(`${id}-${folderName}`, async (error, number) => {
+      if (number > 1) {
+        cache.hdel(`${id}-${folderName}`, pgnId);
       } else {
-        console.log('cache delete failed', err);
-        cache.quit();
-        return res.status(500).end();
+        cache.srem(`${id}-folder-names`, folderName);
+        cache.del(`${id}-${folderName}`);
       }
       cache.quit();
+      return res.status(200).end();
     });
-    cache.quit();
-    return res.status(200).end();
   }
   return res.status(500).end();
 }

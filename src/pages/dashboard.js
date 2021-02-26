@@ -384,7 +384,6 @@ export const getServerSideProps = async (ctx) => {
       },
     };
   } catch (err) {
-    console.log(err);
     return {
       redirect: {
         permanent: false,

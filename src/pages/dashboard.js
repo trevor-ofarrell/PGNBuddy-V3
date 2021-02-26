@@ -316,6 +316,12 @@ const useStyles = makeStyles((theme) => ({
       padding: '1em',
     },
   },
+  copypgncard: {
+    background: 'rgb(49, 46, 44)',
+    padding: '1em',
+    height: '100%',
+    textAlign: 'center',
+  },
   link: {
     textDecoration: 'underline white',
   },
@@ -323,6 +329,10 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     borderColor: 'white',
     marginTop: '1vh',
+  },
+  nonprimarybutton: {
+    color: 'white',
+    borderColor: 'white',
   },
 }));
 
@@ -549,77 +559,93 @@ const Dashboard = (props) => {
                                       </Card>
                                     </Grid>
                                   )}
-                                  <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
-                                    <Card className={classes.pgninfocard} elevation={0}>
-                                      <Typography className={classes.text}>
-                                        <b>Event: </b>
-                                        {' '}
-                                        {pgn.rated === true ? 'Rated' : 'Unrated'}
-                                        {' '}
-                                        {pgn.speed}
-                                        {' '}
-                                        game
-                                      </Typography>
-                                      <Typography className={classes.text}>
-                                        <b>Variant: </b>
-                                        {' '}
-                                        {pgn.variant}
-                                      </Typography>
-                                      <Typography className={classes.text}>
-                                        <b>Winner: </b>
-                                        {' '}
-                                        {pgn.winner}
-                                      </Typography>
-                                      {pgn.black !== 'None'
-                                        ? (
-                                          <a href={`/player/${pgn.black}`} className={classes.link}>
-                                            <Typography className={classes.text}>
-                                              <b>Black: </b>
-                                              {' '}
-                                              {pgn.black}
-                                              {' '}
-                                              {pgn.blackRating}
-                                            </Typography>
-                                          </a>
-                                        )
-                                        : (
+                                  {pgn.variant && pgn.status && pgn.rated
+                                    ? (
+                                      <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
+                                        <Card className={classes.pgninfocard} elevation={0}>
                                           <Typography className={classes.text}>
-                                            <b>Black(non-player entity) </b>
+                                            <b>Event: </b>
+                                            {' '}
+                                            {pgn.rated === true ? 'Rated' : 'Unrated'}
+                                            {' '}
+                                            {pgn.speed}
+                                            {' '}
+                                            game
                                           </Typography>
-                                        )}
-                                      {pgn.white !== 'None'
-                                        ? (
-                                          <a href={`/player/${pgn.white}`} className={classes.link}>
-                                            <Typography className={classes.text}>
-                                              <b>White: </b>
-                                              {' '}
-                                              {pgn.white}
-                                              {' '}
-                                              {pgn.whiteRating}
-                                            </Typography>
-                                          </a>
-                                        )
-                                        : (
                                           <Typography className={classes.text}>
-                                            <b>White(non-player entity) </b>
+                                            <b>Variant: </b>
+                                            {' '}
+                                            {pgn.variant}
                                           </Typography>
-                                        )}
-                                      <Typography className={classes.text}>
-                                        <b>Game status: </b>
-                                        {' '}
-                                        {pgn.status}
-                                      </Typography>
-                                      <Button
-                                        variant="outlined"
-                                        className={classes.button}
-                                        startIcon={<PostAddIcon />}
-                                        onClick={() => navigator.clipboard.writeText(pgn.pgn)}
-                                      >
-                                        Copy PGN
-                                      </Button>
-
-                                    </Card>
-                                  </Grid>
+                                          <Typography className={classes.text}>
+                                            <b>Winner: </b>
+                                            {' '}
+                                            {pgn.winner}
+                                          </Typography>
+                                          {pgn.black !== 'None'
+                                            ? (
+                                              <a href={`/player/${pgn.black}`} className={classes.link}>
+                                                <Typography className={classes.text}>
+                                                  <b>Black: </b>
+                                                  {' '}
+                                                  {pgn.black}
+                                                  {' '}
+                                                  {pgn.blackRating}
+                                                </Typography>
+                                              </a>
+                                            )
+                                            : (
+                                              <Typography className={classes.text}>
+                                                <b>Black(non-player entity) </b>
+                                              </Typography>
+                                            )}
+                                          {pgn.white !== 'None'
+                                            ? (
+                                              <a href={`/player/${pgn.white}`} className={classes.link}>
+                                                <Typography className={classes.text}>
+                                                  <b>White: </b>
+                                                  {' '}
+                                                  {pgn.white}
+                                                  {' '}
+                                                  {pgn.whiteRating}
+                                                </Typography>
+                                              </a>
+                                            )
+                                            : (
+                                              <Typography className={classes.text}>
+                                                <b>White(non-player entity) </b>
+                                              </Typography>
+                                            )}
+                                          <Typography className={classes.text}>
+                                            <b>Game status: </b>
+                                            {' '}
+                                            {pgn.status}
+                                          </Typography>
+                                          <Button
+                                            variant="outlined"
+                                            className={classes.button}
+                                            startIcon={<PostAddIcon />}
+                                            onClick={() => navigator.clipboard.writeText(pgn.pgn)}
+                                          >
+                                            Copy PGN
+                                          </Button>
+                                        </Card>
+                                      </Grid>
+                                    )
+                                    : (
+                                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                        <Card className={classes.copypgncard} elevation={0}>
+                                          <Button
+                                            variant="outlined"
+                                            className={classes.nonprimarybutton}
+                                            startIcon={<PostAddIcon />}
+                                            onClick={() => navigator.clipboard.writeText(pgn.pgn)}
+                                          >
+                                            Copy PGN
+                                          </Button>
+                                        </Card>
+                                      </Grid>
+                                    )}
                                   <Grid item xs={12} sm={12} md={12} lg={12}>
                                     <Card className={classes.pgncard} elevation={0}>
                                       <Typography className={classes.text}>

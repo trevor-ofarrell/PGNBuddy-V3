@@ -6,3 +6,5 @@ export * from './DeleteFolderModal';
 export * from './charts/PieChart';
 export * from './charts/RadarChart';
 export * from './charts/LineChart';
+export * from './NameFolderModal';
+export * from './FileUploadButton';

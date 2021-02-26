@@ -24,6 +24,10 @@ import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import Link from 'next/link';
 import { firebaseClient } from '../../firebaseClient';
 
+import { NameFolderModal } from '.';
+
+const axios = require('axios');
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -135,14 +139,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   kingsvg: {
-    alignItems: 'center',
-    alignContent: 'center',
-    alignSelf: 'center',
     marginTop: '-0.65vh',
   },
 }));
 
-export const NavBarLoggedIn = ({ lichessUsername }) => {
+export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const theme = useTheme();
@@ -206,6 +207,12 @@ export const NavBarLoggedIn = ({ lichessUsername }) => {
     <div className={classes.sidedrawer}>
       <Grid container>
         <Grid item xs={12} sm={12} lg={12}>
+          <NameFolderModal
+            label="Upload Single File"
+            userId={userId}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportpgn">
             <Button className={classes.sideDrawerButton}>
               Export PGN from Lichess
@@ -215,7 +222,7 @@ export const NavBarLoggedIn = ({ lichessUsername }) => {
         <Grid item xs={12} sm={12} lg={12}>
           <Link href="/exportall">
             <Button className={classes.sideDrawerButton}>
-              Export PGNs by date (100 game limit per request)
+              Export PGNs from lichess by date (100 game limit per request)
             </Button>
           </Link>
         </Grid>

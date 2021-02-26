@@ -76,9 +76,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   kingsvg: {
-    alignItems: 'center',
-    alignContent: 'center',
-    alignSelf: 'center',
     marginTop: '-0.65vh',
   },
 }));

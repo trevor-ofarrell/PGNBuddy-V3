@@ -217,7 +217,8 @@ export const getServerSideProps = async ({ params, res }) => {
     const perfList = [];
     const pastYearRatingHistory = [];
 
-    response2.data.forEach((timeControl) => {
+
+    JSON.parse(response2.data).forEach((timeControl) => {
       try {
         if (timeControl.points.length > 0) {
           const timeControlName = timeControl.name;

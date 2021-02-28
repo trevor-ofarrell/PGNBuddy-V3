@@ -559,7 +559,7 @@ const Dashboard = (props) => {
                                       </Card>
                                     </Grid>
                                   )}
-                                  {pgn.variant && pgn.status && pgn.rated
+                                  {pgn.variant && pgn.status
                                     ? (
                                       <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
                                         <Card className={classes.pgninfocard} elevation={0}>

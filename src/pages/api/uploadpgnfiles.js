@@ -47,7 +47,7 @@ async function uploadpgnfile(req, res) {
         if (reply !== 1) {
           await cache.saddAsync(`${body.userId}-folder-names`, body.uploadFolderName);
           pgnList.forEach((elem) => {
-            promises.push(
+            promises.push(  
               cache.hsetAsync(
                 `${body.userId}-${body.uploadFolderName}`,
                 `${elem.name}`,

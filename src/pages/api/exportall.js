@@ -201,9 +201,9 @@ async function exportAll(req, res) {
               // if folder doesnt exist
               if (reply !== 1) {
                 await cache.saddAsync(`${userData.id}-folder-names`, currentFolder);
-                pgnList.forEach((elem) => {
+                pgnList.forEach(async (elem) => {
                   promises.push(
-                    cache.hsetAsync(
+                    await cache.hsetAsync(
                       `${userData.id}-${currentFolder}`,
                       `${elem.pgn_id}`,
                       JSON.stringify(elem),
@@ -217,9 +217,9 @@ async function exportAll(req, res) {
               }
 
               await cache.saddAsync(`${userData.id}-folder-names`, currentFolder);
-              pgnList.forEach((elem) => {
+              pgnList.forEach(async (elem) => {
                 promises.push(
-                  cache.hsetnxAsync(
+                  await cache.hsetnxAsync(
                     `${userData.id}-${currentFolder}`,
                     `${elem.pgn_id}`,
                     JSON.stringify(elem),

@@ -1,6 +1,8 @@
 import redis from 'redis';
 import bluebird from 'bluebird';
 
+// TODO: add error handling for when no games can be exported
+
 class NdjsonStreamer {
   constructor(props) {
     this.props = props || {};

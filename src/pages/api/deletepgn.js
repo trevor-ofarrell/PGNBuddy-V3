@@ -25,7 +25,6 @@ async function deletepgn(req, res) {
               res.status(200).end();
             }
           } else if (err) {
-            console.log(err);
             res.status(500).end();
           }
         }).then(() => {

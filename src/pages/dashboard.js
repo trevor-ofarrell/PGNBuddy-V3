@@ -216,6 +216,8 @@ const useStyles = makeStyles((theme) => ({
   pgntext: {
     color: 'white',
     width: '92%',
+    maxWidth: '75vw',
+    wordWrap: 'break-word',
     [theme.breakpoints.up('md')]: {
       fontSize: '19px',
       width: '93.25%',
@@ -333,6 +335,9 @@ const useStyles = makeStyles((theme) => ({
   nonprimarybutton: {
     color: 'white',
     borderColor: 'white',
+  },
+  grow: {
+    flexGrow: 1,
   },
 }));
 
@@ -524,6 +529,7 @@ const Dashboard = (props) => {
                     <AccordionSummary aria-controls={`panel${i}a-content`} id={`panel${i}a-content`}>
                       <FolderOpenIcon style={{ fill: '#ffffff', marginRight: '1.5vw', marginTop: '2px' }} />
                       <Typography className={classes.foldertext}>{folder}</Typography>
+                      <div className={classes.grow} />
                       <DeleteFolderModal folderName={folder} id={id} />
                     </AccordionSummary>
                     <AccordionDetails>
@@ -536,7 +542,8 @@ const Dashboard = (props) => {
                               onChange={handlePgnChange(`panel${String(j)}`)}
                             >
                               <PgnAccordionSummary aria-controls={`panel${j}b-content`} id={`panel${j}b-content`}>
-                                <Typography className={classes.pgntext}>{pgn.name}</Typography>
+                                <Typography style={{ wordWrap: 'break-word' }} className={classes.pgntext}>{pgn.name}</Typography>
+                                <div className={classes.grow} />
                                 <DeletePgnModal
                                   id={id}
                                   pgnId={pgn.pgn_id}

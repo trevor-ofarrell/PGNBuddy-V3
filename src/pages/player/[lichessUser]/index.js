@@ -217,7 +217,6 @@ export const getServerSideProps = async ({ params, res }) => {
     const perfList = [];
     const pastYearRatingHistory = [];
 
-
     JSON.parse(response2.data).forEach((timeControl) => {
       try {
         if (timeControl.points.length > 0) {
@@ -257,7 +256,7 @@ export const getServerSideProps = async ({ params, res }) => {
           }
         }
       } catch (err) {
-        console.log(err);
+        return false;
       }
     });
 

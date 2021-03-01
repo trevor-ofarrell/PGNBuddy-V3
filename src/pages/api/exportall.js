@@ -207,13 +207,7 @@ async function exportAll(req, res) {
                       `${userData.id}-${currentFolder}`,
                       `${elem.pgn_id}`,
                       JSON.stringify(elem),
-                    ).then(async (determinationReply) => {
-                      if (determinationReply !== 1) {
-                        console.log('hsetnx set failed');
-                      } else {
-                        console.log('hsetnx succeded');
-                      }
-                    }),
+                    ),
                   );
                 });
                 await Promise.all(promises);
@@ -229,13 +223,7 @@ async function exportAll(req, res) {
                     `${userData.id}-${currentFolder}`,
                     `${elem.pgn_id}`,
                     JSON.stringify(elem),
-                  ).then(async (determinationReply2) => {
-                    if (determinationReply2 !== 1) {
-                      console.log('hsetnx set failed');
-                    } else {
-                      console.log('hsetnx succeded');
-                    }
-                  }),
+                  ),
                 );
               });
               await Promise.all(promises);

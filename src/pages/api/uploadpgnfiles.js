@@ -12,7 +12,7 @@ async function uploadpgnfile(req, res) {
     });
 
     const body = JSON.parse(req.body);
-    const pgns = Object.entries(body.uploadedFiles).map(([key, value]) => [key, value]);
+    const pgns = body.uploadedFiles;
 
     const pgnList = [];
     pgns.forEach((pgn) => {
@@ -47,18 +47,12 @@ async function uploadpgnfile(req, res) {
         if (reply !== 1) {
           await cache.saddAsync(`${body.userId}-folder-names`, body.uploadFolderName);
           pgnList.forEach((elem) => {
-            promises.push(  
+            promises.push(
               cache.hsetAsync(
                 `${body.userId}-${body.uploadFolderName}`,
                 `${elem.name}`,
                 JSON.stringify(elem),
-              ).then(async (determinationReply) => {
-                if (determinationReply !== 1) {
-                  console.log('hsetnx set failed');
-                } else {
-                  console.log('hsetnx succeded');
-                }
-              }),
+              ),
             );
           });
           await Promise.all(promises);
@@ -74,13 +68,7 @@ async function uploadpgnfile(req, res) {
               `${body.userId}-${body.uploadFolderName}`,
               `${elem.name}`,
               JSON.stringify(elem),
-            ).then(async (determinationReply2) => {
-              if (determinationReply2 !== 1) {
-                console.log('hsetnx set failed');
-              } else {
-                console.log('hsetnx succeded');
-              }
-            }),
+            ),
           );
         });
         await Promise.all(promises);

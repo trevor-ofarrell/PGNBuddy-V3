@@ -30,16 +30,18 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: 'Aldrich, sans-serif',
     display: 'none',
+    WebkitTouchCallout: 'none',
+    WebkitUserSelect: 'none',
+    KhtmlUserSelect: 'none',
+    MozUserSelect: 'none',
+    MsUserSelect: 'none',
+    userSelect: 'none',
+    cursor: 'pointer',
+    color: 'white',
+    fontWeight: 'bold',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-  },
-  title2: {
-    fontFamily: 'Aldrich, sans-serif',
-    display: 'block',
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold',
   },
   sectionDesktop: {
     display: 'none',
@@ -166,7 +168,7 @@ export const ResponsiveAppBar = () => {
           <Hidden smUp>
             <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
             <Link href="/">
-              <Typography className={classes.title2} variant="h6" noWrap>
+              <Typography className={classes.title} variant="h6" noWrap>
                 PGNBuddy
               </Typography>
             </Link>

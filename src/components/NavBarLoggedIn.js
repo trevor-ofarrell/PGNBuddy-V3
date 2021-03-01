@@ -22,6 +22,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 
 import Link from 'next/link';
+
+import Router, { useRouter } from 'next/router';
+
 import { firebaseClient } from '../../firebaseClient';
 
 import { NameFolderModal } from '.';
@@ -52,13 +55,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-  },
-  title2: {
-    fontFamily: 'Aldrich, sans-serif',
-    display: 'block',
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold',
   },
   sectionDesktop: {
     display: 'none',
@@ -145,6 +141,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
   const classes = useStyles();
+  const router = useRouter();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const theme = useTheme();
 
@@ -192,7 +189,8 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
       <MenuItem
         onClick={async () => {
           await firebaseClient.auth().signOut();
-          window.location.href = '/';
+          Router.push('/');
+          router.reload();
         }}
       >
         <Typography variant="h6" className={classes.mobilemenutext}>
@@ -269,7 +267,7 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
             <div className={classes.grow} />
             <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
             <Link href="/">
-              <Typography className={classes.title2} variant="h6" noWrap>
+              <Typography className={classes.title} variant="h6" noWrap>
                 PGNBuddy
               </Typography>
             </Link>

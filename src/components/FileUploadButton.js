@@ -25,43 +25,31 @@ const useStyles = makeStyles((theme) => ({
 export const FileUploadButton = ({ userId, label, uploadFolderName }) => {
   const classes = useStyles();
   const router = useRouter();
-  function convertToValidFilename(string) {
-    return (string.replace(/[\/|\\:*?"<>]/g, ' '));
-  }
-
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
 
   const handleFileChosen = async (files) => {
-    const uploadedFiles = {};
-    for (let i = 0; i < files.length; i += 1) {
-      ((file) => {
-        const fileReader = new FileReader();
+    const promises = [];
+    for (const file of files) {
+      const filePromise = new Promise((resolve) => {
+        const reader = new FileReader();
         const fileName = file.name;
-        fileReader.onloadend = (event) => {
-          const content = event.target.result;
-          uploadedFiles[convertToValidFilename(fileName)] = content;
-        };
-        fileReader.readAsText(file);
-      })(files[i]);
+        reader.readAsText(file);
+        reader.onload = () => resolve([fileName, reader.result]);
+      });
+      promises.push(filePromise);
     }
-
-    // sleep to wait for loop iterations to finish, need to fix later
-    await sleep(250).then(() => {
+    Promise.all(promises).then((fileContents) => {
       const data = {
-        uploadedFiles,
+        uploadedFiles: fileContents,
         userId,
         uploadFolderName,
       };
-
       fetch(
         'api/uploadpgnfiles',
         { method: 'POST', body: JSON.stringify(data) },
-      );
-
-      Router.push('/dashboard');
-      router.reload();
+      ).then(() => {
+        Router.push('/dashboard');
+        router.reload();
+      });
     });
   };
 

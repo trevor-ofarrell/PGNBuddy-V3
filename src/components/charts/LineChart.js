@@ -65,21 +65,6 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
       const currentDate = new Date();
       const month = currentDate.getUTCMonth();
 
-      const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
-      ];
-
       // rotate array to have the current month at the right,
       // and farthest month to the left of the chart.
       monthKeys = monthKeys.splice(month).concat(monthKeys);

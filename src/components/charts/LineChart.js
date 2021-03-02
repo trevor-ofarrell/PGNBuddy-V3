@@ -65,11 +65,26 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
       const currentDate = new Date();
       const month = currentDate.getUTCMonth();
 
+      const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+
       // rotate array to have the current month at the right,
       // and farthest month to the left of the chart.
       monthKeys = monthKeys.splice(month).concat(monthKeys);
 
-      // remove objects which values are not numbers
+      // remove objects that are not numbers
       monthKeys.forEach((keyName) => {
         if (Number.isNaN(ele[[elem]][keyName])) {
           delete ele[[elem]][keyName];
@@ -102,7 +117,7 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
         pointHoverBorderWidth: 1,
         pointRadius: 1,
         pointHitRadius: 10,
-        data: dataSet.map((e) => Object.values(e)[0]),
+        data: Object.values(dataSet),
       };
 
       index += 1;
@@ -113,14 +128,26 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
     });
   });
 
-  const lengths = monthList.map((a) => a.length);
-
   // get timecontrol/variant with most months containing datapoints
-  let largestArray = monthList[lengths.indexOf(Math.max(...lengths))];
+  const lengths = monthList.map((a) => a.length);
+  const largestArray = monthList[lengths.indexOf(Math.max(...lengths))];
 
-  // rotate array to have the current month at the right,
-  // and farthest month to the left of the chart.
-  largestArray = largestArray.splice(new Date().getUTCMonth()).concat(largestArray);
+  // for each dataset, compare it's month object amount against the 'largest month array'.
+  // If any months are missing add them as NaN in the correct index location.
+  allChartData.forEach((item) => {
+    const newArray = [];
+    let data = [];
+    if (item.data) { data = item.data; }
+    largestArray.forEach((month) => {
+      const match = data.filter((obj) => Object.keys(obj)[0] === month);
+      if (!match[0]) {
+        newArray.push(NaN);
+      } else {
+        newArray.push(Object.values(match[0])[0]);
+      }
+    });
+    item.data = newArray;
+  });
 
   const data = {
     labels: largestArray,
@@ -134,6 +161,7 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
         options={{
           responsive: true,
           maintainAspectRatio: false,
+          spanGaps: true,
           legend: {
             labels: {
               fontColor: 'rgb(229, 226, 224)',

@@ -46,40 +46,24 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     marginLeft: 'auto',
     marginRight: 'auto',
-    height: 'auto',
-    width: '100%',
-    [theme.breakpoints.up('lg')]: {
-      height: 'auto',
-      maxWidth: '41vw',
+    height: '51.75vh',
+    width: 'auto',
+    marginTop: '1.5vh',
+    [theme.breakpoints.down('sm')]: {
+      height: '50vh',
       width: 'auto',
-      marginTop: '1.5vh',
-    },
-    [theme.breakpoints.up('xl')]: {
-      height: 'auto',
-      width: '30vw',
-      position: 'relative',
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: '100%',
-      width: '92vw',
     },
   },
   pie: {
     position: 'relative',
     marginLeft: 'auto',
     marginRight: 'auto',
-    [theme.breakpoints.up('lg')]: {
-      width: '40vw',
-      marginTop: '1.5vh',
-    },
-    [theme.breakpoints.up('xl')]: {
-      height: 'auto',
-      width: '30vw',
-      position: 'relative',
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: '100%',
-      width: '92vw',
+    height: '50vh',
+    width: 'auto',
+    marginTop: '1.5vh',
+    [theme.breakpoints.down('sm')]: {
+      height: '50vh',
+      width: 'auto',
     },
   },
   line: {
@@ -101,10 +85,8 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: 'white',
     textAlign: 'center',
-    marginBottom: '0.5em',
-    [theme.breakpoints.down('sm')]: {
-      paddingTop: '0.5vh',
-    },
+    marginBottom: '0.25em',
+    marginTop: '-.25em',
     [theme.breakpoints.down('xs')]: {
       paddingTop: '0.25vh',
       paddingBottom: '0vh',
@@ -121,16 +103,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
-    },
-    [theme.breakpoints.down('sm')]: {
-      height: 'auto',
-      padding: '1em',
       margin: '2em',
-      marginBottom: '0em',
+      marginTop: '1em',
+      marginBottom: '1em',
     },
     [theme.breakpoints.down('xs')]: {
       margin: '0em',
-      padding: '0em',
+      padding: '.75em',
       marginBottom: '1em',
     },
   },
@@ -145,16 +124,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
-    },
-    [theme.breakpoints.down('sm')]: {
-      height: 'auto',
-      padding: '1em',
       margin: '2em',
-      marginTop: '2em',
+      marginTop: '1em',
     },
     [theme.breakpoints.down('xs')]: {
       margin: '0em',
-      marginBottom: '1.5em',
     },
   },
   linecard: {
@@ -167,18 +141,11 @@ const useStyles = makeStyles((theme) => ({
     height: 'auto',
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
-      padding: '1em',
-    },
-    [theme.breakpoints.down('sm')]: {
-      height: 'auto',
-      padding: '1em',
-      margin: '2em',
-      marginTop: '0em',
-      marginBottom: '0em',
+      padding: '2em',
     },
     [theme.breakpoints.down('xs')]: {
       margin: '0em',
-      padding: '0em',
+      padding: '.5em',
       marginBottom: '1em',
     },
   },
@@ -294,13 +261,13 @@ const User = (props) => {
       <div className={classes.root}>
         <NavBarLoggedIn lichessUsername={lichessUsername} />
         <div className={classes.aspect}>
-          <Typography variant="h6" className={classes.title}>
-            lichess.org account
-            {' '}
-            <a href={`https://lichess.org/@/${JSON.parse(username)}`} className={classes.link}>
+          <a href={`https://lichess.org/@/${JSON.parse(username)}`} className={classes.link}>
+            <Typography variant="h6" className={classes.title}>
+              lichess.org account
+              {' '}
               {JSON.parse(username)}
-            </a>
-          </Typography>
+            </Typography>
+          </a>
           <Grid container className={classes.grid}>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Card className={classes.linecard} elevation={0}>
@@ -312,7 +279,7 @@ const User = (props) => {
                 </div>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
               <Card className={classes.radarcard} elevation={0}>
                 <div className={classes.radar}>
                   <RadarChart
@@ -322,7 +289,7 @@ const User = (props) => {
                 </div>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+            <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
               <Card className={classes.piecard} elevation={0}>
                 <div className={classes.pie}>
                   <PieChart

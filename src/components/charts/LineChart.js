@@ -147,6 +147,14 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
           responsive: true,
           maintainAspectRatio: false,
           spanGaps: true,
+          layout: {
+            padding: {
+              left: 0,
+              right: 20,
+              top: 0,
+              bottom: 0,
+            },
+          },
           legend: {
             labels: {
               fontColor: 'rgb(229, 226, 224)',

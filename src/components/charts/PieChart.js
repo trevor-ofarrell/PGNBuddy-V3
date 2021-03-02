@@ -49,12 +49,14 @@ export const PieChart = ({ playerData, playerUsername }) => {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: '100%' }}>
       <Pie
         data={data}
+        width="100%"
+        height="100%"
         options={{
           responsive: true,
-          maintainAspectRatio: true,
+          maintainAspectRatio: false,
           animation: { duration: 0 },
           legend: {
             labels: {

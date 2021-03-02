@@ -53,23 +53,19 @@ export const RadarChart = ({ perfList, playerUsername }) => {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: '100%' }}>
       <Radar
         data={data}
+        width="100%"
+        height="100%"
         options={{
           responsive: true,
-          maintainAspectRatio: true,
+          maintainAspectRatio: false,
           title: {
             display: true,
             text: `distribution of ${playerUsername}'s games across standard time controls`,
             fontColor: 'rgb(229, 226, 224)',
             fontSize: fontSize.title,
-          },
-          layout: {
-            padding: {
-              left: 0,
-              right: 0,
-            },
           },
           legend: {
             labels: {

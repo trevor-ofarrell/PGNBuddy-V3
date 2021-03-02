@@ -65,7 +65,10 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       fontSize: '2.1em',
-      padding: '0.5em',
+      padding: '0.6em',
+      paddingTop: '1.5em',
+      paddingBottom: '1.5em',
+      marginTop: '0.5em',
     },
 
   },

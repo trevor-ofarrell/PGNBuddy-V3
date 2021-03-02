@@ -56,6 +56,13 @@ const useStyles = makeStyles((theme) => ({
       display: 'block',
     },
   },
+  titleMobile: {
+    fontFamily: 'Aldrich, sans-serif',
+    display: 'block',
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+  },
   sectionDesktop: {
     display: 'none',
     marginTop: 'auto',
@@ -267,7 +274,7 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
             <div className={classes.grow} />
             <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
             <Link href="/">
-              <Typography className={classes.title} variant="h6" noWrap>
+              <Typography className={classes.titleMobile} variant="h6" noWrap>
                 PGNBuddy
               </Typography>
             </Link>

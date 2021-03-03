@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Grid, TextField, Button, Card, Typography,
+  Grid, TextField, Button, Card, Typography, createMuiTheme,
 } from '@material-ui/core';
-import { makeStyles, responsiveFontSizes } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Link from 'next/link';
 import { firebaseClient } from '../../firebaseClient';
 import {
@@ -21,11 +21,11 @@ const useStyles = makeStyles(() => ({
   },
   card: {
     marginTop: '40vh',
-    background: 'linear-gradient(180deg, rgba(120, 120, 120, 0.562) 20%, rgba(83, 83, 83, 0.814) 62%, rgba(30, 30, 30, 0.958) 90%)',
+    background: 'rgb(49, 46, 44)',
   },
   textfield: {
     width: '100%',
-    background: 'transparent',
+    fontColor: '#fafafa',
   },
   button: {
     width: '100%',
@@ -41,76 +41,103 @@ const useStyles = makeStyles(() => ({
       textDecoration: 'underline',
     },
   },
+  label: {
+    color: 'rgb(119, 116, 114)',
+    fontWeight: '300',
+  },
+  input: {
+    color: '#fafafa',
+    fontWeight: '300',
+  },
 }));
+
+const textFieldTheme = createMuiTheme({
+  palette: {
+    primary: { main: '#fafafa' },
+  },
+});
 
 const Login = () => {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  const form = useRef(null);
 
   return (
-    <form ref={form} className={classes.root}>
+    <form className={classes.root}>
       <ResponsiveAppBar />
-      <Grid container className={classes.mask}>
-        <Grid item xs={1} sm={1} md={3} lg={4} />
-        <Grid item xs={10} sm={10} md={6} lg={4}>
-          <Card className={classes.card}>
-            <Grid container>
-              <Grid item xs={12} sm={12} md={12} lg={12}>
-                <TextField
-                  id="filled-password-input"
-                  label="email"
-                  type="email"
-                  autoComplete="email"
-                  variant="filled"
-                  className={classes.textfield}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
-                />
+      <ThemeProvider theme={textFieldTheme}>
+        <Grid container className={classes.mask}>
+          <Grid item xs={1} sm={1} md={3} lg={4} />
+          <Grid item xs={10} sm={10} md={6} lg={4}>
+            <Card className={classes.card}>
+              <Grid container>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField
+                    id="filled-password-input"
+                    label="email"
+                    type="email"
+                    autoComplete="email"
+                    variant="filled"
+                    className={classes.textfield}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                    InputLabelProps={{
+                      className: classes.label,
+                    }}
+                    InputProps={{
+                      className: classes.input,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField
+                    id="filled-password-input2"
+                    label="password"
+                    autoComplete="password"
+                    className={classes.textfield}
+                    variant="filled"
+                    type="password"
+                    value={pass}
+                    onChange={(e) => setPass(e.target.value)}
+                    placeholder="Password"
+                    InputLabelProps={{
+                      className: classes.label,
+                    }}
+                    InputProps={{
+                      className: classes.input,
+                    }}
+                  />
+                </Grid>
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12}>
-                <TextField
-                  id="filled-password-input2"
-                  label="password"
-                  autoComplete="password"
-                  className={classes.textfield}
-                  variant="filled"
-                  type="password"
-                  value={pass}
-                  onChange={(e) => setPass(e.target.value)}
-                  placeholder="Password"
-                />
+                <div>
+                  <Button
+                    className={classes.button}
+                    onClick={async () => {
+                      await firebaseClient.auth()
+                        .setPersistence(firebaseClient.auth.Auth.Persistence.LOCAL);
+                      await firebaseClient.auth()
+                        .signInWithEmailAndPassword(email, pass);
+                      window.location.href = '/dashboard';
+                    }}
+                  >
+                    Login
+                  </Button>
+                </div>
               </Grid>
-            </Grid>
+            </Card>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <div>
-                <Button
-                  className={classes.button}
-                  onClick={async () => {
-                    await firebaseClient.auth()
-                      .setPersistence(firebaseClient.auth.Auth.Persistence.LOCAL);
-                    await firebaseClient.auth()
-                      .signInWithEmailAndPassword(email, pass);
-                    window.location.href = '/dashboard';
-                  }}
-                >
-                  Login
-                </Button>
-              </div>
+              <Link href="/signup">
+                <Typography className={classes.signup}>
+                  Don&#39;t have an account? Sign up.
+                </Typography>
+              </Link>
             </Grid>
-          </Card>
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Link href="/signup">
-              <Typography className={classes.signup}>
-                Don&#39;t have an account? Sign up.
-              </Typography>
-            </Link>
           </Grid>
+          <Grid item xs={1} sm={1} md={3} lg={4} />
         </Grid>
-        <Grid item xs={1} sm={1} md={3} lg={4} />
-      </Grid>
+      </ThemeProvider>
     </form>
   );
 };

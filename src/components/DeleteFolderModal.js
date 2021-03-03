@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { makeStyles, Button, Grid } from '@material-ui/core';
+import {
+  makeStyles, Button, Grid, Typography,
+} from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -13,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     paddingLeft: '10vw',
     paddingRight: '10vw',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: '5vw',
+      paddingRight: '5vw',
+    },
   },
   paper: {
     backgroundColor: 'rgb(59, 56, 54)',
@@ -25,12 +31,16 @@ const useStyles = makeStyles((theme) => ({
   button: {
     width: '100%',
     marginTop: '1.5em',
-    marginBottom: '1em',
+    marginBottom: '0.5em',
     color: 'white',
     borderColor: 'white',
   },
   icon: {
     marginLeft: '2vw',
+  },
+  text: {
+    textAlign: 'center',
+    marginBottom: '1em',
   },
 }));
 
@@ -77,15 +87,17 @@ export const DeleteFolderModal = ({ folderName, id }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">
+            <Typography variant="h5" className={classes.text}>
               Delete folder
               {' '}
               {'"'}
               {folderName}
               {'"'}
               ?
-            </h2>
-            <p id="transition-modal-description">Are you sure? The data cannot be recovered.</p>
+            </Typography>
+            <Typography variant="body2" className={classes.text}>
+              Are you sure? The data cannot be recovered.
+            </Typography>
             <Grid container>
               <Grid item xs={3} xl={3} />
               <Grid item xs={6} xl={6}>

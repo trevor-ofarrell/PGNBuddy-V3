@@ -27,7 +27,7 @@ import Router, { useRouter } from 'next/router';
 
 import { firebaseClient } from '../../firebaseClient';
 
-import { NameFolderModal } from '.';
+import { NameFolderModal, LichessExportModal } from '.';
 
 const axios = require('axios');
 
@@ -218,18 +218,11 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
           />
         </Grid>
         <Grid item xs={12} sm={12} lg={12}>
-          <Link href="/exportpgn">
-            <Button className={classes.sideDrawerButton}>
-              Export PGN from Lichess
-            </Button>
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Link href="/exportall">
-            <Button className={classes.sideDrawerButton}>
-              Export PGNs from lichess by date (100 game limit per request)
-            </Button>
-          </Link>
+          <LichessExportModal
+            label="Export PGNs from lichess.org"
+            userId={userId}
+            lichessUsername={lichessUsername}
+          />
         </Grid>
         {lichessUsername
            && (

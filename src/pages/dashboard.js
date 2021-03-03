@@ -34,6 +34,7 @@ import {
   DeleteFolderModal,
   DeletePgnModal,
   NameFolderModal,
+  LichessExportModal,
 } from '../components';
 
 // TODO add player/folder/pgn bookmarks
@@ -42,7 +43,7 @@ const drawerWidth = 240;
 
 const Accordion = withStyles({
   root: {
-    background: 'rgb(29, 26, 24)',
+    background: 'rgb(39, 36, 34)',
     boxShadow: 'none',
     '&:before': {
       display: 'none',
@@ -73,7 +74,7 @@ const AccordionSummary = withStyles({
 
 const PgnAccordionSummary = withStyles({
   root: {
-    background: 'rgb(49, 46, 44)',
+    background: 'rgb(59, 56, 54)',
     marginBottom: -1,
     minHeight: 56,
     '&$expanded': {
@@ -112,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'hidden',
     height: '100vh',
     width: '100vw',
-    background: 'rgb(29, 26, 24)',
+    background: 'rgb(39, 36, 34)',
   },
   accordian: {
     scrollbarColor: 'rgba(12, 12, 12, 0.766) rgba(58, 58, 58, 0.31)',
@@ -178,7 +179,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 'auto',
     paddingRight: 'auto',
     color: 'white',
-    marginBottom: '1em',
+    marginBottom: '0.5em',
     background: 'rgb(59, 56, 54)',
     '&:hover': {
       background: 'rgb(49, 46, 44)',
@@ -272,7 +273,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   iframecard: {
-    background: 'rgb(49, 46, 44)',
+    background: 'rgb(59, 56, 54)',
     padding: '2em',
     [theme.breakpoints.up('lg')]: {
       marginRight: '2vw',
@@ -290,7 +291,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   pgncard: {
-    background: 'rgb(49, 46, 44)',
+    background: 'rgb(59, 56, 54)',
     padding: '2em',
     marginTop: '2em',
     marginBottom: '2em',
@@ -306,7 +307,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   pgninfocard: {
-    background: 'rgb(49, 46, 44)',
+    background: 'rgb(59, 56, 54)',
     padding: '1em',
     paddingTop: '2em',
     height: '100%',
@@ -319,7 +320,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   copypgncard: {
-    background: 'rgb(49, 46, 44)',
+    background: 'rgb(59, 56, 54)',
     padding: '1em',
     height: '100%',
     textAlign: 'center',
@@ -447,18 +448,11 @@ const Dashboard = (props) => {
           />
         </Grid>
         <Grid item xs={12} sm={12} lg={12}>
-          <Link href="/exportpgn">
-            <Button className={classes.sideDrawerButton}>
-              Export PGN from lichess
-            </Button>
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={12} lg={12}>
-          <Link href="/exportall">
-            <Button className={classes.sideDrawerButton}>
-              Export PGNs from lichess by date (100 game limit per request)
-            </Button>
-          </Link>
+          <LichessExportModal
+            label="Export PGNs from lichess.org"
+            userId={id}
+            lichessUsername={lichessUsername}
+          />
         </Grid>
         {lichessUsername
            && (
@@ -554,7 +548,7 @@ const Dashboard = (props) => {
                               <PgnAccordionDetails>
                                 <Grid container className={classes.pgncontent}>
                                   {pgn.iframe !== '' && (
-                                    <Grid item xs={12} sm={12} md={12} lg={9} xl={6}>
+                                    <Grid item xs={12} sm={12} md={12} lg={9} xl={9}>
                                       <Card className={classes.iframecard} elevation={0}>
                                         <iframe
                                           src={pgn.iframe}
@@ -568,7 +562,7 @@ const Dashboard = (props) => {
                                   )}
                                   {pgn.variant && pgn.status
                                     ? (
-                                      <Grid item xs={12} sm={12} md={12} lg={3} xl={6}>
+                                      <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
                                         <Card className={classes.pgninfocard} elevation={0}>
                                           <Typography className={classes.text}>
                                             <b>Event: </b>

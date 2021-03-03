@@ -23,17 +23,21 @@
     "eslint-plugin-react": "^7.22.0",
     "firebase": "^8.1.1",
     "firebase-admin": "^9.4.1",
+    "lru-cache": "^6.0.0",
     "ndjson": "^2.0.0",
     "next": "10.0.2",
     "next-offline": "^5.0.3",
     "next-pwa": "^5.0.4",
     "nookies": "^2.5.0",
     "prettier": "^2.2.1",
+    "prop-types": "^15.7.2",
     "react": "17.0.1",
     "react-chartjs-2": "^2.11.1",
     "react-dom": "17.0.1",
+    "react-swipeable-views": "^0.13.9",
     "react-uuid": "^1.0.2",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint-plugin-import": "^2.22.1",

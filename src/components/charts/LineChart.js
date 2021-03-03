@@ -164,7 +164,7 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
           },
           title: {
             display: true,
-            text: `${playerUsername}'s rating history over the past ${largestArray.length} months on lichess.org`,
+            text: `${playerUsername}'s average monthly rating over the past ${largestArray.length} months on lichess.org`,
             fontColor: 'rgb(229, 226, 224)',
             fontSize: fontSize.title,
           },

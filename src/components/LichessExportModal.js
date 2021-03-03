@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-  makeStyles, Button, Grid, TextField,
+  makeStyles, Button,
 } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { FileUploadButton } from '.';
+import { FullWidthTabs } from '.';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -15,24 +15,19 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '10vw',
     paddingRight: '10vw',
     textAlign: 'center',
+    marginTop: '-4em',
     [theme.breakpoints.down('xs')]: {
-      paddingLeft: '5vw',
-      paddingRight: '5vw',
+      paddingLeft: '2.5vw',
+      paddingRight: '2.5vw',
     },
   },
   paper: {
-    backgroundColor: 'rgb(59, 56, 54)',
+    backgroundColor: 'rgb(49, 46, 44)',
     border: '0px solid rgb(59, 56, 54)',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     outline: 'none',
-    color: '#fafafa',
-  },
-  icon: {
-    marginLeft: '3vw',
-    [theme.breakpoints.up('xl')]: {
-      marginLeft: '2.5vw',
-    },
+    color: 'white',
   },
   button: {
     width: '100%',
@@ -40,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '1.5em',
     paddingLeft: 'auto',
     paddingRight: 'auto',
-    color: '#fafafa',
+    color: 'white',
     marginBottom: '0.65em',
     background: 'rgb(59, 56, 54)',
     '&:hover': {
@@ -51,23 +46,9 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '0.6em',
     },
   },
-  textfield: {
-    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#fafafa',
-    },
-    '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#fafafa',
-    },
-    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#fafafa',
-    },
-    width: '100%',
-    color: 'white',
-    marginTop: '0.5em',
-  },
 }));
 
-export const NameFolderModal = ({ userId }) => {
+export const LichessExportModal = ({ userId, lichessUsername }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [uploadFolderName, setFolderName] = useState('');
@@ -86,7 +67,7 @@ export const NameFolderModal = ({ userId }) => {
       onFocus={(event) => event.stopPropagation()}
     >
       <Button className={classes.button} onClick={handleOpen}>
-        Upload PGN files
+        Export PGNs from lichess.org
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -103,30 +84,9 @@ export const NameFolderModal = ({ userId }) => {
         <Fade in={open}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">
-              Enter name for new, or existing folder.
+              choose lichess export option
             </h2>
-            <p id="transition-modal-description">Leave blank for default naming.</p>
-            <TextField
-              id="outlined-basic"
-              label="folder"
-              variant="outlined"
-              className={classes.textfield}
-              InputLabelProps={{
-                style: { color: '#909090' },
-              }}
-              inputProps={{
-                style: { color: '#fafafa' },
-              }}
-              value={uploadFolderName}
-              onChange={(e) => setFolderName(e.target.value)}
-            />
-            <Grid container>
-              <Grid item xs={3} xl={3} />
-              <Grid item xs={6} xl={6}>
-                <FileUploadButton label="select PGN files" userId={userId} uploadFolderName={uploadFolderName} />
-              </Grid>
-              <Grid item xs={3} xl={3} />
-            </Grid>
+            <FullWidthTabs userId={userId} lichessUsername={lichessUsername} />
           </div>
         </Fade>
       </Modal>

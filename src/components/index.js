@@ -8,3 +8,5 @@ export * from './charts/RadarChart';
 export * from './charts/LineChart';
 export * from './NameFolderModal';
 export * from './FileUploadButton';
+export * from './FullWidthTabs';
+export * from './LichessExportModal';

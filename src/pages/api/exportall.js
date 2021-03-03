@@ -1,7 +1,14 @@
 import redis from 'redis';
 import bluebird from 'bluebird';
 
+import rateLimit from '../../../utils/ratelimit';
+
 // TODO: add error handling for when no games can be exported
+
+const limiterFull = rateLimit({
+  interval: 60 * 1000,
+  uniqueTokenPerInterval: 1,
+});
 
 class NdjsonStreamer {
   constructor(props) {
@@ -53,6 +60,13 @@ class NdjsonStreamer {
     })
       .then((response) => {
         console.log('stream started', this.props.url);
+        /*if (response.status === 200) {
+          try {
+            await limiterFull.check(response, 0, 'CACHE_TOKEN');
+          } catch {
+            return;
+          }
+        }*/
         this.readable = response.body;
         this.readable.on('end', () => {
           if (this.props.endcallback) this.props.endcallback();
@@ -119,7 +133,7 @@ async function exportAll(req, res) {
 
       url: `https://lichess.org/api/games/user/${lichessUsername}?opening=true&since=${startDate}&until=${endDate}&max=100&pgnInJson=true`,
       token: process.env.LICHESS_API_TOKEN,
-      timeout: 15000,
+      timeout: 10000,
 
       timeoutCallback: () => res.status(405).end(),
       callback: (obj) => {

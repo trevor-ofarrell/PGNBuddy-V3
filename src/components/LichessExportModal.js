@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 export const LichessExportModal = ({ userId, lichessUsername }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [uploadFolderName, setFolderName] = useState('');
 
   const handleOpen = () => {
     setOpen(true);

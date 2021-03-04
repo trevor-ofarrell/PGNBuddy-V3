@@ -160,6 +160,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
+    overflow: 'hidden',
   },
   sidedrawer: {
     marginLeft: 'auto',
@@ -202,6 +203,7 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     color: 'white',
+    wordWrap: 'break-all',
     [theme.breakpoints.up('md')]: {
       fontSize: '19px',
     },
@@ -218,7 +220,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     width: '92%',
     maxWidth: '75vw',
-    wordWrap: 'break-word',
+    wordWrap: 'break-all',
     [theme.breakpoints.up('md')]: {
       fontSize: '19px',
       width: '93.25%',

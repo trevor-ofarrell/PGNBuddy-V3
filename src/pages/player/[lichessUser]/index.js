@@ -183,7 +183,7 @@ export const getServerSideProps = async ({ params, res }) => {
   try {
     // limit this page from calling this function more than once every 30 sec
     // to adhere to the rate limiting rules of the lichess.org api
-    await limiterHalf.check(res, 2, 'CACHE_TOKEN');
+    await limiterHalf.check(res, 3, 'CACHE_TOKEN');
     try {
       const response = await axios.get(
         `http://lichess.org/api/user/${params.lichessUser}`,

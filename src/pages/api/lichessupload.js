@@ -38,7 +38,7 @@ async function lichessUpload(req, res) {
     try {
       // limit this page from calling this function more than once every 30 sec
       // to adhere to the rate limiting rules of the lichess.org api
-      await limiter.check(res, 2, 'CACHE_TOKEN');
+      await limiter.check(res, 3, 'CACHE_TOKEN');
       try {
         const response = await axios.get(
           `https://lichess.org/game/export/${gameString}`,

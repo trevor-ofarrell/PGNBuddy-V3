@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   text: {
     textAlign: 'center',
     marginBottom: '1em',
+    wordBreak: 'break-all',
   },
 }));
 
@@ -95,7 +96,7 @@ export const DeletePgnModal = ({
       >
         <Fade in={open}>
           <div className={classes.paper}>
-          <Typography variant="h5" className={classes.text}>
+            <Typography variant="h5" className={classes.text}>
               Delete PGN
               {' '}
               {'"'}

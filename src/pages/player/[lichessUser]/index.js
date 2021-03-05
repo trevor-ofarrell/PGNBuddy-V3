@@ -175,7 +175,7 @@ const limiterHalf = rateLimit({
   uniqueTokenPerInterval: 1, // a max of 1 user can request per second
 });
 const limiterFull = rateLimit({
-  interval: 60 * 1000,
+  interval: 65 * 1000,
   uniqueTokenPerInterval: 1,
 });
 

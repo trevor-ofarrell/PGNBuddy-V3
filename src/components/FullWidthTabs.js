@@ -105,7 +105,9 @@ const textFieldTheme = createMuiTheme({
   },
 });
 
-export const FullWidthTabs = ({ userId, lichessUsername }) => {
+export const FullWidthTabs = ({
+  userId, lichessUsername, handleClose, handleRateLimitDialog,
+}) => {
   const classes = useStyles();
   const router = useRouter();
   const theme = useTheme();
@@ -134,7 +136,7 @@ export const FullWidthTabs = ({ userId, lichessUsername }) => {
       userData: { id: userId },
     };
     await fetch('/api/exportall', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
-      .then(() => { Router.push('/dashboard'); router.reload(); });
+      .then((res) => { Router.push('/dashboard'); router.reload(); });
   };
 
   const [name, setName] = useState('');
@@ -150,12 +152,19 @@ export const FullWidthTabs = ({ userId, lichessUsername }) => {
       userData: { id: userId },
     };
     await fetch('/api/lichessupload', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
-      .then(() => { Router.push('/dashboard'); router.reload(); });
+      .then((res) => {
+        if (res.status === 200) {
+          Router.push('/dashboard'); router.reload();
+        } else {
+          handleClose();
+          handleRateLimitDialog(res.status);
+        }
+      });
   };
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.appbar}>
+      <AppBar position="static" elevation={2} className={classes.appbar}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -177,7 +186,7 @@ export const FullWidthTabs = ({ userId, lichessUsername }) => {
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
             <form>
-              <Card elevation={2} className={classes.card}>
+              <Card elevation={0} className={classes.card}>
                 <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <TextField
@@ -268,7 +277,7 @@ export const FullWidthTabs = ({ userId, lichessUsername }) => {
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             <form>
-              <Card className={classes.card}>
+              <Card elevation={0} className={classes.card}>
                 <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <TextField

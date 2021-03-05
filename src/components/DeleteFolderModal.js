@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   text: {
     textAlign: 'center',
     marginBottom: '1em',
+    wordBreak: 'break-all',
   },
 }));
 

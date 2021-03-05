@@ -5,6 +5,11 @@ import rateLimit from '../../../utils/ratelimit';
 
 const axios = require('axios');
 
+const limiter = rateLimit({
+  interval: 65 * 1000,
+  uniqueTokenPerInterval: 1,
+});
+
 async function lichessUpload(req, res) {
   if (req.method === 'POST') {
     let pgnName = req.body.name;
@@ -30,98 +35,103 @@ async function lichessUpload(req, res) {
     let blackRating = '';
     let whiteRating = '';
 
-    const limiter = rateLimit({
-      interval: 60 * 1000,
-      uniqueTokenPerInterval: 1,
-    });
-
     try {
       // limit this page from calling this function more than once every 30 sec
       // to adhere to the rate limiting rules of the lichess.org api
       await limiter.check(res, 2, 'CACHE_TOKEN');
-
-      const response = await axios.get(
-        `https://lichess.org/game/export/${gameString}`,
-        {
-          params: {
-            pgnInJson: 'true',
-            clocks: 'true',
+      try {
+        const response = await axios.get(
+          `https://lichess.org/game/export/${gameString}`,
+          {
+            params: {
+              pgnInJson: 'true',
+              clocks: 'true',
+            },
+            headers: {
+              Accept: 'application/json',
+            },
           },
-          headers: {
-            Accept: 'application/json',
-          },
-        },
-      );
+        );
 
-      if (response) {
-        bluebird.promisifyAll(redis.RedisClient.prototype);
-        const cache = redis.createClient({
-          port: process.env.LAMBDA_REDIS_PORT,
-          host: process.env.LAMBDA_REDIS_ENDPOINT,
-          password: process.env.LAMBDA_REDIS_PW,
-        });
-
-        if (!pgnFolder) {
-          const date = new Date();
-          date.setMilliseconds(0);
-          date.setSeconds(0);
-          pgnFolder = `lichess upload ${date}`;
+        // Timeout for a minute
+        if (response.status === 429) {
+          try {
+            await limiter.check(res, 0, 'CACHE_TOKEN');
+          } catch {
+            return res.status(429).end();
+          }
         }
 
-        if (!pgnName) {
-          pgnName = `${response.data.opening.name} - ${response.data.variant} - ${response.data.speed} - id: ${gameString}`;
-        }
+        if (response) {
+          bluebird.promisifyAll(redis.RedisClient.prototype);
+          const cache = redis.createClient({
+            port: process.env.LAMBDA_REDIS_PORT,
+            host: process.env.LAMBDA_REDIS_ENDPOINT,
+            password: process.env.LAMBDA_REDIS_PW,
+          });
 
-        if (!response.data.players.black.user) {
-          blackPlayer = 'None';
-        } else { blackPlayer = `${response.data.players.black.user.name}`; blackRating = `${response.data.players.black.rating}`; }
+          if (!pgnFolder) {
+            const date = new Date();
+            date.setMilliseconds(0);
+            date.setSeconds(0);
+            pgnFolder = `lichess upload ${date}`;
+          }
 
-        if (!response.data.players.white.user) {
-          whitePlayer = 'None';
-        } else { whitePlayer = `${response.data.players.white.user.name}`; whiteRating = `${response.data.players.white.rating}`; }
+          if (!pgnName) {
+            pgnName = `${response.data.opening.name} - ${response.data.variant} - ${response.data.speed} - id: ${gameString}`;
+          }
 
-        const pgn = {
-          name: pgnName,
-          pgn_id: gameString,
-          folder: pgnFolder,
-          pgn: response.data.pgn,
-          moves: response.data.moves,
-          user_id: userData.id,
-          user_email: userData.email,
-          iframe: iframeLink,
-          rated: response.data.rated,
-          variant: response.data.variant,
-          speed: response.data.speed,
-          status: response.data.status,
-          winner: response.data.winner,
-          opening: response.data.opening,
-          clock: response.data.clock,
-          black: blackPlayer,
-          white: whitePlayer,
-          blackRating,
-          whiteRating,
-        };
+          if (!response.data.players.black.user) {
+            blackPlayer = 'None';
+          } else { blackPlayer = `${response.data.players.black.user.name}`; blackRating = `${response.data.players.black.rating}`; }
 
-        if (pgn) {
-          await cache.saddAsync(`${userData.id}-folder-names`, pgn.folder);
-          await cache.hsetnxAsync(`${userData.id}-${pgn.folder}`, `${gameString}`, JSON.stringify(pgn))
-            .then(async (reply) => {
-              if (reply !== 1) {
+          if (!response.data.players.white.user) {
+            whitePlayer = 'None';
+          } else { whitePlayer = `${response.data.players.white.user.name}`; whiteRating = `${response.data.players.white.rating}`; }
+
+          const pgn = {
+            name: pgnName,
+            pgn_id: gameString,
+            folder: pgnFolder,
+            pgn: response.data.pgn,
+            moves: response.data.moves,
+            user_id: userData.id,
+            user_email: userData.email,
+            iframe: iframeLink,
+            rated: response.data.rated,
+            variant: response.data.variant,
+            speed: response.data.speed,
+            status: response.data.status,
+            winner: response.data.winner,
+            opening: response.data.opening,
+            clock: response.data.clock,
+            black: blackPlayer,
+            white: whitePlayer,
+            blackRating,
+            whiteRating,
+          };
+
+          if (pgn) {
+            await cache.saddAsync(`${userData.id}-folder-names`, pgn.folder);
+            await cache.hsetnxAsync(`${userData.id}-${pgn.folder}`, `${gameString}`, JSON.stringify(pgn))
+              .then(async (reply) => {
+                if (reply !== 1) {
+                  cache.quit();
+                  return res.status(500).end();
+                }
                 cache.quit();
-                return res.status(500).end();
-              }
-              cache.quit();
-              return res.status(200).end();
-            });
+                return res.status(200).end();
+              });
+          } else {
+            cache.quit();
+            res.status(500).end();
+          }
         } else {
-          cache.quit();
-          res.status(500).end();
+          return res.status(405).end();
         }
-      } else {
-        return res.status(405).end();
-      }
+      } catch { res.status(420).end(); }
     } catch {
-      return res.status(500).end();
+      return res.status(420).end();
     }
   }
   return res.status(500).end();

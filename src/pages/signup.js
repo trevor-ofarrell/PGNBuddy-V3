@@ -9,7 +9,7 @@ import {
   ResponsiveAppBar,
 } from '../components';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     background: 'rgb(29, 26, 24)',
     height: '100vh',
@@ -19,8 +19,11 @@ const useStyles = makeStyles(() => ({
     height: '100vh',
   },
   card: {
-    marginTop: '40vh',
+    marginTop: '36vh',
     background: 'rgb(49, 46, 44)',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '27vh',
+    },
   },
   textfield: {
     width: '100%',
@@ -70,7 +73,7 @@ const SignUp = () => {
         <Grid container className={classes.mask}>
           <Grid item xs={1} sm={1} md={3} lg={4} />
           <Grid item xs={10} sm={10} md={6} lg={4}>
-            <Card className={classes.card}>
+            <Card elevation={0} className={classes.card}>
               <Grid container>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <TextField

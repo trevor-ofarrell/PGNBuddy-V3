@@ -67,6 +67,7 @@ const AccordionSummary = withStyles({
   content: {
     '&$expanded': {
       margin: '12px 0',
+      marginBottom: '0em',
     },
   },
   expanded: {},
@@ -253,7 +254,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pgncontent: {
     marginBottom: '0em',
-    marginTop: '2em',
+    marginTop: '1em',
     [theme.breakpoints.up('xl')]: {
       marginLeft: '1vw',
       marginRight: '1vw',
@@ -268,7 +269,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: '-1.5vw',
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: '1em',
+      marginTop: '0.5em',
       marginBottom: '1em',
       marginLeft: '0.2vw',
 
@@ -278,25 +279,25 @@ const useStyles = makeStyles((theme) => ({
     background: 'rgb(59, 56, 54)',
     padding: '2em',
     [theme.breakpoints.up('lg')]: {
-      marginRight: '2vw',
+      marginRight: '1em',
     },
     [theme.breakpoints.down('md')]: {
       padding: '1em',
-      marginBottom: '2em',
+      marginBottom: '1em',
     },
     [theme.breakpoints.down('sm')]: {
       padding: '1em',
     },
     [theme.breakpoints.down('xs')]: {
       padding: '0em',
-      marginBottom: '1em',
+      marginBottom: '0.5em',
     },
   },
   pgncard: {
     background: 'rgb(59, 56, 54)',
     padding: '2em',
-    marginTop: '2em',
-    marginBottom: '2em',
+    marginTop: '1em',
+    marginBottom: '1em',
     [theme.breakpoints.down('md')]: {
       padding: '1em',
     },
@@ -304,8 +305,8 @@ const useStyles = makeStyles((theme) => ({
       padding: '1em',
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: '1em',
-      marginBottom: '1em',
+      marginTop: '0.5em',
+      marginBottom: '0.5em',
     },
   },
   pgninfocard: {

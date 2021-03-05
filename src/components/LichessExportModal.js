@@ -51,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
 export const LichessExportModal = ({ userId, lichessUsername }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [statusCode, setStatus] = useState(0);
 
   const handleOpen = () => {
     setOpen(true);
@@ -58,6 +60,15 @@ export const LichessExportModal = ({ userId, lichessUsername }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleRateLimitDialog = (status) => {
+    setOpen2(true);
+    setStatus(status);
+  };
+
+  const handleRateLimitDialogClose = () => {
+    setOpen2(false);
   };
 
   return (
@@ -85,7 +96,42 @@ export const LichessExportModal = ({ userId, lichessUsername }) => {
             <h2 id="transition-modal-title">
               choose lichess export option
             </h2>
-            <FullWidthTabs userId={userId} lichessUsername={lichessUsername} />
+            <FullWidthTabs
+              userId={userId}
+              lichessUsername={lichessUsername}
+              handleClose={handleClose}
+              handleRateLimitDialog={handleRateLimitDialog}
+            />
+          </div>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open2}
+        onClose={handleRateLimitDialogClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open2}>
+          <div className={classes.paper}>
+            {statusCode === 429
+              ? (
+                <h2 id="transition-modal-title">
+                  Rate limit reached.
+                  Please wait 60 seconds before requesting the lichess PGN exports again.
+                </h2>
+              )
+              : (
+                <h2 id="transition-modal-title">
+                  Rate limit reached.
+                  Please wait 30 seconds before requesting the lichess PGN exports again.
+                </h2>
+              )}
           </div>
         </Fade>
       </Modal>

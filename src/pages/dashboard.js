@@ -659,26 +659,14 @@ const Dashboard = (props) => {
                                     : (
                                       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                         <Card className={classes.copypgncard} elevation={0}>
-                                          <ButtonGroup className={classes.buttongroup}>
-                                            <Button
-                                              variant="outlined"
-                                              className={classes.nonprimarybutton}
-                                              startIcon={<PostAddIcon />}
-                                              onClick={() => navigator.clipboard.writeText(pgn.pgn)}
-                                            >
-                                              copy PGN
-                                            </Button>
-                                            <Button
-                                              variant="outlined"
-                                              className={classes.nonprimarybutton}
-                                              startIcon={<PostAddIcon />}
-                                              onClick={
-                                                () => navigator.clipboard.writeText(pgn.moves)
-                                              }
-                                            >
-                                              copy moves
-                                            </Button>
-                                          </ButtonGroup>
+                                          <Button
+                                            variant="outlined"
+                                            className={classes.nonprimarybutton}
+                                            startIcon={<PostAddIcon />}
+                                            onClick={() => navigator.clipboard.writeText(pgn.pgn)}
+                                          >
+                                            copy PGN
+                                          </Button>
                                         </Card>
                                       </Grid>
                                     )}

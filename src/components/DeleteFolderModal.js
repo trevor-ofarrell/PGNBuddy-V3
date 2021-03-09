@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  makeStyles, Button, Grid, Typography,
+  makeStyles, Button, Grid, Typography, ButtonGroup,
 } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -27,13 +27,20 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
     outline: 'none',
     color: 'white',
+    textAlign: 'center',
   },
   button: {
     width: '100%',
-    marginTop: '1.5em',
     marginBottom: '0.5em',
     color: 'white',
     borderColor: 'white',
+    padding: '1em',
+    '&:hover': {
+      background: 'rgb(49, 46, 44)',
+    },
+  },
+  buttongroup: {
+    width: '100%',
   },
   icon: {
     marginLeft: '2vw',
@@ -96,15 +103,17 @@ export const DeleteFolderModal = ({ folderName, id }) => {
               {'"'}
               ?
             </Typography>
-            <Typography variant="body2" className={classes.text}>
-              Are you sure? The data cannot be recovered.
-            </Typography>
             <Grid container>
               <Grid item xs={3} xl={3} />
               <Grid item xs={6} xl={6}>
-                <Button variant="outlined" className={classes.button} onClick={handleDelete}>
-                  Yes I&#39;m Sure
-                </Button>
+                <ButtonGroup className={classes.buttongroup}>
+                  <Button variant="outlined" className={classes.button} onClick={handleClose}>
+                    cancel
+                  </Button>
+                  <Button variant="outlined" className={classes.button} onClick={handleDelete}>
+                    Delete
+                  </Button>
+                </ButtonGroup>
               </Grid>
               <Grid item xs={3} xl={3} />
             </Grid>

@@ -1,7 +1,12 @@
 import redis from 'redis';
 import bluebird from 'bluebird';
 
-// TODO: add error handling for when no games can be exported
+import rateLimit from '../../../utils/ratelimit';
+
+const limiter = rateLimit({
+  interval: 65 * 1000,
+  uniqueTokenPerInterval: 1,
+});
 
 class NdjsonStreamer {
   constructor(props) {
@@ -55,7 +60,7 @@ class NdjsonStreamer {
         console.log('stream started', this.props.url);
         this.readable = response.body;
         this.readable.on('end', () => {
-          if (this.props.endcallback) this.props.endcallback();
+          if (this.props.endcallback) this.props.endcallback(response);
         });
 
         this.readable.on('data', (chunk) => {
@@ -194,19 +199,35 @@ async function exportAll(req, res) {
           usersFolders.push(pgn.folder);
         }
       },
-      endcallback: () => {
-        // do something when stream has ended
-        if (usersFolders) {
-          usersFolders.forEach(async (currentFolder) => {
-            await cache.existsAsync(`${userData.id}-${currentFolder}`).then(async (reply) => {
-              const promises = [];
-              // if folder doesnt exist
-              if (reply !== 1) {
-                await cache.saddAsync(`${userData.id}-folder-names`, currentFolder);
-                pgnList.forEach(async (elem) => {
+      endcallback: async (response) => {
+        const updateFolders = async (folders, pgns, uid) => {
+          if (folders) {
+            folders.forEach(async (currentFolder) => {
+              await cache.existsAsync(`${uid}-${currentFolder}`).then(async (reply) => {
+                const promises = [];
+                // if folder doesnt exist
+                if (reply !== 1) {
+                  await cache.saddAsync(`${uid}-folder-names`, currentFolder);
+                  pgns.forEach(async (elem) => {
+                    promises.push(
+                      await cache.hsetAsync(
+                        `${uid}-${currentFolder}`,
+                        `${elem.pgn_id}`,
+                        JSON.stringify(elem),
+                      ),
+                    );
+                  });
+                  await Promise.all(promises);
+
+                  cache.quit();
+                  return res.status(200).end();
+                }
+
+                await cache.saddAsync(`${uid}-folder-names`, currentFolder);
+                pgns.forEach(async (elem) => {
                   promises.push(
-                    await cache.hsetAsync(
-                      `${userData.id}-${currentFolder}`,
+                    await cache.hsetnxAsync(
+                      `${uid}-${currentFolder}`,
                       `${elem.pgn_id}`,
                       JSON.stringify(elem),
                     ),
@@ -216,27 +237,28 @@ async function exportAll(req, res) {
 
                 cache.quit();
                 return res.status(200).end();
-              }
-
-              await cache.saddAsync(`${userData.id}-folder-names`, currentFolder);
-              pgnList.forEach(async (elem) => {
-                promises.push(
-                  await cache.hsetnxAsync(
-                    `${userData.id}-${currentFolder}`,
-                    `${elem.pgn_id}`,
-                    JSON.stringify(elem),
-                  ),
-                );
               });
-              await Promise.all(promises);
-
-              cache.quit();
-
-              return res.status(200).end();
             });
-          });
+          } else {
+            return res.status(500).end();
+          }
+        };
+        if (response.status === 429) {
+          try {
+            await limiter.check(res, 0, 'CACHE_TOKEN');
+          } catch {
+            return res.status(429).end();
+          }
         } else {
-          return res.status(500).end();
+          try {
+            // limit this page from calling this function more than once every 30 sec
+            // to adhere to the rate limiting rules of the lichess.org api
+            await limiter.check(res, 3, 'CACHE_TOKEN');
+            await updateFolders(usersFolders, pgnList, userData.id);
+          } catch (err) {
+            await updateFolders(usersFolders, pgnList, userData.id);
+            return res.status(420).end();
+          }
         }
       },
     });

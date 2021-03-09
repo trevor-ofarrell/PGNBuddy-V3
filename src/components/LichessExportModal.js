@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     backgroundColor: 'rgb(49, 46, 44)',
-    border: '0px solid rgb(59, 56, 54)',
+    border: '0px solid rgb(49, 46, 44)',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     outline: 'none',

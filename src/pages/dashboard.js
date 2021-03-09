@@ -10,6 +10,7 @@ import {
   Grid,
   Typography,
   Card,
+  ButtonGroup,
 } from '@material-ui/core';
 
 import MuiAccordion from '@material-ui/core/Accordion';
@@ -49,7 +50,7 @@ const Accordion = withStyles({
       display: 'none',
     },
     '&$expanded': {
-      margin: 'auto',
+      margin: '0em',
     },
   },
   expanded: {},
@@ -58,16 +59,17 @@ const Accordion = withStyles({
 const AccordionSummary = withStyles({
   root: {
     background: 'rgb(59, 56, 54)',
-    marginBottom: -1,
     minHeight: 56,
     '&$expanded': {
       minHeight: 56,
+    },
+    '&:hover': {
+      background: 'rgb(49, 46, 44)',
     },
   },
   content: {
     '&$expanded': {
       margin: '12px 0',
-      marginBottom: '0em',
     },
   },
   expanded: {},
@@ -80,6 +82,9 @@ const PgnAccordionSummary = withStyles({
     minHeight: 56,
     '&$expanded': {
       minHeight: 56,
+    },
+    '&:hover': {
+      background: 'rgb(49, 46, 44)',
     },
   },
   content: {
@@ -339,6 +344,9 @@ const useStyles = makeStyles((theme) => ({
   nonprimarybutton: {
     color: 'white',
     borderColor: 'white',
+  },
+  buttongroup: {
+    marginTop: '0.5em',
   },
   grow: {
     flexGrow: 1,
@@ -625,28 +633,52 @@ const Dashboard = (props) => {
                                             {' '}
                                             {pgn.status}
                                           </Typography>
-                                          <Button
-                                            variant="outlined"
-                                            className={classes.button}
-                                            startIcon={<PostAddIcon />}
-                                            onClick={() => navigator.clipboard.writeText(pgn.pgn)}
-                                          >
-                                            Copy PGN
-                                          </Button>
+                                          <ButtonGroup className={classes.buttongroup}>
+                                            <Button
+                                              variant="outlined"
+                                              className={classes.nonprimarybutton}
+                                              startIcon={<PostAddIcon />}
+                                              onClick={() => navigator.clipboard.writeText(pgn.pgn)}
+                                            >
+                                              copy PGN
+                                            </Button>
+                                            <Button
+                                              variant="outlined"
+                                              className={classes.nonprimarybutton}
+                                              startIcon={<PostAddIcon />}
+                                              onClick={
+                                                () => navigator.clipboard.writeText(pgn.moves)
+                                              }
+                                            >
+                                              copy moves
+                                            </Button>
+                                          </ButtonGroup>
                                         </Card>
                                       </Grid>
                                     )
                                     : (
                                       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                                         <Card className={classes.copypgncard} elevation={0}>
-                                          <Button
-                                            variant="outlined"
-                                            className={classes.nonprimarybutton}
-                                            startIcon={<PostAddIcon />}
-                                            onClick={() => navigator.clipboard.writeText(pgn.pgn)}
-                                          >
-                                            Copy PGN
-                                          </Button>
+                                          <ButtonGroup className={classes.buttongroup}>
+                                            <Button
+                                              variant="outlined"
+                                              className={classes.nonprimarybutton}
+                                              startIcon={<PostAddIcon />}
+                                              onClick={() => navigator.clipboard.writeText(pgn.pgn)}
+                                            >
+                                              copy PGN
+                                            </Button>
+                                            <Button
+                                              variant="outlined"
+                                              className={classes.nonprimarybutton}
+                                              startIcon={<PostAddIcon />}
+                                              onClick={
+                                                () => navigator.clipboard.writeText(pgn.moves)
+                                              }
+                                            >
+                                              copy moves
+                                            </Button>
+                                          </ButtonGroup>
                                         </Card>
                                       </Grid>
                                     )}

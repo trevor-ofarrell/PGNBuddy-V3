@@ -136,7 +136,14 @@ export const FullWidthTabs = ({
       userData: { id: userId },
     };
     await fetch('/api/exportall', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
-      .then((res) => { Router.push('/dashboard'); router.reload(); });
+      .then((res) => {
+        if (res.status === 200) {
+          Router.push('/dashboard'); router.reload();
+        } else {
+          handleClose();
+          handleRateLimitDialog(res.status);
+        }
+      });
   };
 
   const [name, setName] = useState('');

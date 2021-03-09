@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import {
-  makeStyles, Button, Grid, TextField,
+  makeStyles,
+  Button,
+  Grid,
+  TextField,
+  createMuiTheme,
+  Card,
 } from '@material-ui/core';
+import {
+  ThemeProvider,
+} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -18,20 +26,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       paddingLeft: '5vw',
       paddingRight: '5vw',
-    },
-  },
-  paper: {
-    backgroundColor: 'rgb(59, 56, 54)',
-    border: '0px solid rgb(59, 56, 54)',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    outline: 'none',
-    color: '#fafafa',
-  },
-  icon: {
-    marginLeft: '3vw',
-    [theme.breakpoints.up('xl')]: {
-      marginLeft: '2.5vw',
     },
   },
   button: {
@@ -51,21 +45,46 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '0.6em',
     },
   },
-  textfield: {
-    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#fafafa',
-    },
-    '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#fafafa',
-    },
-    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#fafafa',
-    },
+  card: {
+    marginTop: '2em',
+    marginBottom: 'auto',
+    backgroundColor: 'rgb(69, 66, 64)',
     width: '100%',
-    color: 'white',
-    marginTop: '0.5em',
+  },
+  paper: {
+    backgroundColor: 'rgb(49, 46, 44)',
+    border: '0px solid rgb(49, 46, 44)',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(6),
+    outline: 'none',
+    color: '#fafafa',
+  },
+  icon: {
+    marginLeft: '3vw',
+    [theme.breakpoints.up('xl')]: {
+      marginLeft: '2.5vw',
+    },
+  },
+  textfield: {
+    width: '100%',
+    color: '#fafafa',
+    fontColor: '#fafafa',
+  },
+  label: {
+    color: 'rgb(119, 116, 114)',
+    fontWeight: '300',
+  },
+  input: {
+    color: '#fafafa',
+    fontWeight: '300',
   },
 }));
+
+const textFieldTheme = createMuiTheme({
+  palette: {
+    primary: { main: '#fafafa' },
+  },
+});
 
 export const NameFolderModal = ({ userId }) => {
   const classes = useStyles();
@@ -106,27 +125,35 @@ export const NameFolderModal = ({ userId }) => {
               Enter name for new, or existing folder.
             </h2>
             <p id="transition-modal-description">Leave blank for default naming.</p>
-            <TextField
-              id="outlined-basic"
-              label="folder"
-              variant="outlined"
-              className={classes.textfield}
-              InputLabelProps={{
-                style: { color: '#909090' },
-              }}
-              inputProps={{
-                style: { color: '#fafafa' },
-              }}
-              value={uploadFolderName}
-              onChange={(e) => setFolderName(e.target.value)}
-            />
-            <Grid container>
-              <Grid item xs={3} xl={3} />
-              <Grid item xs={6} xl={6}>
-                <FileUploadButton label="select PGN files" userId={userId} uploadFolderName={uploadFolderName} />
-              </Grid>
-              <Grid item xs={3} xl={3} />
-            </Grid>
+            <ThemeProvider theme={textFieldTheme}>
+              <Card elevation={0} className={classes.card}>
+                <TextField
+                  id="outlined-basic"
+                  label="folder"
+                  variant="filled"
+                  className={classes.textfield}
+                  InputLabelProps={{
+                    className: classes.label,
+                  }}
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  value={uploadFolderName}
+                  onChange={(e) => setFolderName(e.target.value)}
+                />
+                <Grid container>
+                  <Grid item xs={3} xl={3} />
+                  <Grid item xs={12} xl={12}>
+                    <FileUploadButton
+                      label="select PGN files"
+                      userId={userId}
+                      uploadFolderName={uploadFolderName}
+                    />
+                  </Grid>
+                  <Grid item xs={3} xl={3} />
+                </Grid>
+              </Card>
+            </ThemeProvider>
           </div>
         </Fade>
       </Modal>

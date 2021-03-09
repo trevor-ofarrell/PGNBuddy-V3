@@ -10,15 +10,8 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    height: 'auto',
-    padding: '0.75em',
-    marginTop: '2em',
-    paddingLeft: 'auto',
-    paddingRight: 'auto',
-    color: 'white',
-    marginBottom: '1em',
-    borderColor: 'white',
     width: '100%',
+    color: '#fafafa',
   },
 }));
 
@@ -54,7 +47,7 @@ export const FileUploadButton = ({ userId, label, uploadFolderName }) => {
   };
 
   return (
-    <Button component="label" variant="outlined" className={classes.button}>
+    <Button component="label" className={classes.button}>
       <input
         accept=".pgn"
         type="file"

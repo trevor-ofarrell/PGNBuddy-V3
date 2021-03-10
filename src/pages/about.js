@@ -160,8 +160,8 @@ const About = () => {
             practice my coding skills by building something I could personally use, and was
             interested in frequently working on. I recently began rewriting PGNBuddy from scratch
             after my original efforts, and came to realize that my fun project may prove useful
-            to other chess players. So I'm making it available for the public to use free of charge,
-            without ads or tracking.
+            to other chess players. So I&#39;m making it available for the public to use free of
+            charge, without ads or tracking.
           </Typography>
           <br />
           <Typography variant="body1" className={classes.paragraph}>
@@ -172,7 +172,7 @@ const About = () => {
           <br />
           <a href="https://trevorofarrell.com">
             <Typography variant="body1" className={classes.text}>
-              - Trevor O'Farrell
+              - Trevor O&#39;Farrell
             </Typography>
           </a>
           <a href="https://github.com/trevor-ofarrell/PGNBuddy-V3">
@@ -198,7 +198,7 @@ const About = () => {
               alt="how to upload pgns"
               width={624}
               height={438}
-              quality={100}
+              priority="true"
             />
             <Typography variant="body1">
               Two options:
@@ -219,7 +219,7 @@ const About = () => {
               alt="how to upload pgns"
               width={634.4}
               height={477.6}
-              quality={100}
+              priority="true"
             />
             <Typography variant="body1">
               file system upload
@@ -233,7 +233,7 @@ const About = () => {
               alt="how to upload pgns"
               width={765.1}
               height={368.2}
-              quality={100}
+              priority="true"
             />
             <Typography variant="body1">
               lichess.org export
@@ -246,7 +246,7 @@ const About = () => {
               alt="how to upload pgns"
               width={772.8}
               height={483}
-              quality={100}
+              priority="true"
             />
             <br />
             <br />

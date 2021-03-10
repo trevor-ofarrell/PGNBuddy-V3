@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
+
 import {
-  Grid, TextField, Button, Card, Typography, createMuiTheme,
+  Grid,
+  TextField,
+  Button,
+  Card,
+  Typography,
+  createMuiTheme,
 } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+
 import Link from 'next/link';
+import Router from 'next/router';
+
 import { firebaseClient } from '../../firebaseClient';
+
 import {
   ResponsiveAppBar,
 } from '../components';
-import fire from '../../fire-config';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,10 +130,8 @@ const Login = () => {
                     className={classes.button}
                     onClick={async () => {
                       await firebaseClient.auth()
-                        .setPersistence(firebaseClient.auth.Auth.Persistence.LOCAL);
-                      await firebaseClient.auth()
                         .signInWithEmailAndPassword(email, pass);
-                      window.location.href = '/dashboard';
+                      Router.push('/dashboard');
                     }}
                   >
                     Login

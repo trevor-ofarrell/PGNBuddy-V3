@@ -15,7 +15,7 @@ if (typeof window !== 'undefined' && !firebaseClient.apps.length) {
   firebaseClient.initializeApp(CLIENT_CONFIG);
   firebaseClient
     .auth()
-    .setPersistence(firebaseClient.auth.Auth.Persistence.SESSION);
+    .setPersistence(firebaseClient.auth.Auth.Persistence.LOCAL);
   window.firebase = firebaseClient;
 }
 

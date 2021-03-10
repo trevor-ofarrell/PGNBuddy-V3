@@ -1,10 +1,20 @@
 import React, { useRef, useState } from 'react';
+
 import {
-  Grid, TextField, Button, Card, Typography, createMuiTheme,
+  Grid,
+  TextField,
+  Button,
+  Card,
+  Typography,
+  createMuiTheme,
 } from '@material-ui/core';
-import { makeStyles, MuiThemeProvider, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+
 import Link from 'next/link';
+import Router from 'next/router';
+
 import { firebaseClient } from '../../firebaseClient';
+
 import {
   ResponsiveAppBar,
 } from '../components';
@@ -144,11 +154,13 @@ const SignUp = () => {
                         email,
                         username: lichessUsername,
                       };
-                      await fetch('/api/saveuser', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } });
-                      await firebaseClient
-                        .auth()
+                      await fetch(
+                        '/api/saveuser',
+                        { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } },
+                      );
+                      await firebaseClient.auth()
                         .createUserWithEmailAndPassword(email, pass);
-                      window.location.href = '/dashboard';
+                      Router.push('/dashboard');
                     }}
                   >
                     Create Account

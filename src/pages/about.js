@@ -138,6 +138,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     marginLeft: 'auto',
     color: 'orange',
+    padding: '0.5em',
   },
 }));
 
@@ -200,7 +201,8 @@ const About = () => {
               quality={100}
             />
             <Typography variant="body1">
-              Two options: 'upload PGN files' and 'export PGN's from lichess.org'
+              Two options:
+              &#39;upload PGN files&#39; and &#39;export PGN&#39;s from lichess.org&#39;
             </Typography>
           </div>
           <br />
@@ -246,6 +248,7 @@ const About = () => {
               height={483}
               quality={100}
             />
+            <br />
             <br />
             <Typography variant="body1" className={classes.text}>
               After submitting either form, the PGN files will be added to your database,

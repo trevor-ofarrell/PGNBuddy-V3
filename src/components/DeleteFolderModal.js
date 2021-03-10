@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {
-  makeStyles, Button, Grid, Typography, ButtonGroup,
+  makeStyles, Button, Grid, Typography,
+  ButtonGroup,
+  Tooltip,
 } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -49,6 +51,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginBottom: '1em',
     wordBreak: 'break-all',
+    padding: '2em',
+    [theme.breakpoints.down('sm')]: {
+      padding: '0em',
+      paddingTop: '1em',
+      paddingBottom: '1em',
+    },
   },
 }));
 
@@ -80,7 +88,9 @@ export const DeleteFolderModal = ({ folderName, id }) => {
       onClick={(event) => event.stopPropagation()}
       onFocus={(event) => event.stopPropagation()}
     >
-      <DeleteForeverIcon style={{ fill: '#ffffff', marginTop: '2px' }} type="button" onClick={handleOpen} className={classes.icon} />
+      <Tooltip title="delete folder" placement="left">
+        <DeleteForeverIcon style={{ fill: '#ffffff', marginTop: '2px' }} type="button" onClick={handleOpen} className={classes.icon} />
+      </Tooltip>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

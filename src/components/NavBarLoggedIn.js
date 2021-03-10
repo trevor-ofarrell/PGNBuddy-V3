@@ -253,7 +253,7 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
         elevation={0}
       >
         <Toolbar>
-          <Hidden smUp>
+          <Hidden mdUp>
             <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
               <MenuOpenIcon style={{ fill: '#ffffff' }} />
             </Button>
@@ -280,7 +280,7 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
             </Link>
             <div className={classes.grow} />
           </Hidden>
-          <Hidden xsDown>
+          <Hidden smDown>
             <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
             <Link href="/">
               <Typography className={classes.title} variant="h4" noWrap>

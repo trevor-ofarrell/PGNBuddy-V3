@@ -344,6 +344,9 @@ const useStyles = makeStyles((theme) => ({
   nonprimarybutton: {
     color: 'white',
     borderColor: 'white',
+    '&:hover': {
+      background: 'rgb(49, 46, 44)',
+    },
   },
   buttongroup: {
     marginTop: '0.5em',
@@ -490,7 +493,7 @@ const Dashboard = (props) => {
         <div className={classes.dash}>
           <CssBaseline />
           <nav className={classes.drawer} aria-label="sideDrawerButton menu">
-            <Hidden only={['xs', 'lg', 'xl']}>
+            <Hidden only={['xs', 'sm', 'lg', 'xl']}>
               <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open side menu">
                 <MenuOpenIcon style={{ fill: '#ffffff' }} />
               </Button>

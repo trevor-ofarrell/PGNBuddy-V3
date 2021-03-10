@@ -14,6 +14,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     background: 'rgb(29, 26, 24)',
     height: '100vh',
+    scroll: 'false',
+    overflow: 'hidden',
   },
   mask: {
     width: '100vw',

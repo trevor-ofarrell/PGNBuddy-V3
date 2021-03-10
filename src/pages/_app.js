@@ -36,6 +36,7 @@ export default function SaveApp(props) {
             overflow: 'hidden',
             height: 'auto',
             width: 'auto',
+            position: 'fixed',
           },
         },
       },

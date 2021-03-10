@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
     height: '100vh',
     width: '100vw',
-    scroll: 'false',
     overflow: 'hidden',
   },
   aspect: {

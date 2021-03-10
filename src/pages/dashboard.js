@@ -56,15 +56,17 @@ const Accordion = withStyles({
   expanded: {},
 })(MuiAccordion);
 
-const AccordionSummary = withStyles({
+const AccordionSummary = withStyles((theme) => ({
   root: {
     background: 'rgb(59, 56, 54)',
     minHeight: 56,
     '&$expanded': {
       minHeight: 56,
     },
-    '&:hover': {
-      background: 'rgb(49, 46, 44)',
+    [theme.breakpoints.up('sm')]: {
+      '&:hover': {
+        background: 'rgb(49, 46, 44)',
+      },
     },
   },
   content: {
@@ -73,9 +75,9 @@ const AccordionSummary = withStyles({
     },
   },
   expanded: {},
-})(MuiAccordionSummary);
+}))(MuiAccordionSummary);
 
-const PgnAccordionSummary = withStyles({
+const PgnAccordionSummary = withStyles((theme) => ({
   root: {
     background: 'rgb(59, 56, 54)',
     marginBottom: -1,
@@ -83,8 +85,10 @@ const PgnAccordionSummary = withStyles({
     '&$expanded': {
       minHeight: 56,
     },
-    '&:hover': {
-      background: 'rgb(49, 46, 44)',
+    [theme.breakpoints.up('sm')]: {
+      '&:hover': {
+        background: 'rgb(49, 46, 44)',
+      },
     },
   },
   content: {
@@ -93,7 +97,7 @@ const PgnAccordionSummary = withStyles({
     },
   },
   expanded: {},
-})(MuiAccordionSummary);
+}))(MuiAccordionSummary);
 
 const AccordionDetails = withStyles((theme) => ({
   root: {

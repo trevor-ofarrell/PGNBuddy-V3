@@ -34,6 +34,8 @@ export default function SaveApp(props) {
           },
           body: {
             overflow: 'hidden',
+            height: 'auto',
+            width: 'auto',
           },
         },
       },

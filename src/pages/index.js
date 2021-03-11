@@ -10,8 +10,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import nookies from 'nookies';
+
 import Link from 'next/link';
+import Router from 'next/router';
+
+import nookies from 'nookies';
 import { firebaseAdmin } from '../../firebaseAdmin';
 
 import {
@@ -103,6 +106,10 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Aldrich, sans-serif',
     textAlign: 'center',
     cursor: 'pointer',
+    fontSize: '1.4em',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1.1em',
+    },
     '&:hover': {
       textDecoration: 'underline',
     },
@@ -162,7 +169,7 @@ function App(props, inProp = true) {
                       color="primary"
                       className={classes.cta}
                       onClick={async () => {
-                        window.location.href = '/signup';
+                        Router.push('/signup');
                       }}
                     >
                       sign up

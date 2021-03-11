@@ -29,10 +29,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     background: 'rgb(29, 26, 24)',
-  },
-  section: {
-    width: '100%',
-    height: '95.5vh',
+    height: '100vh',
+    width: '100vw',
   },
   page: {
     marginTop: '17vh',
@@ -135,57 +133,54 @@ function App(props, inProp = true) {
   return (
     <div className={classes.root}>
       { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
-      <section className={classes.section}>
-        <Grow
-          in
-          style={{ transformOrigin: '2 0 -5' }}
-          {...(inProp ? { timeout: 1000 } : {})}
-        >
-          <Grid container>
-            <Grid item xs={12} md={12} lg={12}>
-              <Box>
-                <ThemeProvider theme={theme}>
-                  <div className={classes.page}>
-                    <Grid container>
-                      <Grid item xs={1} sm={1} md={2} lg={2} xl={2} />
-                      <Grid item xs={10} sm={10} md={8} lg={8} xl={8}>
-                        <Card className={classes.home}>
-                          Store, view, and organize your PGN files from anywhere.
-                          On any device.
-                        </Card>
-                      </Grid>
-                      <Grid item xs={1} sm={1} md={2} lg={2} xl={2} />
-                    </Grid>
-                  </div>
+      <Grow
+        in
+        style={{ transformOrigin: '2 0 -5' }}
+        {...(inProp ? { timeout: 1000 } : {})}
+      >
+        <Grid container>
+          <Grid item xs={12} md={12} lg={12}>
+            <Box>
+              <ThemeProvider theme={theme}>
+                <div className={classes.page}>
                   <Grid container>
-                    <Grid item xs={1} sm={2} md={3} lg={4} xl={4} />
-                    <Grid item xs={10} sm={8} md={6} lg={4} xl={4}>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        className={classes.cta}
-                        onClick={async () => {
-                          window.location.href = '/signup';
-                        }}
-                      >
-                        sign up
-                      </Button>
-                      <Link href="/login">
-                        <Typography className={classes.login}>
-                          Already have an account? Login
-                        </Typography>
-                      </Link>
+                    <Grid item xs={1} sm={1} md={2} lg={2} xl={2} />
+                    <Grid item xs={10} sm={10} md={8} lg={8} xl={8}>
+                      <Card className={classes.home}>
+                        Store, view, and organize your PGN files from anywhere.
+                        On any device.
+                      </Card>
                     </Grid>
-                    <Grid item xs={1} sm={2} md={3} lg={4} xl={4} />
+                    <Grid item xs={1} sm={1} md={2} lg={2} xl={2} />
                   </Grid>
-                </ThemeProvider>
-              </Box>
-            </Grid>
+                </div>
+                <Grid container>
+                  <Grid item xs={1} sm={2} md={3} lg={4} xl={4} />
+                  <Grid item xs={10} sm={8} md={6} lg={4} xl={4}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      className={classes.cta}
+                      onClick={async () => {
+                        window.location.href = '/signup';
+                      }}
+                    >
+                      sign up
+                    </Button>
+                    <Link href="/login">
+                      <Typography className={classes.login}>
+                        Already have an account? Login
+                      </Typography>
+                    </Link>
+                  </Grid>
+                  <Grid item xs={1} sm={2} md={3} lg={4} xl={4} />
+                </Grid>
+              </ThemeProvider>
+            </Box>
           </Grid>
-        </Grow>
-      </section>
+        </Grid>
+      </Grow>
     </div>
-
   );
 }
 

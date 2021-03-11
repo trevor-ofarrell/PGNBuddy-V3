@@ -10,6 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Image from 'next/image';
 
+import nookies from 'nookies';
+import { firebaseAdmin } from '../../firebaseAdmin';
+
 import {
   NavBarLoggedIn, ResponsiveAppBar,
 } from '../components';
@@ -142,12 +145,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const About = () => {
+export const getServerSideProps = async (ctx) => {
+  const cookies = nookies.get(ctx);
+  try {
+    const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+    const { uid, email } = token;
+    return { props: { id: uid, email } };
+  } catch (error) {
+    return { props: {} };
+  }
+};
+
+const About = (props) => {
+  const { id, email } = props;
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <ResponsiveAppBar />
+      { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
       <CssBaseline />
       <div className={classes.content}>
         <Card className={classes.maincard}>

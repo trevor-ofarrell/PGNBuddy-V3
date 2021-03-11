@@ -29,8 +29,6 @@ import { firebaseClient } from '../../firebaseClient';
 
 import { NameFolderModal, LichessExportModal } from '.';
 
-const axios = require('axios');
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -62,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: 'white',
     fontWeight: 'bold',
+    marginTop: '0.2em',
   },
   sectionDesktop: {
     display: 'none',
@@ -142,7 +141,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   kingsvg: {
-    marginTop: '-0.65vh',
+    cursor: 'pointer',
+    marginTop: '-0.4em',
+  },
+  flex: {
+    display: 'flex',
   },
 }));
 
@@ -202,9 +205,9 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
       </Link>
       <MenuItem
         onClick={async () => {
-          await firebaseClient.auth().signOut();
-          Router.push('/');
-          router.reload();
+          await firebaseClient.auth().signOut().then(() => {
+            router.push('/');
+          });
         }}
       >
         <Typography variant="h6" className={classes.mobilemenutext}>
@@ -272,20 +275,24 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
               {drawer}
             </Drawer>
             <div className={classes.grow} />
-            <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
             <Link href="/">
-              <Typography className={classes.titleMobile} variant="h6" noWrap>
-                PGNBuddy
-              </Typography>
+              <div className={classes.flex}>
+                <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
+                <Typography className={classes.titleMobile} variant="h5" noWrap>
+                  PGNBuddy
+                </Typography>
+              </div>
             </Link>
             <div className={classes.grow} />
           </Hidden>
           <Hidden smDown>
-            <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
             <Link href="/">
-              <Typography className={classes.title} variant="h4" noWrap>
-                PGNBuddy
-              </Typography>
+              <div className={classes.flex}>
+                <img src="/king.svg" className={classes.kingsvg} height={45} width={40} alt="silloette of king chess piece" />
+                <Typography className={classes.title} variant="h4" noWrap>
+                  PGNBuddy
+                </Typography>
+              </div>
             </Link>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -308,8 +315,9 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
                 color="inherit"
                 className={classes.minbutton}
                 onClick={async () => {
-                  await firebaseClient.auth().signOut();
-                  window.location.href = '/';
+                  await firebaseClient.auth().signOut().then(() => {
+                    router.push('/');
+                  });
                 }}
               >
                 Log Out

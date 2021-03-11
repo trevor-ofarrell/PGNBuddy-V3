@@ -3,10 +3,12 @@ import {
   Grid, makeStyles, Typography, Card,
 } from '@material-ui/core';
 
-import * as uuid from 'uuid';
+import nookies from 'nookies';
+import { firebaseAdmin } from '../../../../firebaseAdmin';
 
 import {
   NavBarLoggedIn,
+  ResponsiveAppBar,
   PieChart,
   RadarChart,
   LineChart,
@@ -178,118 +180,154 @@ const limiterFull = rateLimit({
   uniqueTokenPerInterval: 1,
 });
 
-export const getServerSideProps = async ({ params, res }) => {
-  try {
-    // limit this page from calling this function more than once every 30 sec
-    // to adhere to the rate limiting rules of the lichess.org api
-    await limiterHalf.check(res, 3, 'CACHE_TOKEN');
+export const getServerSideProps = async (ctx) => {
+  const getData = async (lichessUsername, resp, uid, email) => {
     try {
-      const response = await axios.get(
-        `http://lichess.org/api/user/${params.lichessUser}`,
-        {
-          headers: {
-            Accept: 'application/json',
+      // limit this page from calling this function more than once every 30 sec
+      // to adhere to the rate limiting rules of the lichess.org api
+      await limiterHalf.check(resp, 3, 'CACHE_TOKEN');
+      try {
+        const response = await axios.get(
+          `http://lichess.org/api/user/${lichessUsername}`,
+          {
+            headers: {
+              Accept: 'application/json',
+            },
           },
-        },
-      );
+        );
 
-      const response2 = await axios.get(
-        `http://lichess.org/api/user/${params.lichessUser}/rating-history`,
-        {
-          headers: {
-            Accept: 'application/json',
+        const response2 = await axios.get(
+          `http://lichess.org/api/user/${lichessUsername}/rating-history`,
+          {
+            headers: {
+              Accept: 'application/json',
+            },
           },
-        },
-      );
+        );
 
-      if ([response.status, response2.status].includes(429)) {
-        await limiterFull.check(res, 0, 'CACHE_TOKEN');
-      }
-
-      const username = JSON.stringify(response.data.username);
-      const perfs = Object.keys(response.data.perfs);
-      const perfList = [];
-      const pastYearRatingHistory = [];
-
-      JSON.parse(response2.data).forEach((timeControl) => {
-        try {
-          if (timeControl.points.length > 0) {
-            const timeControlName = timeControl.name;
-            const currentDate = new Date();
-            const month = currentDate.getUTCMonth();
-            const year = currentDate.getUTCFullYear();
-            const startYear = year - 1;
-
-            const pastYearData = timeControl.points.filter((point) => {
-              const refrenceDateStart = new Date(startYear, month, 1);
-              const refrenceDateEnd = new Date(year, month, 1);
-              const pointDate = new Date(point[0], point[1], point[2]);
-              return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);
-            });
-            const averages = {};
-
-            // Loop through the source data
-            pastYearData.forEach((row) => {
-              // Create an array as this month's value if not set
-              if (!averages[row[1]]) { averages[row[1]] = []; }
-
-              // Lump the same-month values into the correct array. Use parseInt to avoid
-              // potential NaN errors
-              averages[row[1]].push(parseInt(row[3], 10));
-            });
-
-            // Calculate the averages by looping through each key in the object (each month),
-            // using reduce to get the sum of the array and then use the length property to
-            // get the average of that array.
-            Object.keys(averages).forEach(
-              (m) => averages[m] = averages[m].reduce((v, i) => v + i, 0) / averages[m].length,
-            );
-
-            if (Object.keys(averages).length > 1) {
-              pastYearRatingHistory.push({ [timeControlName]: averages });
-            }
-          }
-        } catch (err) {
-          return false;
+        if ([response.status, response2.status].includes(429)) {
+          await limiterFull.check(resp, 0, 'CACHE_TOKEN');
         }
-      });
 
-      perfs.forEach((elem) => {
-        perfList.push({ [elem]: response.data.perfs[elem] });
-      });
-      const playerData = response.data.count;
+        const username = JSON.stringify(response.data.username);
+        const perfs = Object.keys(response.data.perfs);
+        const perfList = [];
+        const pastYearRatingHistory = [];
 
+        JSON.parse(response2.data).forEach((timeControl) => {
+          try {
+            if (timeControl.points.length > 0) {
+              const timeControlName = timeControl.name;
+              const currentDate = new Date();
+              const month = currentDate.getUTCMonth();
+              const year = currentDate.getUTCFullYear();
+              const startYear = year - 1;
+
+              const pastYearData = timeControl.points.filter((point) => {
+                const refrenceDateStart = new Date(startYear, month, 1);
+                const refrenceDateEnd = new Date(year, month, 1);
+                const pointDate = new Date(point[0], point[1], point[2]);
+                return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);
+              });
+              const averages = {};
+
+              // Loop through the source data
+              pastYearData.forEach((row) => {
+                // Create an array as this month's value if not set
+                if (!averages[row[1]]) { averages[row[1]] = []; }
+
+                // Lump the same-month values into the correct array. Use parseInt to avoid
+                // potential NaN errors
+                averages[row[1]].push(parseInt(row[3], 10));
+              });
+
+              // Calculate the averages by looping through each key in the object (each month),
+              // using reduce to get the sum of the array and then use the length property to
+              // get the average of that array.
+              Object.keys(averages).forEach(
+                (m) => averages[m] = averages[m].reduce((v, i) => v + i, 0) / averages[m].length,
+              );
+
+              if (Object.keys(averages).length > 1) {
+                pastYearRatingHistory.push({ [timeControlName]: averages });
+              }
+            }
+          } catch (err) {
+            return false;
+          }
+        });
+
+        perfs.forEach((elem) => {
+          perfList.push({ [elem]: response.data.perfs[elem] });
+        });
+        const playerData = response.data.count;
+
+        if (uid && email) {
+          return {
+            props: {
+              perfList,
+              playerData,
+              username,
+              pastYearRatingHistory,
+              lichessUsername,
+              id: uid,
+              email,
+            },
+          };
+        }
+        return {
+          props: {
+            perfList,
+            playerData,
+            username,
+            pastYearRatingHistory,
+            lichessUsername,
+          },
+        };
+      } catch {
+        resp.statusCode = 404;
+        return {
+          props: {},
+        };
+      }
+    } catch {
+      if (uid && email) {
+        return {
+          props: {
+            perfList: [],
+            playerData: {},
+            username: JSON.stringify(lichessUsername),
+            pastYearRatingHistory: [],
+            lichessUsername,
+            id: uid,
+            email,
+          },
+        };
+      }
       return {
         props: {
-          perfList,
-          playerData,
-          username,
-          pastYearRatingHistory,
-          lichessUsername: params.lichessUser,
+          perfList: [],
+          playerData: {},
+          username: JSON.stringify(lichessUsername),
+          pastYearRatingHistory: [],
+          lichessUsername,
         },
       };
-    } catch {
-      res.statusCode = 404;
-      return {
-        props: {},
-      };
     }
-  } catch {
-    return {
-      props: {
-        perfList: [],
-        playerData: {},
-        username: JSON.stringify(params.lichessUser),
-        pastYearRatingHistory: [],
-        lichessUsername: params.lichessUser,
-      },
-    };
+  };
+  const cookies = nookies.get(ctx);
+  try {
+    const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+    const { uid, email } = token;
+    return getData(ctx.params.lichessUser, ctx.res, uid, email);
+  } catch (error) {
+    return getData(ctx.params.lichessUser, ctx.res, undefined, undefined);
   }
 };
 
 const User = (props) => {
   const {
-    perfList, playerData, username, pastYearRatingHistory, lichessUsername,
+    perfList, playerData, username, pastYearRatingHistory, lichessUsername, id, email,
   } = props;
 
   const classes = useStyles();
@@ -303,7 +341,7 @@ const User = (props) => {
       {pastYearRatingHistory.length && perfList.length
         ? (
           <div className={classes.root}>
-            <NavBarLoggedIn lichessUsername={lichessUsername} />
+            { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
             <div className={classes.aspect}>
               <a href={`https://lichess.org/@/${JSON.parse(username)}`} className={classes.link}>
                 <Typography variant="h6" className={classes.title}>
@@ -349,7 +387,7 @@ const User = (props) => {
         )
         : (
           <div className={classes.root}>
-            <NavBarLoggedIn lichessUsername={lichessUsername} />
+            { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
             <div className={classes.aspect}>
               <div className={classes.ratelimit}>
                 <Typography variant="h2" className={classes.ratelimit}>

@@ -138,7 +138,8 @@ export const FullWidthTabs = ({
     await fetch('/api/exportall', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
       .then((res) => {
         if (res.status === 200) {
-          Router.push('/dashboard'); router.reload();
+          Router.push('/dashboard');
+          router.reload();
         } else {
           handleClose();
           handleRateLimitDialog(res.status);
@@ -161,7 +162,8 @@ export const FullWidthTabs = ({
     await fetch('/api/lichessupload', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
       .then((res) => {
         if (res.status === 200) {
-          Router.push('/dashboard'); router.reload();
+          Router.push('/dashboard');
+          router.reload();
         } else {
           handleClose();
           handleRateLimitDialog(res.status);

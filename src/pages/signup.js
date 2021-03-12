@@ -150,16 +150,27 @@ const SignUp = () => {
                   <Button
                     className={classes.button}
                     onClick={async () => {
-                      const data = {
-                        email,
-                        username: lichessUsername,
-                      };
-                      await fetch(
-                        '/api/saveuser',
-                        { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } },
-                      );
                       await firebaseClient.auth()
-                        .createUserWithEmailAndPassword(email, pass);
+                        .createUserWithEmailAndPassword(email, pass).then(async (user) => {
+                          const data = {
+                            email,
+                            username: lichessUsername,
+                          };
+                          const data2 = {
+                            name: 'My first PGN',
+                            folder: 'Welcome to PGNBuddy',
+                            gameString: '69rEfo7G',
+                            userData: { id: user.user.uid },
+                          };
+                          await fetch(
+                            '/api/saveuser',
+                            { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } },
+                          );
+                          await fetch(
+                            '/api/lichessupload',
+                            { method: 'POST', body: JSON.stringify(data2), headers: { 'Content-Type': 'application/json' } },
+                          );
+                        });
                       Router.push('/dashboard');
                     }}
                   >

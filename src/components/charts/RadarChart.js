@@ -19,6 +19,7 @@ export const RadarChart = ({ perfList, playerUsername }) => {
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
   const mobileFontSizes = {
     title: 13,
     legendFontSize: 12,

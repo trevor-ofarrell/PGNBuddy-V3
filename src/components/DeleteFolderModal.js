@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '10vw',
     paddingRight: '10vw',
     [theme.breakpoints.down('xs')]: {
-      paddingLeft: '5vw',
-      paddingRight: '5vw',
+      paddingLeft: '2vw',
+      paddingRight: '2vw',
     },
   },
   paper: {
@@ -114,8 +114,8 @@ export const DeleteFolderModal = ({ folderName, id }) => {
               ?
             </Typography>
             <Grid container>
-              <Grid item xs={3} xl={3} />
-              <Grid item xs={6} xl={6}>
+              <Grid item sm={1} xl={3} />
+              <Grid item xs={12} sm={10} xl={6}>
                 <ButtonGroup className={classes.buttongroup}>
                   <Button variant="outlined" className={classes.button} onClick={handleClose}>
                     cancel
@@ -125,7 +125,7 @@ export const DeleteFolderModal = ({ folderName, id }) => {
                   </Button>
                 </ButtonGroup>
               </Grid>
-              <Grid item xs={3} xl={3} />
+              <Grid item sm={1} xl={3} />
             </Grid>
           </div>
         </Fade>

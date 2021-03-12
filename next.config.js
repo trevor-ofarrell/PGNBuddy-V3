@@ -10,7 +10,6 @@ module.exports = withOffline(withPWA({
         tls: 'empty',
       };
     }
-
     return config;
   },
   pwa: {

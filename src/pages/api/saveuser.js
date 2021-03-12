@@ -14,13 +14,7 @@ async function saveuser(req, res) {
       password: process.env.LAMBDA_REDIS_PW,
     });
 
-    await cache.hsetAsync('users', email, username).then(async (reply) => {
-      if (reply !== 1) {
-        console.log('hset set failed');
-      } else {
-        console.log('hset succeded', username);
-      }
-    });
+    await cache.hsetAsync('users', email, username);
 
     cache.quit();
     return res.status(200).end();

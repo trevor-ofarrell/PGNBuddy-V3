@@ -105,7 +105,7 @@ const textFieldTheme = createMuiTheme({
   },
 });
 
-export const FullWidthTabs = ({
+export const LichessImportTabs = ({
   userId, lichessUsername, handleClose, handleRateLimitDialog,
 }) => {
   const classes = useStyles();
@@ -178,13 +178,13 @@ export const FullWidthTabs = ({
           value={value}
           onChange={handleChange}
           variant="fullWidth"
-          aria-label="full width tabs example"
+          aria-label="choose lichess import option"
           classes={{
             indicator: classes.indicator,
           }}
         >
-          <Tab label="export PGNs by date" {...a11yProps(0)} />
-          <Tab label="export PGN by ID or link" {...a11yProps(1)} />
+          <Tab label="Import PGNs by date" {...a11yProps(0)} />
+          <Tab label="Import PGN by ID or link" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <ThemeProvider theme={textFieldTheme}>

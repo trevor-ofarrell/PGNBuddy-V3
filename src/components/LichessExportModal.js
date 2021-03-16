@@ -5,7 +5,7 @@ import {
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { FullWidthTabs } from '.';
+import { LichessImportTabs } from '.';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -77,7 +77,7 @@ export const LichessExportModal = ({ userId, lichessUsername }) => {
       onFocus={(event) => event.stopPropagation()}
     >
       <Button className={classes.button} onClick={handleOpen}>
-        Export PGNs from lichess.org
+        Import PGNs from lichess.org
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -94,9 +94,9 @@ export const LichessExportModal = ({ userId, lichessUsername }) => {
         <Fade in={open}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">
-              choose lichess export option
+              choose lichess import option
             </h2>
-            <FullWidthTabs
+            <LichessImportTabs
               userId={userId}
               lichessUsername={lichessUsername}
               handleClose={handleClose}

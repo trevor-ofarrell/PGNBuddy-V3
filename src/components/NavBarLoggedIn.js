@@ -27,7 +27,7 @@ import Router, { useRouter } from 'next/router';
 
 import { firebaseClient } from '../../firebaseClient';
 
-import { NameFolderModal, LichessExportModal } from '.';
+import { UploadPgnModal, LichessExportModal } from '.';
 
 const drawerWidth = 240;
 
@@ -229,14 +229,14 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
     <div className={classes.sidedrawer}>
       <Grid container>
         <Grid item xs={12} sm={12} lg={12}>
-          <NameFolderModal
+          <UploadPgnModal
             label="Upload Single File"
             userId={userId}
           />
         </Grid>
         <Grid item xs={12} sm={12} lg={12}>
           <LichessExportModal
-            label="Export PGNs from lichess.org"
+            label="Import PGNs from lichess.org"
             userId={userId}
             lichessUsername={lichessUsername}
           />

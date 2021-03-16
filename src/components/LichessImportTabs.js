@@ -276,7 +276,7 @@ export const LichessImportTabs = ({
                         className={classes.button}
                         onClick={handleTabOneSubmit}
                       >
-                        Export PGNs
+                        Import PGNs
                       </Button>
                     </div>
                   </Link>
@@ -350,7 +350,7 @@ export const LichessImportTabs = ({
                         className={classes.button}
                         onClick={handleTabTwoSubmit}
                       >
-                        Export PGN
+                        Import PGN
                       </Button>
                     </div>
                   </Link>

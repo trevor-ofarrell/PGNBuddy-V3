@@ -34,7 +34,7 @@ import {
   NavBarLoggedIn,
   DeleteFolderModal,
   DeletePgnModal,
-  PgnUploadTabs,
+  UploadPgnModal,
   LichessExportModal,
 } from '../components';
 
@@ -460,8 +460,8 @@ const Dashboard = (props) => {
     <div className={classes.sidedrawer}>
       <Grid container>
         <Grid item xs={12} sm={12} lg={12}>
-          <PgnUploadTabs
-            label="Upload Single File"
+          <UploadPgnModal
+            label="Import PGNs from lichess.org"
             userId={id}
           />
         </Grid>

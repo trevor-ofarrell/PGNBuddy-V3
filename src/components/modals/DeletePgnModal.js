@@ -83,7 +83,6 @@ export const DeletePgnModal = ({
       id,
       pgnId,
       folderName,
-      pgnName,
     };
     await fetch('/api/deletepgn', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } });
     router.reload();

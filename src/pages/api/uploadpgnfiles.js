@@ -1,6 +1,8 @@
 import redis from 'redis';
 import bluebird from 'bluebird';
 
+import pgn2json from '../../../utils/pgntojson';
+
 async function uploadpgnfile(req, res) {
   if (req.method === 'POST') {
     bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -16,6 +18,7 @@ async function uploadpgnfile(req, res) {
 
     const pgnList = [];
     pgns.forEach((pgn) => {
+      const pgnjson = JSON.parse(pgn2json(pgn[1]));
       const properties = {
         name: pgn[0],
         pgn_id: pgn[0],
@@ -26,16 +29,16 @@ async function uploadpgnfile(req, res) {
         user_email: '',
         iframe: '',
         rated: '',
-        variant: '',
-        speed: '',
+        variant: pgnjson.str.Variant,
+        speed: pgnjson.str.TimeControl,
         status: '',
         winner: '',
-        opening: '',
+        opening: pgnjson.str.Opening,
         clock: '',
-        black: '',
-        white: '',
-        blackRating: '',
-        whiteRating: '',
+        black: pgnjson.str.Black,
+        white: pgnjson.str.White,
+        blackRating: pgnjson.str.BlackElo,
+        whiteRating: pgnjson.str.WhiteElo,
       };
       pgnList.push(properties);
     });

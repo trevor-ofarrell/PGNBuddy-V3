@@ -1,6 +1,8 @@
 import redis from 'redis';
 import bluebird from 'bluebird';
 
+import pgn2json from '../../../utils/pgntojson';
+
 async function uploadpgn(req, res) {
   if (req.method === 'POST') {
     const {
@@ -18,6 +20,8 @@ async function uploadpgn(req, res) {
       password: process.env.LAMBDA_REDIS_PW,
     });
 
+    const pgnjson = JSON.parse(pgn2json(pgn));
+
     const pgnProps = {
       name: pgnName,
       pgn_id: pgnName,
@@ -28,16 +32,16 @@ async function uploadpgn(req, res) {
       user_email: '',
       iframe: '',
       rated: '',
-      variant: '',
-      speed: '',
+      variant: pgnjson.str.Variant,
+      speed: pgnjson.str.TimeControl,
       status: '',
       winner: '',
-      opening: '',
+      opening: pgnjson.str.Opening,
       clock: '',
-      black: '',
-      white: '',
-      blackRating: '',
-      whiteRating: '',
+      black: pgnjson.str.Black,
+      white: pgnjson.str.White,
+      blackRating: pgnjson.str.BlackElo,
+      whiteRating: pgnjson.str.WhiteElo,
     };
 
     if (pgnProps) {

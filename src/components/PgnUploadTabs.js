@@ -267,7 +267,6 @@ export const PgnUploadTabs = ({
                       onChange={(e) => setPgn(e.target.value)}
                     />
                     <Grid container>
-                      <Grid item xs={3} xl={3} />
                       <Grid item xs={12} xl={12}>
                         <Button
                           className={classes.button}
@@ -277,7 +276,6 @@ export const PgnUploadTabs = ({
                           Submit
                         </Button>
                       </Grid>
-                      <Grid item xs={3} xl={3} />
                     </Grid>
                   </Card>
                 </ThemeProvider>

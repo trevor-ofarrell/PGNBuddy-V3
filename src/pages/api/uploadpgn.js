@@ -20,13 +20,29 @@ async function uploadpgn(req, res) {
       password: process.env.LAMBDA_REDIS_PW,
     });
 
-    const pgnjson = JSON.parse(pgn2json(pgn));
+    let pgnjson;
+    const newPgn = pgn.slice(pgn.lastIndexOf(' ') + 1) === '1/2' ? pgn.replace(/ 1\/2/g, ' 1/2-1/2') : pgn;
+    try {
+      pgnjson = JSON.parse(pgn2json(newPgn));
+    } catch {
+      pgnjson = {
+        str: {
+          Variant: '',
+          TimeControl: '',
+          Opening: '',
+          Black: '',
+          White: '',
+          BlackElo: '',
+          WhiteElo: '',
+        },
+      };
+    }
 
     const pgnProps = {
       name: pgnName,
       pgn_id: pgnName,
       folder: folderName,
-      pgn,
+      pgn: newPgn,
       moves: '',
       user_id: userData.id,
       user_email: '',

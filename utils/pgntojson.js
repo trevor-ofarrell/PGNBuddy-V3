@@ -64,8 +64,8 @@ const pgn2json = (pgnText) => {
     annotations: [],
     nag: [],
   };
-  let moves; const
-    movPos = [];
+  let moves;
+  const movPos = [];
 
   pgn.forEach((_, i, pgn) => pgn[i] = pgn[i].trim().replace('\r', ''));
   pgn = removeEscapeMechanism(pgn);

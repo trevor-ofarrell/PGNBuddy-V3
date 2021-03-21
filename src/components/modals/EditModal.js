@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   card: {
-		marginTop: '0em',
+    marginTop: '0em',
     backgroundColor: 'rgb(69, 66, 64)',
-		margin: '1em',
+    margin: '1em',
   },
   button: {
     width: '100%',
@@ -46,7 +46,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   icon: {
-    marginLeft: '2vw',
+    marginLeft: '1vw',
+    [theme.breakpoints.down('lg')]: {
+      marginLeft: '2vw',
+    },
   },
   text: {
     textAlign: 'center',
@@ -81,7 +84,7 @@ const textFieldTheme = createMuiTheme({
 });
 
 export const EditModal = ({
-  id, entryName, folderName, pgnName,
+  id, entryName, folderName, pgnName, pgnId,
 }) => {
   const classes = useStyles();
   const router = useRouter();
@@ -105,6 +108,7 @@ export const EditModal = ({
       entryName,
       newEdit: edit,
       pgnName,
+      pgnId,
       folderName,
     };
 

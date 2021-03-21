@@ -18,12 +18,46 @@ async function uploadpgnfile(req, res) {
 
     const pgnList = [];
     pgns.forEach((pgn) => {
-      const pgnjson = JSON.parse(pgn2json(pgn[1]));
+      const parsedPgn = pgn[1].slice(pgn.lastIndexOf(' ') + 1) === '1/2' ? pgn[1].replace(/ 1\/2/g, ' 1/2-1/2') : pgn[1];
+      let pgnjson;
+      const split = parsedPgn.split(/\[Event /);
+      if (split) {
+        split.shift();
+        if (split.length > 1) {
+          pgnjson = {
+            str: {
+              Variant: '',
+              TimeControl: '',
+              Opening: '',
+              Black: '',
+              White: '',
+              BlackElo: '',
+              WhiteElo: '',
+            },
+          };
+        } else {
+          try {
+            pgnjson = JSON.parse(pgn2json(parsedPgn));
+          } catch {
+            pgnjson = {
+              str: {
+                Variant: '',
+                TimeControl: '',
+                Opening: '',
+                Black: '',
+                White: '',
+                BlackElo: '',
+                WhiteElo: '',
+              },
+            };
+          }
+        }
+      }
       const properties = {
         name: pgn[0],
         pgn_id: pgn[0],
         folder: body.uploadFolderName,
-        pgn: pgn[1],
+        pgn: parsedPgn,
         moves: '',
         user_id: body.userId,
         user_email: '',

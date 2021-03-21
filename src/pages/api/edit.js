@@ -7,6 +7,7 @@ async function edit(req, res) {
     const { entryName } = req.body;
     const { id } = req.body;
     const { pgnName } = req.body;
+    const { pgnId } = req.body;
     const { folderName } = req.body;
 
     bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -33,11 +34,21 @@ async function edit(req, res) {
         break;
       }
       case 'PGN': {
-        const pgn = await cache.hgetAsync(`${id}-${folderName}`, pgnName);
-        const editedPgn = JSON.parse(pgn);
-        editedPgn.name = newEdit;
-        if (editedPgn.pgn_id === pgnName) { editedPgn.pgn_id = newEdit; }
-        await cache.hsetAsync(`${id}-${folderName}`, newEdit, JSON.stringify(editedPgn));
+        if (id === pgnName) {
+          await cache.hgetAsync(`${id}-${folderName}`, pgnName).then(async (pgn) => {
+            const editedPgn = JSON.parse(pgn);
+            editedPgn.name = newEdit;
+            if (editedPgn.pgn_id === pgnName) { editedPgn.pgn_id = newEdit; }
+            await cache.hsetAsync(`${id}-${folderName}`, newEdit, JSON.stringify(editedPgn));
+          });
+        } else {
+          await cache.hgetAsync(`${id}-${folderName}`, pgnId).then(async (pgn) => {
+            const editedPgn = JSON.parse(pgn);
+            editedPgn.name = newEdit;
+            if (editedPgn.pgn_id === pgnName) { editedPgn.pgn_id = newEdit; }
+            await cache.hsetAsync(`${id}-${folderName}`, newEdit, JSON.stringify(editedPgn));
+          });
+        }
         break;
       }
       default:

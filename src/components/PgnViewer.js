@@ -13,16 +13,27 @@ const useStyles = makeStyles(() => ({
     '.moves': {
       color: 'white !important',
       fontSize: '1.2em',
+      fontWeight: '500 !important',
     },
     '.moves .comment': {
-      color: 'rgb(169, 166, 164) !important',
-      
+      color: 'rgb(179, 176, 174) !important',
+
     },
     '.brown .blackHeader': {
       fontSize: '1.3em',
     },
     '.brown .whiteHeader': {
       fontSize: '1.3em',
+    },
+    '.brown .fen': {
+      backgroundColor: 'rgb(69, 66, 64)',
+      color: '#fafafa',
+    },
+    'div.buttons > i.button': {
+      backgroundColor: 'rgb(79, 76, 74) !important',
+      color: 'rgb(179, 176, 174) !important',
+      border: 'solid rgb(179, 176, 174) 1px !important',
+      marginTop: '1em !important',
     },
   },
 }));

@@ -21,7 +21,10 @@ async function uploadpgn(req, res) {
     });
 
     let pgnjson;
-    const newPgn = pgn.slice(pgn.lastIndexOf(' ') + 1) === '1/2' ? pgn.replace(/ 1\/2/g, ' 1/2-1/2') : pgn;
+    const newPgn = pgn.slice(pgn.lastIndexOf(' ') + 1) === '1/2'
+      ? pgn.replace(/ 1\/2/g, ' 1/2-1/2\n').replace(/\[Result "1\/2"\]/g, '[Result "1/2-1/2"]')
+      : pgn;
+
     try {
       pgnjson = JSON.parse(pgn2json(newPgn));
     } catch {

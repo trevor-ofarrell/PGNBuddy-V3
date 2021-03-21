@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import * as uuid from 'uuid';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  makeStyles,
+  Button,
+  TextField,
+  createMuiTheme,
+} from '@material-ui/core';
+import {
+  ThemeProvider,
+} from '@material-ui/core/styles';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+
 import dynamic from 'next/dynamic';
 
 const PgnViewer = dynamic(
@@ -35,6 +45,15 @@ const useStyles = makeStyles(() => ({
     padding: '0.5em',
     border: 'none',
     outline: 'none',
+  },
+  button: {
+    color: 'rgb(179, 176, 174)',
+    borderColor: 'rgb(179, 176, 174)',
+    textAlign: 'center',
+    margin: '0.25em',
+    '&:hover': {
+      background: 'rgb(49, 46, 44)',
+    },
   },
 }));
 
@@ -91,7 +110,18 @@ const PgnViewWrapper = ({ pgn }) => {
                 <PgnViewer>
                   {item.body}
                 </PgnViewer>
+                <Button
+                  variant="outlined"
+                  className={classes.button}
+                  startIcon={<PostAddIcon />}
+                  onClick={
+                              () => navigator.clipboard.writeText(item.body)
+                            }
+                >
+                  copy current PGN
+                </Button>
               </div>
+
             )))}
             <ReactPaginate
               previousLabel="previous"

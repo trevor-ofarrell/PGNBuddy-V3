@@ -16,15 +16,18 @@ async function uploadpgnfile(req, res) {
     const body = JSON.parse(req.body);
     const pgns = body.uploadedFiles;
 
-    const pgnList = [];
-    pgns.forEach((pgn) => {
+    await Promise.all(pgns.map((pgn) => {
       const parsedPgn = pgn[1]
         .replace(/ 1\/2(\r\n|\r|\n)/g, ' 1/2-1/2\n')
         .replace(/\[Result "1\/2"\]/g, '[Result "1/2-1/2"]');
+
       let pgnjson;
       const split = parsedPgn.split(/\[Event /);
+
       if (split) {
         split.shift();
+        // if pgn file contains multiple pgns don't add any pgn information
+        // to display as the information may vary, pgn to pgn.
         if (split.length > 1) {
           pgnjson = {
             str: {
@@ -55,7 +58,7 @@ async function uploadpgnfile(req, res) {
           }
         }
       }
-      const properties = {
+      const currentPgn = {
         name: pgn[0],
         pgn_id: pgn[0],
         folder: body.uploadFolderName,
@@ -76,18 +79,33 @@ async function uploadpgnfile(req, res) {
         blackRating: pgnjson.str.BlackElo,
         whiteRating: pgnjson.str.WhiteElo,
       };
-      pgnList.push(properties);
-    });
+      return currentPgn;
+    })).then(async (pgnList) => {
+      if (body.uploadFolderName && body.userId) {
+        await cache.existsAsync(`${body.userId}-${body.uploadFolderName}`).then(async (reply) => {
+          const promises = [];
+          // if folder doesnt exist
+          if (reply !== 1) {
+            await cache.saddAsync(`${body.userId}-folder-names`, body.uploadFolderName);
+            pgnList.forEach((elem) => {
+              promises.push(
+                cache.hsetAsync(
+                  `${body.userId}-${body.uploadFolderName}`,
+                  `${elem.name}`,
+                  JSON.stringify(elem),
+                ),
+              );
+            });
+            await Promise.all(promises);
 
-    if (body.uploadFolderName && body.userId) {
-      await cache.existsAsync(`${body.userId}-${body.uploadFolderName}`).then(async (reply) => {
-        const promises = [];
-        // if folder doesnt exist
-        if (reply !== 1) {
+            cache.quit();
+            return res.status(200).end();
+          }
+
           await cache.saddAsync(`${body.userId}-folder-names`, body.uploadFolderName);
           pgnList.forEach((elem) => {
             promises.push(
-              cache.hsetAsync(
+              cache.hsetnxAsync(
                 `${body.userId}-${body.uploadFolderName}`,
                 `${elem.name}`,
                 JSON.stringify(elem),
@@ -98,25 +116,9 @@ async function uploadpgnfile(req, res) {
 
           cache.quit();
           return res.status(200).end();
-        }
-
-        await cache.saddAsync(`${body.userId}-folder-names`, body.uploadFolderName);
-        pgnList.forEach((elem) => {
-          promises.push(
-            cache.hsetnxAsync(
-              `${body.userId}-${body.uploadFolderName}`,
-              `${elem.name}`,
-              JSON.stringify(elem),
-            ),
-          );
         });
-        await Promise.all(promises);
-
-        cache.quit();
-
-        return res.status(200).end();
-      });
-    }
+      }
+    });
   }
   return res.status(500).end();
 }

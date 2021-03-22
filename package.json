@@ -10,7 +10,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "@mliebelt/pgn-viewer": "^1.4.4",
+    "@mliebelt/pgn-viewer": "^1.5.0",
     "axios": "^0.21.0",
     "babel-eslint": "^10.1.0",
     "bluebird": "^3.7.2",

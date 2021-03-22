@@ -36,7 +36,6 @@ import { firebaseAdmin } from '../../firebaseAdmin';
 import fire from '../../fire-config';
 
 import { useStyles } from '../styles/dashboardstyles';
-
 import {
   NavBarLoggedIn,
   DeleteFolderModal,
@@ -45,8 +44,6 @@ import {
   LichessExportModal,
   EditModal,
 } from '../components';
-
-// TODO add player/folder/pgn bookmarks
 
 const PgnViewWrapper = dynamic(
   () => import('../components/PgnViewWrapper'),
@@ -368,67 +365,93 @@ const Dashboard = (props) => {
                                       </Grid>
                                       <Grid item xs={12} sm={6} md={6} lg={8} xl={9}>
                                         <Card className={classes.pgncopycard} elevation={0}>
-                                          {pgn.rated && pgn.speed && (
-                                          <Typography className={classes.text}>
-                                            <b>Event: </b>
-                                            {' '}
-                                            {pgn.rated === true ? 'Rated' : 'Unrated'}
-                                            {' '}
-                                            {pgn.speed}
-                                            {' '}
-                                            game
-                                          </Typography>
-                                          )}
-                                          {pgn.variant && (
-                                          <Typography className={classes.text}>
-                                            <b>Variant: </b>
-                                            {' '}
-                                            {pgn.variant}
-                                          </Typography>
-                                          )}
-                                          {pgn.opening && (
-                                          <Typography className={classes.text}>
-                                            <b>Opening: </b>
-                                            {' '}
-                                            {pgn.opening}
-                                          </Typography>
-                                          )}
-                                          {pgn.winner && (
-                                          <Typography className={classes.text}>
-                                            <b>Winner: </b>
-                                            {' '}
-                                            {pgn.winner}
-                                          </Typography>
-                                          )}
-                                          {pgn.status && (
-                                          <Typography className={classes.text}>
-                                            <b>Game status: </b>
-                                            {' '}
-                                            {pgn.status}
-                                          </Typography>
-                                          )}
-                                          {pgn.black && pgn.blackRating && (
-                                          <a href={`/player/${pgn.black}`} className={classes.link}>
+                                          <div className={classes.pgninfotext}>
+                                            {pgn.rated && pgn.speed && (
                                             <Typography className={classes.text}>
-                                              <b>Black: </b>
+                                              <b>Event: </b>
                                               {' '}
-                                              {pgn.black}
+                                              {pgn.rated === true ? 'Rated' : 'Unrated'}
                                               {' '}
-                                              {pgn.blackRating}
+                                              {pgn.speed}
+                                              {' '}
+                                              game
                                             </Typography>
-                                          </a>
-                                          )}
-                                          {pgn.white && pgn.whiteRating && (
-                                          <a href={`/player/${pgn.white}`} className={classes.link}>
+                                            )}
+                                            {pgn.variant && (
                                             <Typography className={classes.text}>
-                                              <b>White: </b>
+                                              <b>Variant: </b>
                                               {' '}
-                                              {pgn.white}
-                                              {' '}
-                                              {pgn.whiteRating}
+                                              {pgn.variant}
                                             </Typography>
-                                          </a>
-                                          )}
+                                            )}
+                                            {pgn.opening && (
+                                            <Typography className={classes.text}>
+                                              <b>Opening: </b>
+                                              {' '}
+                                              {pgn.opening}
+                                            </Typography>
+                                            )}
+                                            {pgn.winner && (
+                                            <Typography className={classes.text}>
+                                              <b>Winner: </b>
+                                              {' '}
+                                              {pgn.winner}
+                                            </Typography>
+                                            )}
+                                            {pgn.status && (
+                                            <Typography className={classes.text}>
+                                              <b>Game status: </b>
+                                              {' '}
+                                              {pgn.status}
+                                            </Typography>
+                                            )}
+                                            {pgn.black && pgn.blackRating && (
+                                              <>
+                                                {pgn.lichess === true ? (
+                                                  <a href={`/player/${pgn.black}`} className={classes.link}>
+                                                    <Typography className={classes.text}>
+                                                      <b>Black: </b>
+                                                      {' '}
+                                                      {pgn.black}
+                                                      {' '}
+                                                      {pgn.blackRating}
+                                                    </Typography>
+                                                  </a>
+                                                ) : (
+                                                  <Typography className={classes.text}>
+                                                    <b>Black: </b>
+                                                    {' '}
+                                                    {pgn.black}
+                                                    {' '}
+                                                    {pgn.blackRating}
+                                                  </Typography>
+                                                )}
+                                              </>
+                                            )}
+                                            {pgn.white && pgn.whiteRating && (
+                                              <>
+                                                {pgn.lichess === true ? (
+                                                  <a href={`/player/${pgn.white}`} className={classes.link}>
+                                                    <Typography className={classes.text}>
+                                                      <b>White: </b>
+                                                      {' '}
+                                                      {pgn.white}
+                                                      {' '}
+                                                      {pgn.whiteRating}
+                                                    </Typography>
+                                                  </a>
+                                                ) : (
+                                                  <Typography className={classes.text}>
+                                                    <b>White: </b>
+                                                    {' '}
+                                                    {pgn.white}
+                                                    {' '}
+                                                    {pgn.whiteRating}
+                                                  </Typography>
+                                                )}
+                                              </>
+                                            )}
+                                          </div>
                                           {pgn.moves && (
                                           <ButtonGroup className={classes.buttongroup}>
                                             <Button
@@ -436,8 +459,8 @@ const Dashboard = (props) => {
                                               className={classes.nonprimarybutton}
                                               startIcon={<PostAddIcon />}
                                               onClick={
-                                                  () => navigator.clipboard.writeText(pgn.pgn)
-                                                }
+                                                () => navigator.clipboard.writeText(pgn.pgn)
+                                              }
                                             >
                                               copy PGN
                                             </Button>
@@ -459,8 +482,8 @@ const Dashboard = (props) => {
                                             className={classes.nonprimarybutton}
                                             startIcon={<PostAddIcon />}
                                             onClick={
-                                                    () => navigator.clipboard.writeText(pgn.pgn)
-                                                  }
+                                              () => navigator.clipboard.writeText(pgn.pgn)
+                                            }
                                           >
                                             copy PGN
                                           </Button>

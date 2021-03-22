@@ -19,14 +19,13 @@ async function deletefolder(req, res) {
     cache.del(`${id}-${folderName}`, (err, reply) => {
       if (!err) {
         if (reply === 1) {
-          console.log(`${id} is deleted`);
+          res.status(200).end();
         } else {
-          console.log(`${id} doesn't exists`);
+          res.status(200).end();
         }
       } else if (err) {
-        console.log(err);
+        res.status(500).end();
       } else {
-        console.log('cache delete failed', err);
         cache.quit();
         return res.status(500).end();
       }

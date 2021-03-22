@@ -8,10 +8,10 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(() => ({
   '@global': {
     '.whole': {
-      color: 'white',
+      color: '#fafafa',
     },
     '.moves': {
-      color: 'white !important',
+      color: '#fafafa !important',
       fontSize: '1.2em',
       fontWeight: '500 !important',
     },
@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
 
 const PgnViewer = (props) => {
   const classes = useStyles();
-  const { children, size } = props;
+  const { children } = props;
   const gameDecription = Children.onlyText(children).replace(/ \{[\s\S]*?\}/g, '');
   const id = `board-${uuid.v4()}`;
 

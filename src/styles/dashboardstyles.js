@@ -207,7 +207,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: '2em',
     marginTop: '1em',
     marginBottom: '1em',
-    maxHeight: '51.3em',
+    maxHeight: '51em',
     width: '99%',
     textAlign: 'center',
     marginLeft: 'auto',
@@ -315,5 +315,8 @@ export const useStyles = makeStyles((theme) => ({
   pgnview: {
     marginLeft: 'auto',
     marginRight: 'auto',
+  },
+  pgninfotext: {
+    marginBottom: '0.5em',
   },
 }));

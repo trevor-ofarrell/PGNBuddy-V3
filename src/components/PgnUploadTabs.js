@@ -115,7 +115,7 @@ const textFieldTheme = createMuiTheme({
 });
 
 export const PgnUploadTabs = ({
-  userId, handleClose, handleRateLimitDialog,
+  userId, handleClose, handleMaxRequestErrorOpen,
 }) => {
   const classes = useStyles();
   const router = useRouter();
@@ -202,6 +202,8 @@ export const PgnUploadTabs = ({
                           label="select PGN files"
                           userId={userId}
                           uploadFolderName={folderName}
+                          handleMaxRequestErrorOpen={handleMaxRequestErrorOpen}
+                          handleClose={handleClose}
                         />
                       </Grid>
                       <Grid item xs={3} xl={3} />

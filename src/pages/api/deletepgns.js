@@ -25,19 +25,16 @@ async function deletepgns(req, res) {
         cache.del(`${collectionPath}-${folder}`, (err, reply) => {
           if (!err) {
             if (reply === 1) {
-              console.log(`${collectionPath} is deleted`);
+              res.status(200).end();
             } else {
-              console.log(`${collectionPath} doesn't exists`);
+              res.status(200).end();
             }
           } else if (err) {
-            console.log(err);
-          } else {
-            console.log('cache delete failed', err);
+            res.status(500).end();
           }
         });
       });
     });
-    console.log(collectionPath);
     cache.quit();
     return res.status(200).end();
   }

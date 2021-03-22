@@ -4,12 +4,7 @@ import * as uuid from 'uuid';
 import {
   makeStyles,
   Button,
-  TextField,
-  createMuiTheme,
 } from '@material-ui/core';
-import {
-  ThemeProvider,
-} from '@material-ui/core/styles';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 
 import dynamic from 'next/dynamic';
@@ -36,7 +31,7 @@ const useStyles = makeStyles(() => ({
   },
   active: {
     outline: 'none',
-    border: '1px solid white',
+    border: '1px solid #fafafa',
     borderRadius: '50%',
     padding: '0.5em',
     marginTop: '-0.5em',
@@ -47,10 +42,11 @@ const useStyles = makeStyles(() => ({
     outline: 'none',
   },
   button: {
-    color: 'rgb(179, 176, 174)',
-    borderColor: 'rgb(179, 176, 174)',
+    color: '#fafafa',
+    borderColor: '#fafafa',
     textAlign: 'center',
     margin: '0.25em',
+    marginTop: '0.5em',
     '&:hover': {
       background: 'rgb(49, 46, 44)',
     },
@@ -59,8 +55,9 @@ const useStyles = makeStyles(() => ({
 
 const PgnViewWrapper = ({ pgn }) => {
   const classes = useStyles();
-  const split = pgn.split(/\[Event /);
   const pgnArray = [];
+
+  const split = pgn.split(/\[Event /);
 
   if (split) {
     split.shift();
@@ -85,6 +82,12 @@ const PgnViewWrapper = ({ pgn }) => {
     currentData: [],
   });
 
+  const handlePageClick = (event) => {
+    const { selected } = event;
+    const offset = selected * pagination.numberPerPage;
+    setPagination({ ...pagination, offset });
+  };
+
   useEffect(() => {
     setPagination((prevState) => ({
       ...prevState,
@@ -93,12 +96,6 @@ const PgnViewWrapper = ({ pgn }) => {
         prevState.data.slice(pagination.offset, pagination.offset + pagination.numberPerPage),
     }));
   }, [pagination.numberPerPage, pagination.offset]);
-
-  const handlePageClick = (event) => {
-    const { selected } = event;
-    const offset = selected * pagination.numberPerPage;
-    setPagination({ ...pagination, offset });
-  };
 
   return (
     <>
@@ -115,8 +112,8 @@ const PgnViewWrapper = ({ pgn }) => {
                   className={classes.button}
                   startIcon={<PostAddIcon />}
                   onClick={
-                              () => navigator.clipboard.writeText(item.body)
-                            }
+                    () => navigator.clipboard.writeText(item.body)
+                  }
                 >
                   copy current PGN
                 </Button>

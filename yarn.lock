@@ -1430,25 +1430,25 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@mliebelt/pgn-parser@^1.1.4":
+"@mliebelt/pgn-parser@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@mliebelt/pgn-parser/-/pgn-parser-1.2.0.tgz#703e404dff5558de77ba1d46fcf50049cdc068d1"
   integrity sha512-9ESUVWuNLOVWlayPOb3++TMeKD/ItH98SD7iTc5ccuCKiPFNyIsYS7sQyfo+Dpy5CHOkePYQVfd43Jkucnc+yg==
 
-"@mliebelt/pgn-reader@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@mliebelt/pgn-reader/-/pgn-reader-1.1.6.tgz#fa07d92211d51ee5024bb51a3ac1265da86b250d"
-  integrity sha512-tA1qAeb/+Apby1u78I3GNWiTi8FjDo8vJHYcRHFNB639bUuxmgpPO5K8K5oOhOgaLq4JgVgNaNOH2+bXIqQv9A==
+"@mliebelt/pgn-reader@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@mliebelt/pgn-reader/-/pgn-reader-1.2.0.tgz#82d627d8c55c0237c8a316a720e0ddf8befd63aa"
+  integrity sha512-FeGLPR1iyyTJVwObIqe9UpQconMBbRfgo9fXCKyZ4xN/9jZwYUGbTLKvM4GKghTNqumv2St+uNlu9xRz2NFieQ==
   dependencies:
-    "@mliebelt/pgn-parser" "^1.1.4"
+    "@mliebelt/pgn-parser" "^1.2.0"
     chess.js "^0.10.3"
 
-"@mliebelt/pgn-viewer@^1.4.4":
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/@mliebelt/pgn-viewer/-/pgn-viewer-1.4.4.tgz#7a5d635d4cf31b83b0d4366e1219ae0ac2d21e71"
-  integrity sha512-oEdhqteo1+5jxX5KRJohaQ5K8BjIMHC4YKNPZrZSqX6/Q+EXCQWKcUVZ4rH5NFfzRFQXQlaLvfla+/dUPhCV+A==
+"@mliebelt/pgn-viewer@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@mliebelt/pgn-viewer/-/pgn-viewer-1.5.0.tgz#5251c38d26465a5b7b64c76ecfa0e8c57c03446b"
+  integrity sha512-28uyEE4rVwCUOlGZwRly6AaVlSeU9jw0faXN1kB/jWFn+vZbusXdnX0pQHxS7I8K1FvEi8J5bb5pXwkKGHIbyA==
   dependencies:
-    "@mliebelt/pgn-reader" "^1.1.6"
+    "@mliebelt/pgn-reader" "^1.2.0"
     chessground "^7.6.12"
     mousetrap "^1.6.5"
     roddeh-i18n "^1.2.0"

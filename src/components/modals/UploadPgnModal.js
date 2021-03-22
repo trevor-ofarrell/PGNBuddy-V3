@@ -48,10 +48,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export const UploadPgnModal = ({ userId }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -59,6 +59,14 @@ export const UploadPgnModal = ({ userId }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleMaxRequestErrorOpen = () => {
+    setOpen2(true);
+  };
+
+  const handleMaxRequestErrorClose = () => {
+    setOpen2(false);
   };
 
   return (
@@ -83,7 +91,32 @@ export const UploadPgnModal = ({ userId }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <PgnUploadTabs userId={userId} />
+            <PgnUploadTabs
+              userId={userId}
+              handleMaxRequestErrorOpen={handleMaxRequestErrorOpen}
+              handleClose={handleClose}
+            />
+          </div>
+        </Fade>
+      </Modal>
+      <Modal
+        aria-labelledby="max request size"
+        aria-describedby="Max database request size reached"
+        className={classes.modal}
+        open={open2}
+        onClose={handleMaxRequestErrorClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open2}>
+          <div className={classes.paper}>
+            <h2 id="transition-modal-title">
+              Max request size exceeded
+              (1MB per PGN file)
+            </h2>
           </div>
         </Fade>
       </Modal>

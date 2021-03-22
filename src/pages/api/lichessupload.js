@@ -109,6 +109,7 @@ async function lichessUpload(req, res) {
             white: whitePlayer,
             blackRating,
             whiteRating,
+            lichess: true,
           };
 
           if (pgn) {

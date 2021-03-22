@@ -15,7 +15,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const FileUploadButton = ({ userId, label, uploadFolderName }) => {
+export const FileUploadButton = ({
+  userId,
+  label,
+  uploadFolderName,
+  handleMaxRequestErrorOpen,
+  handleClose,
+}) => {
   const classes = useStyles();
   const router = useRouter();
 
@@ -39,7 +45,12 @@ export const FileUploadButton = ({ userId, label, uploadFolderName }) => {
       fetch(
         'api/uploadpgnfiles',
         { method: 'POST', body: JSON.stringify(data) },
-      ).then(() => {
+      ).then((res) => {
+        if (res.status === 413) {
+          handleClose();
+          handleMaxRequestErrorOpen();
+          router.reload();
+        }
         Router.push('/dashboard');
         router.reload();
       });

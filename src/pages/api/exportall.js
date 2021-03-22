@@ -2,95 +2,12 @@ import redis from 'redis';
 import bluebird from 'bluebird';
 
 import rateLimit from '../../../utils/ratelimit';
+import NdjsonStreamer from '../../../utils/ndjsonStreamer';
 
 const limiter = rateLimit({
   interval: 65 * 1000,
   uniqueTokenPerInterval: 1,
 });
-
-class NdjsonStreamer {
-  constructor(props) {
-    this.props = props || {};
-    this.token = this.props.token;
-    this.streaming = false;
-  }
-
-  close() {
-    if (!this.streaming) {
-      return;
-    }
-
-    this.streaming = false;
-
-    if (this.readable) {
-      this.readable.destroy();
-      this.readable = null;
-      console.log('stream closed', this.props.url);
-    }
-  }
-
-  stream() {
-    this.streaming = true;
-    this.readable = null;
-    const headers = {
-      Accept: 'application/x-ndjson',
-    };
-
-    if (this.token) headers.Authorization = `Bearer ${this.token}`;
-
-    let lastTick = new Date().getTime();
-
-    if (this.props.timeout) {
-      const checkInterval = setInterval(() => {
-        if ((new Date().getTime() - lastTick) > this.props.timeout * 1000) {
-          clearInterval(checkInterval);
-          if (this.props.timeoutCallback) this.props.timeoutCallback();
-        }
-      }, this.props.timeout / 3);
-    }
-
-    let buffer = '';
-
-    console.log('streamNdjson', this.props);
-
-    fetch(this.props.url, {
-      headers,
-    })
-      .then((response) => {
-        console.log('stream started', this.props.url);
-        this.readable = response.body;
-        this.readable.on('end', () => {
-          if (this.props.endcallback) this.props.endcallback(response);
-        });
-
-        this.readable.on('data', (chunk) => {
-          lastTick = new Date().getTime();
-
-          buffer += chunk.toString();
-
-          if (buffer.match(/\n/)) {
-            const parts = buffer.split(/\n/);
-
-            buffer = parts.pop();
-
-            for (const part of parts) {
-              try {
-                const blob = JSON.parse(part);
-                if (this.props.log) console.log(this.props.blob);
-                if (this.props.callback) {
-                  try {
-                    this.props.callback(blob);
-                  } catch (err) {
-                    console.log('stream callback error', err);
-                  }
-                }
-              } catch (err) { return (err); }
-            }
-          }
-        });
-      });
-  }
-}
 
 async function exportAll(req, res) {
   if (req.method === 'POST') {
@@ -186,6 +103,8 @@ async function exportAll(req, res) {
           white: whitePlayer,
           blackRating,
           whiteRating,
+          lichess: true,
+          editable: true,
         };
 
         pgnList.push(pgn);

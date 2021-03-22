@@ -54,11 +54,9 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
   const allChartData = [];
   let index = 0;
 
-  // iterate through the timecontrols/variants
   pastYearRatingHistory.map((ele) => {
     const dataSet = [];
 
-    // iterate through the given data points for each timecontrol/variant
     Object.keys(ele).forEach((elem) => {
       let monthKeys = Object.keys(ele[[elem]]);
 
@@ -69,7 +67,6 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
       // and farthest month to the left of the chart.
       monthKeys = monthKeys.splice(month).concat(monthKeys);
 
-      // remove objects that are not numbers
       monthKeys.forEach((keyName) => {
         if (Number.isNaN(ele[[elem]][keyName])) {
           delete ele[[elem]][keyName];
@@ -81,7 +78,6 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
 
       dataSets.push({ [elem]: dataSet });
 
-      // create object for each dataset to be shown on chart
       const chartData = {
         label: elem,
         fill: false,

@@ -12,11 +12,14 @@ import {
   Card,
   ButtonGroup,
 } from '@material-ui/core';
-
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {
+  useTheme,
+  createMuiTheme,
+  MuiThemeProvider,
+} from '@material-ui/core/styles';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import PostAddIcon from '@material-ui/icons/PostAdd';
@@ -25,22 +28,28 @@ import nookies from 'nookies';
 import redis from 'redis';
 import bluebird from 'bluebird';
 import uuid from 'react-uuid';
+
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 import { firebaseAdmin } from '../../firebaseAdmin';
 import fire from '../../fire-config';
 
+import { useStyles } from '../styles/dashboardstyles';
 import {
   NavBarLoggedIn,
   DeleteFolderModal,
   DeletePgnModal,
   UploadPgnModal,
   LichessExportModal,
+  EditModal,
 } from '../components';
 
-// TODO add player/folder/pgn bookmarks
-
-const drawerWidth = 240;
+const PgnViewWrapper = dynamic(
+  () => import('../components/PgnViewWrapper'),
+  { ssr: false },
+);
+const isBrowser = () => typeof window !== 'undefined';
 
 const Accordion = withStyles({
   root: {
@@ -118,247 +127,17 @@ const PgnAccordionDetails = withStyles((theme) => ({
   },
 }))(MuiAccordionDetails);
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    overflowY: 'hidden',
-    height: '100vh',
-    width: '100vw',
-    background: 'rgb(39, 36, 34)',
-  },
-  accordian: {
-    scrollbarColor: 'rgba(12, 12, 12, 0.766) rgba(58, 58, 58, 0.31)',
-    scrollbarWidth: 50,
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    height: '94vh',
-    width: '100%',
-  },
-  dash: {
-    display: 'flex',
-  },
-  drawer: {
-    [theme.breakpoints.up('lg')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-      maxHeight: '94vh',
-      marginTop: '6vh',
+const customBreakpoints = createMuiTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 800,
+      md: 960,
+      lg: 1660,
+      xl: 2150,
     },
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  drawerPaper: {
-    marginTop: '4.545em',
-    width: drawerWidth,
-    background: 'transparent',
-    border: 'none',
-    boxShadow: 'none',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    zIndex: '10',
-    marginBottom: 'auto',
-    [theme.breakpoints.down('md')]: {
-      marginTop: '0vh',
-      backgroundColor: 'rgba(12, 12, 12, 0.875)',
-    },
-    [theme.breakpoints.up('xl')]: {
-      marginTop: '4.545em',
-    },
-  },
-  content: {
-    flexGrow: 1,
-    overflow: 'hidden',
-  },
-  sidedrawer: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '90%',
-    [theme.breakpoints.down('md')]: {
-      paddingTop: '0.65vh',
-    },
-    [theme.breakpoints.up('xl')]: {
-      paddingTop: '-3.5vh',
-    },
-  },
-  sideDrawerButton: {
-    width: '100%',
-    height: 'auto',
-    padding: '1.5em',
-    paddingLeft: 'auto',
-    paddingRight: 'auto',
-    color: 'white',
-    marginBottom: '0.5em',
-    background: 'rgb(59, 56, 54)',
-    '&:hover': {
-      background: 'rgb(49, 46, 44)',
-    },
-    [theme.breakpoints.down('md')]: {
-      background: 'rgb(39, 36, 34)',
-      marginBottom: '0.6em',
-    },
-  },
-  menuicon: {
-    paddingTop: '45vh',
-    paddingBottom: '45vh',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '-2.5vw',
-      marginRight: '-3vw',
-    },
-  },
-  pgns: {
-    width: '100%',
-  },
-  text: {
-    color: 'white',
-    wordWrap: 'break-all',
-    [theme.breakpoints.up('md')]: {
-      fontSize: '19px',
-    },
-  },
-  foldertext: {
-    color: 'white',
-    width: '89%',
-    [theme.breakpoints.up('md')]: {
-      fontSize: '19px',
-      width: '91.5%',
-    },
-  },
-  pgntext: {
-    color: 'white',
-    width: '92%',
-    maxWidth: '75vw',
-    wordWrap: 'break-all',
-    [theme.breakpoints.up('md')]: {
-      fontSize: '19px',
-      width: '93.25%',
-    },
-  },
-  nogames: {
-    color: 'white',
-    fontSize: '2.8em',
-    textAlign: 'center',
-    paddingTop: '30vh',
-    marginLeft: '-3vw',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '2em',
-      textAlign: 'center',
-    },
-  },
-  iframe: {
-    width: '100%',
-    height: '45vh',
-    [theme.breakpoints.down('lg')]: {
-      width: '100%',
-      height: '50vh',
-    },
-    [theme.breakpoints.down('md')]: {
-      height: '42vh',
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: '32.25vh',
-    },
-  },
-  pgncontent: {
-    marginBottom: '0em',
-    marginTop: '1em',
-    [theme.breakpoints.up('xl')]: {
-      marginLeft: '1vw',
-      marginRight: '1vw',
-    },
-    [theme.breakpoints.up('lg')]: {
-      marginRight: '1.5vw',
-    },
-    [theme.breakpoints.down('md')]: {
-      marginLeft: '-1vw',
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: '-1.5vw',
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginTop: '0.5em',
-      marginBottom: '1em',
-      marginLeft: '0.2vw',
-
-    },
-  },
-  iframecard: {
-    background: 'rgb(59, 56, 54)',
-    padding: '2em',
-    [theme.breakpoints.up('lg')]: {
-      marginRight: '1em',
-    },
-    [theme.breakpoints.down('md')]: {
-      padding: '1em',
-      marginBottom: '1em',
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '1em',
-    },
-    [theme.breakpoints.down('xs')]: {
-      padding: '0em',
-      marginBottom: '0.5em',
-    },
-  },
-  pgncard: {
-    background: 'rgb(59, 56, 54)',
-    padding: '2em',
-    marginTop: '1em',
-    marginBottom: '1em',
-    [theme.breakpoints.down('md')]: {
-      padding: '1em',
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '1em',
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginTop: '0.5em',
-      marginBottom: '0.5em',
-    },
-  },
-  pgninfocard: {
-    background: 'rgb(59, 56, 54)',
-    padding: '1em',
-    paddingTop: '2em',
-    height: '100%',
-    textAlign: 'center',
-    [theme.breakpoints.down('md')]: {
-      padding: '1em',
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: '1em',
-    },
-  },
-  copypgncard: {
-    background: 'rgb(59, 56, 54)',
-    padding: '1em',
-    height: '100%',
-    textAlign: 'center',
-  },
-  link: {
-    textDecoration: 'underline white',
-  },
-  button: {
-    color: 'white',
-    borderColor: 'white',
-    marginTop: '1vh',
-  },
-  nonprimarybutton: {
-    color: 'white',
-    borderColor: 'white',
-    '&:hover': {
-      background: 'rgb(49, 46, 44)',
-    },
-  },
-  buttongroup: {
-    marginTop: '0.5em',
-  },
-  grow: {
-    flexGrow: 1,
-  },
-}));
+});
 
 export const getServerSideProps = async (ctx) => {
   try {
@@ -528,7 +307,7 @@ const Dashboard = (props) => {
               </Drawer>
             </Hidden>
           </nav>
-          <main className={classes.content}>
+          <div className={classes.content}>
             {pgns && (
             <div className={classes.accordian}>
               {folders.length !== 0 ? folders.map((folder, i) => (
@@ -543,6 +322,10 @@ const Dashboard = (props) => {
                       <Typography className={classes.foldertext}>{folder}</Typography>
                       <div className={classes.grow} />
                       <DeleteFolderModal folderName={folder} id={id} />
+                      {pgns.filter((game) => game.folder === folder)
+                        .every((obj) => obj.editable === true) === true && (
+                        <EditModal folderName={folder} id={id} entryName="folder" />
+                      )}
                     </AccordionSummary>
                     <AccordionDetails>
                       <div className={classes.pgns}>
@@ -562,90 +345,127 @@ const Dashboard = (props) => {
                                   folderName={folder}
                                   pgnName={pgn.name}
                                 />
+                                {pgn.editable === true && (
+                                  <EditModal id={id} pgnId={pgn.pgn_id} entryName="PGN" folderName={folder} />
+                                )}
                               </PgnAccordionSummary>
                               <PgnAccordionDetails>
                                 <Grid container className={classes.pgncontent}>
-                                  {pgn.iframe !== '' && (
-                                    <Grid item xs={12} sm={12} md={12} lg={9} xl={9}>
-                                      <Card className={classes.iframecard} elevation={0}>
-                                        <iframe
-                                          src={pgn.iframe}
-                                          loading="lazy"
-                                          className={classes.iframe}
-                                          title={`lichess iframe game:${pgn.pgn_id}`}
-                                          frameBorder="0"
-                                        />
-                                      </Card>
-                                    </Grid>
-                                  )}
-                                  {pgn.variant && pgn.status
-                                    ? (
-                                      <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
-                                        <Card className={classes.pgninfocard} elevation={0}>
-                                          <Typography className={classes.text}>
-                                            <b>Event: </b>
-                                            {' '}
-                                            {pgn.rated === true ? 'Rated' : 'Unrated'}
-                                            {' '}
-                                            {pgn.speed}
-                                            {' '}
-                                            game
-                                          </Typography>
-                                          <Typography className={classes.text}>
-                                            <b>Variant: </b>
-                                            {' '}
-                                            {pgn.variant}
-                                          </Typography>
-                                          <Typography className={classes.text}>
-                                            <b>Winner: </b>
-                                            {' '}
-                                            {pgn.winner}
-                                          </Typography>
-                                          {pgn.black !== 'None'
-                                            ? (
-                                              <a href={`/player/${pgn.black}`} className={classes.link}>
-                                                <Typography className={classes.text}>
-                                                  <b>Black: </b>
-                                                  {' '}
-                                                  {pgn.black}
-                                                  {' '}
-                                                  {pgn.blackRating}
-                                                </Typography>
-                                              </a>
-                                            )
-                                            : (
-                                              <Typography className={classes.text}>
-                                                <b>Black(non-player entity) </b>
-                                              </Typography>
+                                  <MuiThemeProvider theme={customBreakpoints}>
+                                    <>
+                                      <Grid
+                                        item
+                                        xs={12}
+                                        sm={6}
+                                        md={6}
+                                        lg={4}
+                                        xl={3}
+                                        className={classes.pgnview}
+                                      >
+                                        {isBrowser && (
+                                        <Card className={classes.pgnviewercard} elevation={0}>
+                                          <PgnViewWrapper pgn={pgn.pgn} />
+                                        </Card>
+                                        )}
+                                      </Grid>
+                                      <Grid item xs={12} sm={6} md={6} lg={8} xl={9}>
+                                        <Card className={classes.pgncopycard} elevation={0}>
+                                          <div className={classes.pgninfotext}>
+                                            {pgn.rated && pgn.speed && (
+                                            <Typography className={classes.text}>
+                                              <b>Event: </b>
+                                              {' '}
+                                              {pgn.rated === true ? 'Rated' : 'Unrated'}
+                                              {' '}
+                                              {pgn.speed}
+                                              {' '}
+                                              game
+                                            </Typography>
                                             )}
-                                          {pgn.white !== 'None'
-                                            ? (
-                                              <a href={`/player/${pgn.white}`} className={classes.link}>
-                                                <Typography className={classes.text}>
-                                                  <b>White: </b>
-                                                  {' '}
-                                                  {pgn.white}
-                                                  {' '}
-                                                  {pgn.whiteRating}
-                                                </Typography>
-                                              </a>
-                                            )
-                                            : (
-                                              <Typography className={classes.text}>
-                                                <b>White(non-player entity) </b>
-                                              </Typography>
+                                            {pgn.variant && (
+                                            <Typography className={classes.text}>
+                                              <b>Variant: </b>
+                                              {' '}
+                                              {pgn.variant}
+                                            </Typography>
                                             )}
-                                          <Typography className={classes.text}>
-                                            <b>Game status: </b>
-                                            {' '}
-                                            {pgn.status}
-                                          </Typography>
+                                            {pgn.opening && (
+                                            <Typography className={classes.text}>
+                                              <b>Opening: </b>
+                                              {' '}
+                                              {pgn.opening}
+                                            </Typography>
+                                            )}
+                                            {pgn.winner && (
+                                            <Typography className={classes.text}>
+                                              <b>Winner: </b>
+                                              {' '}
+                                              {pgn.winner}
+                                            </Typography>
+                                            )}
+                                            {pgn.status && (
+                                            <Typography className={classes.text}>
+                                              <b>Game status: </b>
+                                              {' '}
+                                              {pgn.status}
+                                            </Typography>
+                                            )}
+                                            {pgn.black && pgn.blackRating && (
+                                              <>
+                                                {pgn.lichess === true ? (
+                                                  <a href={`/player/${pgn.black}`} className={classes.link}>
+                                                    <Typography className={classes.text}>
+                                                      <b>Black: </b>
+                                                      {' '}
+                                                      {pgn.black}
+                                                      {' '}
+                                                      {pgn.blackRating}
+                                                    </Typography>
+                                                  </a>
+                                                ) : (
+                                                  <Typography className={classes.text}>
+                                                    <b>Black: </b>
+                                                    {' '}
+                                                    {pgn.black}
+                                                    {' '}
+                                                    {pgn.blackRating}
+                                                  </Typography>
+                                                )}
+                                              </>
+                                            )}
+                                            {pgn.white && pgn.whiteRating && (
+                                              <>
+                                                {pgn.lichess === true ? (
+                                                  <a href={`/player/${pgn.white}`} className={classes.link}>
+                                                    <Typography className={classes.text}>
+                                                      <b>White: </b>
+                                                      {' '}
+                                                      {pgn.white}
+                                                      {' '}
+                                                      {pgn.whiteRating}
+                                                    </Typography>
+                                                  </a>
+                                                ) : (
+                                                  <Typography className={classes.text}>
+                                                    <b>White: </b>
+                                                    {' '}
+                                                    {pgn.white}
+                                                    {' '}
+                                                    {pgn.whiteRating}
+                                                  </Typography>
+                                                )}
+                                              </>
+                                            )}
+                                          </div>
+                                          {pgn.moves && (
                                           <ButtonGroup className={classes.buttongroup}>
                                             <Button
                                               variant="outlined"
                                               className={classes.nonprimarybutton}
                                               startIcon={<PostAddIcon />}
-                                              onClick={() => navigator.clipboard.writeText(pgn.pgn)}
+                                              onClick={
+                                                () => navigator.clipboard.writeText(pgn.pgn)
+                                              }
                                             >
                                               copy PGN
                                             </Button>
@@ -660,41 +480,39 @@ const Dashboard = (props) => {
                                               copy moves
                                             </Button>
                                           </ButtonGroup>
-                                        </Card>
-                                      </Grid>
-                                    )
-                                    : (
-                                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                        <Card className={classes.copypgncard} elevation={0}>
+                                          )}
+                                          {!pgn.moves && (
                                           <Button
                                             variant="outlined"
                                             className={classes.nonprimarybutton}
                                             startIcon={<PostAddIcon />}
-                                            onClick={() => navigator.clipboard.writeText(pgn.pgn)}
+                                            onClick={
+                                              () => navigator.clipboard.writeText(pgn.pgn)
+                                            }
                                           >
                                             copy PGN
                                           </Button>
+                                          )}
                                         </Card>
+                                        <Card className={classes.pgncard2} elevation={0}>
+                                          <Typography className={classes.text}>
+                                            <b>PGN: </b>
+                                            {' '}
+                                            {pgn.pgn}
+                                          </Typography>
+                                        </Card>
+                                        {pgn.moves && (
+                                        <Card className={classes.pgncard2} elevation={0}>
+                                          <Typography className={classes.text}>
+                                            <b>Moves: </b>
+                                            {' '}
+                                            {pgn.moves}
+                                          </Typography>
+                                        </Card>
+                                        )}
                                       </Grid>
-                                    )}
-                                  <Grid item xs={12} sm={12} md={12} lg={12}>
-                                    <Card className={classes.pgncard} elevation={0}>
-                                      <Typography className={classes.text}>
-                                        <b>PGN: </b>
-                                        {' '}
-                                        {pgn.pgn}
-                                      </Typography>
-                                    </Card>
-                                    {pgn.moves && (
-                                    <Card className={classes.pgncard} elevation={0}>
-                                      <Typography className={classes.text}>
-                                        <b>Moves: </b>
-                                        {' '}
-                                        {pgn.moves}
-                                      </Typography>
-                                    </Card>
-                                    )}
-                                  </Grid>
+                                    </>
+                                  </MuiThemeProvider>
                                 </Grid>
                               </PgnAccordionDetails>
                             </Accordion>
@@ -711,7 +529,7 @@ const Dashboard = (props) => {
               ) }
             </div>
             )}
-          </main>
+          </div>
         </div>
       </Box>
     </div>

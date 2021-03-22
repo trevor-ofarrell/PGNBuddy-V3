@@ -20,6 +20,15 @@ export default function SaveApp(props) {
   }, []);
 
   const theme = createMuiTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 800,
+        md: 960,
+        lg: 1660,
+        xl: 2150,
+      },
+    },
     overrides: {
       MuiCssBaseline: {
         '@global': {
@@ -35,6 +44,8 @@ export default function SaveApp(props) {
           body: {
             overflow: 'hidden',
             position: 'fixed',
+            height: '100%',
+            width: '100%',
           },
         },
       },

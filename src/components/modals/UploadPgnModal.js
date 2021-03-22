@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import {
-  makeStyles, Button,
+  makeStyles,
+  Button,
 } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { LichessImportTabs } from '.';
+import { PgnUploadTabs } from '..';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -15,19 +16,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '10vw',
     paddingRight: '10vw',
     textAlign: 'center',
-    marginTop: '-4em',
     [theme.breakpoints.down('xs')]: {
-      paddingLeft: '2.5vw',
-      paddingRight: '2.5vw',
+      paddingLeft: '5vw',
+      paddingRight: '5vw',
     },
-  },
-  paper: {
-    backgroundColor: 'rgb(49, 46, 44)',
-    border: '0px solid rgb(49, 46, 44)',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    outline: 'none',
-    color: 'white',
   },
   button: {
     width: '100%',
@@ -35,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '1.5em',
     paddingLeft: 'auto',
     paddingRight: 'auto',
-    color: 'white',
+    color: '#fafafa',
     marginBottom: '0.65em',
     background: 'rgb(59, 56, 54)',
     '&:hover': {
@@ -46,13 +38,20 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '0.6em',
     },
   },
+  paper: {
+    backgroundColor: 'rgb(49, 46, 44)',
+    border: '0px solid rgb(49, 46, 44)',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(6),
+    outline: 'none',
+    color: '#fafafa',
+  },
 }));
 
-export const LichessExportModal = ({ userId, lichessUsername }) => {
+export const UploadPgnModal = ({ userId }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
-  const [statusCode, setStatus] = useState(0);
 
   const handleOpen = () => {
     setOpen(true);
@@ -62,12 +61,11 @@ export const LichessExportModal = ({ userId, lichessUsername }) => {
     setOpen(false);
   };
 
-  const handleRateLimitDialog = (status) => {
+  const handleMaxRequestErrorOpen = () => {
     setOpen2(true);
-    setStatus(status);
   };
 
-  const handleRateLimitDialogClose = () => {
+  const handleMaxRequestErrorClose = () => {
     setOpen2(false);
   };
 
@@ -77,7 +75,7 @@ export const LichessExportModal = ({ userId, lichessUsername }) => {
       onFocus={(event) => event.stopPropagation()}
     >
       <Button className={classes.button} onClick={handleOpen}>
-        Import PGNs from lichess.org
+        Upload PGN files
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -93,24 +91,20 @@ export const LichessExportModal = ({ userId, lichessUsername }) => {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">
-              choose lichess import option
-            </h2>
-            <LichessImportTabs
+            <PgnUploadTabs
               userId={userId}
-              lichessUsername={lichessUsername}
+              handleMaxRequestErrorOpen={handleMaxRequestErrorOpen}
               handleClose={handleClose}
-              handleRateLimitDialog={handleRateLimitDialog}
             />
           </div>
         </Fade>
       </Modal>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+        aria-labelledby="max request size"
+        aria-describedby="Max database request size reached"
         className={classes.modal}
         open={open2}
-        onClose={handleRateLimitDialogClose}
+        onClose={handleMaxRequestErrorClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -119,19 +113,10 @@ export const LichessExportModal = ({ userId, lichessUsername }) => {
       >
         <Fade in={open2}>
           <div className={classes.paper}>
-            {statusCode === 429
-              ? (
-                <h2 id="transition-modal-title">
-                  Rate limit reached.
-                  Please wait 60 seconds before requesting the lichess PGN exports again.
-                </h2>
-              )
-              : (
-                <h2 id="transition-modal-title">
-                  Rate limit reached.
-                  Please wait 30 seconds before requesting the lichess PGN exports again.
-                </h2>
-              )}
+            <h2 id="transition-modal-title">
+              Max request size exceeded
+              (1MB per PGN file)
+            </h2>
           </div>
         </Fade>
       </Modal>

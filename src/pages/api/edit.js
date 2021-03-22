@@ -34,11 +34,12 @@ async function edit(req, res) {
         break;
       }
       case 'PGN': {
-        if (id === pgnName) {
+        if (pgnId === pgnName) {
           await cache.hgetAsync(`${id}-${folderName}`, pgnName).then(async (pgn) => {
             const editedPgn = JSON.parse(pgn);
             editedPgn.name = newEdit;
             if (editedPgn.pgn_id === pgnName) { editedPgn.pgn_id = newEdit; }
+            await cache.hdelAsync(`${id}-${folderName}`, pgnName);
             await cache.hsetAsync(`${id}-${folderName}`, newEdit, JSON.stringify(editedPgn));
           });
         } else {
@@ -46,6 +47,7 @@ async function edit(req, res) {
             const editedPgn = JSON.parse(pgn);
             editedPgn.name = newEdit;
             if (editedPgn.pgn_id === pgnName) { editedPgn.pgn_id = newEdit; }
+            await cache.hdelAsync(`${id}-${folderName}`, pgnId);
             await cache.hsetAsync(`${id}-${folderName}`, newEdit, JSON.stringify(editedPgn));
           });
         }

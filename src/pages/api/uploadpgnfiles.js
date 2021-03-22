@@ -21,7 +21,6 @@ async function uploadpgnfile(req, res) {
       const parsedPgn = pgn[1]
         .replace(/ 1\/2(\r\n|\r|\n)/g, ' 1/2-1/2\n')
         .replace(/\[Result "1\/2"\]/g, '[Result "1/2-1/2"]');
-      console.log(parsedPgn);
       let pgnjson;
       const split = parsedPgn.split(/\[Event /);
       if (split) {

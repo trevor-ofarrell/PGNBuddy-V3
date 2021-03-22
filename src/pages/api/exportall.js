@@ -104,6 +104,7 @@ async function exportAll(req, res) {
           blackRating,
           whiteRating,
           lichess: true,
+          editable: true,
         };
 
         pgnList.push(pgn);

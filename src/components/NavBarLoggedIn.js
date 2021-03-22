@@ -189,13 +189,6 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
       onClose={handleMobileMenuClose}
       className={classes.mobileMenu}
     >
-      <Link href="/">
-        <MenuItem>
-          <Typography variant="h6" className={classes.mobilemenutext}>
-            Home
-          </Typography>
-        </MenuItem>
-      </Link>
       <Link href="/dashboard">
         <MenuItem>
           <Typography variant="h6" className={classes.mobilemenutext}>
@@ -303,11 +296,6 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
             </Link>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <Link href="/">
-                <Button color="inherit" className={classes.minbutton}>
-                  home
-                </Button>
-              </Link>
               <Link href="/dashboard">
                 <Button color="inherit" className={classes.minbutton}>
                   dashboard

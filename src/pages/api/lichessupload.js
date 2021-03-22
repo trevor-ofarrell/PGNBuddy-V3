@@ -110,6 +110,7 @@ async function lichessUpload(req, res) {
             blackRating,
             whiteRating,
             lichess: true,
+            editable: true,
           };
 
           if (pgn) {

@@ -102,27 +102,14 @@ export const EditModal = ({
 
   const submitEdit = async (event) => {
     event.preventDefault();
-
     const data = {
       id,
       entryName,
       newEdit: edit,
-      pgnName,
       pgnId,
       folderName,
     };
-
-    await fetch('/api/edit', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } })
-      .then(async () => {
-        if (entryName === 'PGN') {
-          const data2 = {
-            id,
-            pgnId: pgnName,
-            folderName,
-          };
-          await fetch('/api/deletepgn', { method: 'POST', body: JSON.stringify(data2), headers: { 'Content-Type': 'application/json' } });
-        }
-      });
+    await fetch('/api/edit', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } });
     router.reload();
   };
 

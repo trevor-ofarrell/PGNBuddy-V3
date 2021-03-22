@@ -1,5 +1,6 @@
 import redis from 'redis';
 import bluebird from 'bluebird';
+import * as uuid from 'uuid';
 
 import pgn2json from '../../../utils/pgntojson';
 
@@ -26,8 +27,8 @@ async function uploadpgnfile(req, res) {
 
       if (split) {
         split.shift();
-        // if pgn file contains multiple pgns don't add any pgn information
-        // to display as the information may vary, pgn to pgn.
+        // if pgn file contains multiple pgns don't add any pgn information,
+        // as the information on each game will likley vary, from pgn to pgn.
         if (split.length > 1) {
           pgnjson = {
             str: {
@@ -60,7 +61,7 @@ async function uploadpgnfile(req, res) {
       }
       const currentPgn = {
         name: pgn[0],
-        pgn_id: pgn[0],
+        pgn_id: uuid.v4(),
         folder: body.uploadFolderName,
         pgn: parsedPgn,
         moves: '',
@@ -78,6 +79,7 @@ async function uploadpgnfile(req, res) {
         white: pgnjson.str.White,
         blackRating: pgnjson.str.BlackElo,
         whiteRating: pgnjson.str.WhiteElo,
+        editable: true,
       };
       return currentPgn;
     })).then(async (pgnList) => {
@@ -91,7 +93,7 @@ async function uploadpgnfile(req, res) {
               promises.push(
                 cache.hsetAsync(
                   `${body.userId}-${body.uploadFolderName}`,
-                  `${elem.name}`,
+                  `${elem.pgn_id}`,
                   JSON.stringify(elem),
                 ),
               );
@@ -107,7 +109,7 @@ async function uploadpgnfile(req, res) {
             promises.push(
               cache.hsetnxAsync(
                 `${body.userId}-${body.uploadFolderName}`,
-                `${elem.name}`,
+                `${elem.pgn_id}`,
                 JSON.stringify(elem),
               ),
             );

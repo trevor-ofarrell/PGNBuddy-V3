@@ -322,7 +322,10 @@ const Dashboard = (props) => {
                       <Typography className={classes.foldertext}>{folder}</Typography>
                       <div className={classes.grow} />
                       <DeleteFolderModal folderName={folder} id={id} />
-                      <EditModal folderName={folder} id={id} entryName="folder" pgnName="" />
+                      {pgns.filter((game) => game.folder === folder)
+                        .every((obj) => obj.editable === true) === true && (
+                        <EditModal folderName={folder} id={id} entryName="folder" />
+                      )}
                     </AccordionSummary>
                     <AccordionDetails>
                       <div className={classes.pgns}>
@@ -342,7 +345,9 @@ const Dashboard = (props) => {
                                   folderName={folder}
                                   pgnName={pgn.name}
                                 />
-                                <EditModal pgnName={pgn.name} id={id} pgnId={pgn.pgn_id} entryName="PGN" folderName={folder} />
+                                {pgn.editable === true && (
+                                  <EditModal id={id} pgnId={pgn.pgn_id} entryName="PGN" folderName={folder} />
+                                )}
                               </PgnAccordionSummary>
                               <PgnAccordionDetails>
                                 <Grid container className={classes.pgncontent}>

@@ -1,8 +1,96 @@
 import {
   makeStyles,
-} from '@material-ui/core/styles';
+  TextField,
+  withStyles,
+} from '@material-ui/core';
+
+import MuiAccordion from '@material-ui/core/Accordion';
+import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
+import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
 
 const drawerWidth = 240;
+
+export const Accordion = withStyles({
+  root: {
+    background: 'rgb(39, 36, 34)',
+    boxShadow: 'none',
+    '&:before': {
+      display: 'none',
+    },
+    '&$expanded': {
+      margin: '0em',
+    },
+  },
+  expanded: {},
+})(MuiAccordion);
+
+export const AccordionSummary = withStyles((theme) => ({
+  root: {
+    background: 'rgb(59, 56, 54)',
+    marginBottom: '3px',
+    minHeight: 56,
+    '&$expanded': {
+      minHeight: 56,
+    },
+    [theme.breakpoints.up('sm')]: {
+      '&:hover': {
+        background: 'rgb(49, 46, 44)',
+      },
+    },
+  },
+  content: {
+    '&$expanded': {
+      margin: '12px 0',
+    },
+  },
+  expanded: {},
+}))(MuiAccordionSummary);
+
+export const PgnAccordionSummary = withStyles((theme) => ({
+  root: {
+    background: 'rgb(59, 56, 54)',
+    minHeight: 56,
+    marginBottom: '3px',
+    '&$expanded': {
+      minHeight: 56,
+    },
+    [theme.breakpoints.up('sm')]: {
+      '&:hover': {
+        background: 'rgb(49, 46, 44)',
+      },
+    },
+  },
+  content: {
+    '&$expanded': {
+      margin: '12px 0',
+    },
+  },
+  expanded: {},
+}))(MuiAccordionSummary);
+
+export const AccordionDetails = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(1),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0.8),
+    },
+  },
+}))(MuiAccordionDetails);
+
+export const PgnAccordionDetails = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+    paddingRight: theme.spacing(0),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0.1),
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(0),
+      paddingTop: theme.spacing(0.8),
+    },
+  },
+}))(MuiAccordionDetails);
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +104,12 @@ export const useStyles = makeStyles((theme) => ({
     maxHeight: '95vh',
     overflowY: 'auto',
     width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: '92.8vh',
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxHeight: '93.8vh',
+    },
   },
   dash: {
     display: 'flex',
@@ -105,6 +199,7 @@ export const useStyles = makeStyles((theme) => ({
   foldertext: {
     color: 'white',
     width: '89%',
+    textOverflow: 'ellipsis',
     [theme.breakpoints.up('md')]: {
       fontSize: '19px',
       width: '91.5%',
@@ -114,7 +209,7 @@ export const useStyles = makeStyles((theme) => ({
     color: 'white',
     width: '92%',
     maxWidth: '75vw',
-    wordWrap: 'break-all',
+    textOverflow: 'ellipsis',
     [theme.breakpoints.up('md')]: {
       fontSize: '19px',
       width: '93.25%',
@@ -147,7 +242,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   pgncontent: {
     marginBottom: '0em',
-    marginTop: '1em',
     [theme.breakpoints.up('xl')]: {
       marginLeft: '1vw',
       marginRight: '1vw',
@@ -162,7 +256,6 @@ export const useStyles = makeStyles((theme) => ({
       marginLeft: '-1.5vw',
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: '0.5em',
       marginBottom: '1em',
       marginLeft: '0.2vw',
 
@@ -229,7 +322,6 @@ export const useStyles = makeStyles((theme) => ({
   pgnviewercard: {
     background: 'rgb(59, 56, 54)',
     padding: '2em',
-    marginTop: '0.25em',
     marginBottom: '0.25em',
     height: 'auto',
     width: '95%',
@@ -251,7 +343,6 @@ export const useStyles = makeStyles((theme) => ({
   pgncopycard: {
     background: 'rgb(59, 56, 54)',
     padding: '2em',
-    marginTop: '0.25em',
     marginBottom: '0.25em',
     height: 'auto',
     width: '99%',
@@ -300,6 +391,8 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: '1vh',
   },
   nonprimarybutton: {
+    fontSize: '0.9em',
+    lineHeight: '1.35em',
     color: 'white',
     borderColor: 'white',
     '&:hover': {
@@ -318,5 +411,80 @@ export const useStyles = makeStyles((theme) => ({
   },
   pgninfotext: {
     marginBottom: '0.5em',
+  },
+  textfield: {
+    marginTop: '0.5em',
+    marginBottom: '0.6em',
+    width: '100%',
+    color: '#fafafa',
+    borderColor: '#fafafa',
+    fontColor: '#fafafa',
+  },
+  label: {
+    color: '#fafafa',
+    fontWeight: '300',
+    borderColor: '#fafafa',
+    '&:before': {
+      borderColor: '#fafafa',
+    },
+  },
+  input: {
+    color: '#fafafa',
+    fontWeight: '300',
+    fontSize: '1.1em',
+    borderColor: '#fafafa',
+    '&:before': {
+      borderColor: '#fafafa',
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.95em',
+    },
+  },
+  nowrap: {
+    width: '59vw',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    [theme.breakpoints.down('xs')]: {
+      width: '40vw',
+      maxWidth: '45vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '60vw',
+    },
+  },
+  nowrappgn: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    width: '65vw',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '65vw',
+    },
+  },
+  formControl: {
+    '&:before': {
+      borderColor: '#fafafa',
+    },
+    [theme.breakpoints.down('xl')]: {
+      maxWidth: 300,
+      minWidth: 100,
+    },
+    [theme.breakpoints.down('lg')]: {
+      maxWidth: 190,
+      minWidth: 100,
+    },
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 140,
+      minWidth: 100,
+    },
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: 90,
+      minWidth: 90,
+    },
+  },
+  actionIcons: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
 }));

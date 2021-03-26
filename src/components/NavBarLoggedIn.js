@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 // Material UI
 import {
   makeStyles,
+  useTheme,
+  createMuiTheme,
+  MuiThemeProvider,
 } from '@material-ui/core/styles';
 
 import {
@@ -15,10 +18,11 @@ import {
   Hidden,
   Grid,
   Drawer,
-  useTheme,
+  InputAdornment,
+  TextField,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-
+import SearchIcon from '@material-ui/icons/Search';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 
 import Link from 'next/link';
@@ -30,6 +34,23 @@ import { firebaseClient } from '../../firebaseClient';
 import { UploadPgnModal, LichessExportModal } from '.';
 
 const drawerWidth = 240;
+
+const inputTheme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: { main: '#fafafa' },
+  },
+  overrides: {
+    MuiOutlinedInput: {
+      input: {
+        '&:-webkit-autofill': {
+          WebkitBoxShadow: '0 0 0 100px rgb(39, 36, 34) inset',
+          WebkitTextFillColor: '#fafafa',
+        },
+      },
+    },
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -154,9 +175,29 @@ const useStyles = makeStyles((theme) => ({
   flex: {
     display: 'flex',
   },
+  textfield: {
+    marginTop: '0.5em',
+    marginBottom: '0.6em',
+    width: '100%',
+    color: '#fafafa',
+    borderColor: '#fafafa',
+    fontColor: '#fafafa',
+  },
+  label: {
+    color: '#fafafa',
+    fontWeight: '300',
+    borderColor: '#fafafa',
+  },
+  input: {
+    color: '#fafafa',
+    fontWeight: '300',
+    borderColor: '#fafafa',
+  },
 }));
 
-export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
+export const NavBarLoggedIn = ({
+  lichessUsername, userId, folders, search, setSearch, folderList, setFolderList,
+}) => {
   const classes = useStyles();
   const router = useRouter();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -222,6 +263,39 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
     <div className={classes.sidedrawer}>
       <Grid container>
         <Grid item xs={12} sm={12} lg={12}>
+          <MuiThemeProvider theme={inputTheme}>
+            <TextField
+              name="search"
+              label="Search Folders"
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
+              onFocus={(event) => event.stopPropagation()}
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                if (e.target.value !== '') {
+                  const foldersCopy = folders;
+                  setFolderList(foldersCopy.filter((folder) => folder.startsWith(e.target.value)));
+                  console.log(e.target.value, folderList);
+                } else if (e.target.value === '') {
+                  setFolderList(folders);
+                }
+              }}
+              className={classes.textfield}
+              InputLabelProps={{
+                className: classes.label,
+              }}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                className: classes.input,
+              }}
+              size="small"
+              variant="outlined"
+            />
+          </MuiThemeProvider>
+        </Grid>
+        <Grid item xs={12} sm={12} lg={12}>
           <UploadPgnModal
             label="Upload Single File"
             userId={userId}
@@ -244,6 +318,7 @@ export const NavBarLoggedIn = ({ lichessUsername, userId }) => {
              </Link>
            </Grid>
            )}
+
       </Grid>
     </div>
   );

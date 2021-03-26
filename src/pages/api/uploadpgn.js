@@ -42,10 +42,14 @@ async function uploadpgn(req, res) {
       };
     }
 
+    const date = new Date();
+    date.setMilliseconds(0);
+    date.setSeconds(0);
+
     const pgnProps = {
-      name: pgnName,
+      name: pgnName === '' ? 'untitled.pgn' : pgnName,
       pgn_id: uuid.v4(),
-      folder: folderName,
+      folder: folderName === '' ? `clipboard upload ${date}` : folderName,
       pgn: newPgn,
       moves: '',
       user_id: userData.id,

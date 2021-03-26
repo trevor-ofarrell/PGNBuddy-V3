@@ -23,7 +23,7 @@ export default function SaveApp(props) {
     breakpoints: {
       values: {
         xs: 0,
-        sm: 800,
+        sm: 768,
         md: 960,
         lg: 1660,
         xl: 2150,
@@ -33,7 +33,7 @@ export default function SaveApp(props) {
       MuiCssBaseline: {
         '@global': {
           '*::-webkit-scrollbar': {
-            width: '1.25em',
+            width: '1em',
           },
           '*::-webkit-scrollbar-track': {
             '-webkit-box-shadow': 'inset 0 0 6px rgba(29, 26, 24)',

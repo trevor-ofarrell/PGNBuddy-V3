@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginLeft: '1vw',
+    marginTop: '5px',
     [theme.breakpoints.down('lg')]: {
       marginLeft: '2vw',
     },
@@ -119,7 +120,14 @@ export const EditModal = ({
       onFocus={(event) => event.stopPropagation()}
     >
       <Tooltip title={`edit ${entryName} name`} placement="left">
-        <EditIcon style={{ fill: '#ffffff', marginTop: '2px' }} type="button" onClick={handleOpen} className={classes.icon} />
+        <EditIcon
+          type="button"
+          onClick={handleOpen}
+          className={classes.icon}
+          style={{
+            fill: '#fff', marginRight: '1.5vw', marginTop: '2px', marginBottom: 'auto',
+          }}
+        />
       </Tooltip>
       <Modal
         aria-labelledby="transition-modal-title"

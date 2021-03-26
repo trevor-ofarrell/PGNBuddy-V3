@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => ({
 const PgnViewer = (props) => {
   const classes = useStyles();
   const { children } = props;
-  const gameDecription = Children.onlyText(children).replace(/ \{[\s\S]*?\}/g, '');
+  const gameDecription = Children.onlyText(children);
   const id = `board-${uuid.v4()}`;
 
   useLayoutEffect(() => {

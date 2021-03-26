@@ -151,21 +151,22 @@ export const PgnUploadTabs = ({
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" elevation={2} className={classes.appbar}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="fullWidth"
-          aria-label="choose PGN upload option"
-          classes={{
-            indicator: classes.indicator,
-          }}
-        >
-          <Tab label="Upload PGN's from filesystem" {...a11yProps(0)} />
-          <Tab label="Paste PGN from clipboard" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
       <ThemeProvider theme={textFieldTheme}>
+
+        <AppBar position="static" elevation={2} className={classes.appbar}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="fullWidth"
+            aria-label="choose PGN upload option"
+            classes={{
+              indicator: classes.indicator,
+            }}
+          >
+            <Tab className={classes.textfield} label="Upload PGN's from filesystem" {...a11yProps(0)} />
+            <Tab className={classes.textfield} label="Paste PGN from clipboard" {...a11yProps(1)} />
+          </Tabs>
+        </AppBar>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
           index={value}
@@ -179,37 +180,35 @@ export const PgnUploadTabs = ({
                 </Typography>
               </div>
               <Card elevation={0} className={classes.card}>
-                <ThemeProvider theme={textFieldTheme}>
-                  <Card elevation={0} className={classes.card}>
-                    <TextField
-                      id="outlined-basic"
-                      label="folder - Leave blank for default naming"
-                      variant="filled"
-                      className={classes.textfield}
-                      InputLabelProps={{
-                        className: classes.label,
-                      }}
-                      InputProps={{
-                        className: classes.input,
-                      }}
-                      value={folderName}
-                      onChange={(e) => setFolderName(e.target.value)}
-                    />
-                    <Grid container>
-                      <Grid item xs={3} xl={3} />
-                      <Grid item xs={12} xl={12}>
-                        <FileUploadButton
-                          label="select PGN files"
-                          userId={userId}
-                          uploadFolderName={folderName}
-                          handleMaxRequestErrorOpen={handleMaxRequestErrorOpen}
-                          handleClose={handleClose}
-                        />
-                      </Grid>
-                      <Grid item xs={3} xl={3} />
+                <Card elevation={0} className={classes.card}>
+                  <TextField
+                    id="outlined-basic"
+                    label="folder"
+                    variant="filled"
+                    className={classes.textfield}
+                    InputLabelProps={{
+                      className: classes.label,
+                    }}
+                    InputProps={{
+                      className: classes.input,
+                    }}
+                    value={folderName}
+                    onChange={(e) => setFolderName(e.target.value)}
+                  />
+                  <Grid container>
+                    <Grid item xs={3} xl={3} />
+                    <Grid item xs={12} xl={12}>
+                      <FileUploadButton
+                        label="select PGN files"
+                        userId={userId}
+                        uploadFolderName={folderName}
+                        handleMaxRequestErrorOpen={handleMaxRequestErrorOpen}
+                        handleClose={handleClose}
+                      />
                     </Grid>
-                  </Card>
-                </ThemeProvider>
+                    <Grid item xs={3} xl={3} />
+                  </Grid>
+                </Card>
               </Card>
             </form>
           </TabPanel>
@@ -226,7 +225,7 @@ export const PgnUploadTabs = ({
                   <Card elevation={0} className={classes.card}>
                     <TextField
                       id="outlined-basic"
-                      label="folder - Leave blank for default naming"
+                      label="folder"
                       variant="filled"
                       className={classes.textfield}
                       InputLabelProps={{
@@ -289,6 +288,7 @@ export const PgnUploadTabs = ({
           </TabPanel>
         </SwipeableViews>
       </ThemeProvider>
+
     </div>
   );
 };

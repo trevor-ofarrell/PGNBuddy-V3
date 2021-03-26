@@ -89,7 +89,14 @@ export const DeleteFolderModal = ({ folderName, id }) => {
       onFocus={(event) => event.stopPropagation()}
     >
       <Tooltip title="delete folder" placement="left">
-        <DeleteForeverIcon style={{ fill: '#ffffff', marginTop: '2px' }} type="button" onClick={handleOpen} className={classes.icon} />
+        <DeleteForeverIcon
+          type="button"
+          onClick={handleOpen}
+          className={classes.icon}
+          style={{
+            fill: '#fff', marginRight: '0.75vw', marginTop: 'auto', marginBottom: 'auto',
+          }}
+        />
       </Tooltip>
       <Modal
         aria-labelledby="transition-modal-title"

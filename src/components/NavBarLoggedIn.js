@@ -20,7 +20,6 @@ import {
   Drawer,
   InputAdornment,
   TextField,
-  withStyles,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -40,6 +39,16 @@ const inputTheme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: { main: '#fafafa' },
+  },
+  overrides: {
+    MuiOutlinedInput: {
+      input: {
+        '&:-webkit-autofill': {
+          WebkitBoxShadow: '0 0 0 100px rgb(39, 36, 34) inset',
+          WebkitTextFillColor: '#fafafa',
+        },
+      },
+    },
   },
 });
 
@@ -186,28 +195,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CssTextField = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: '#fafafa',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: '#fafafa',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#fafafa',
-      },
-      '&:hover fieldset': {
-        borderColor: '#fafafa',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#fafafa',
-      },
-    },
-  },
-})(TextField);
-
 export const NavBarLoggedIn = ({
   lichessUsername, userId, folders, search, setSearch, folderList, setFolderList,
 }) => {
@@ -277,7 +264,7 @@ export const NavBarLoggedIn = ({
       <Grid container>
         <Grid item xs={12} sm={12} lg={12}>
           <MuiThemeProvider theme={inputTheme}>
-            <CssTextField
+            <TextField
               name="search"
               label="Search Folders"
               onClick={(event) => {

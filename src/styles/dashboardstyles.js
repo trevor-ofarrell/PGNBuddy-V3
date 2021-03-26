@@ -105,6 +105,7 @@ export const useStyles = makeStyles((theme) => ({
   foldertext: {
     color: 'white',
     width: '89%',
+    textOverflow: 'ellipsis',
     [theme.breakpoints.up('md')]: {
       fontSize: '19px',
       width: '91.5%',
@@ -114,7 +115,7 @@ export const useStyles = makeStyles((theme) => ({
     color: 'white',
     width: '92%',
     maxWidth: '75vw',
-    wordWrap: 'break-all',
+    textOverflow: 'ellipsis',
     [theme.breakpoints.up('md')]: {
       fontSize: '19px',
       width: '93.25%',
@@ -300,6 +301,8 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: '1vh',
   },
   nonprimarybutton: {
+    fontSize: '0.9em',
+    lineHeight: '1.35em',
     color: 'white',
     borderColor: 'white',
     '&:hover': {
@@ -318,5 +321,65 @@ export const useStyles = makeStyles((theme) => ({
   },
   pgninfotext: {
     marginBottom: '0.5em',
+  },
+  textfield: {
+    marginTop: '0.5em',
+    marginBottom: '0.6em',
+    width: '100%',
+    color: '#fafafa',
+    borderColor: '#fafafa',
+    fontColor: '#fafafa',
+  },
+  label: {
+    color: '#fafafa',
+    fontWeight: '300',
+    borderColor: '#fafafa',
+    '&:before': {
+      borderColor: '#fafafa',
+    },
+  },
+  input: {
+    color: '#fafafa',
+    fontWeight: '300',
+    borderColor: '#fafafa',
+    '&:before': {
+      borderColor: '#fafafa',
+    },
+  },
+  nowrap: {
+    width: '62vw',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    [theme.breakpoints.down('xs')]: {
+      width: '45vw',
+      maxWidth: '50vw',
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '60vw',
+    },
+  },
+  nowrappgn: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    width: '65vw',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '65vw',
+    },
+  },
+  formControl: {
+    '&:before': {
+      borderColor: '#fafafa',
+    },
+    marginTop: '-0.4em',
+    paddingTop: '0em',
+    maxWidth: 140,
+    minWidth: 80,
+    height: '2.4em',
+    marginBottom: '0.4em',
+    margin: '0em',
+    [theme.breakpoints.down('xs')]: {
+      minWidth: 50,
+      maxWidth: 70,
+    },
   },
 }));

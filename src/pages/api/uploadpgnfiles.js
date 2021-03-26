@@ -17,6 +17,12 @@ async function uploadpgnfile(req, res) {
     const body = JSON.parse(req.body);
     const pgns = body.uploadedFiles;
 
+    const date = new Date();
+    date.setMilliseconds(0);
+    date.setSeconds(0);
+
+    const folder = body.uploadFolderName === '' ? `file system upload ${date}` : body.uploadFolderName;
+
     await Promise.all(pgns.map((pgn) => {
       const parsedPgn = pgn[1]
         .replace(/ 1\/2(\r\n|\r|\n)/g, ' 1/2-1/2\n')
@@ -27,8 +33,6 @@ async function uploadpgnfile(req, res) {
 
       if (split) {
         split.shift();
-        // if pgn file contains multiple pgns don't add any pgn information,
-        // as the information on each game will likley vary, from pgn to pgn.
         if (split.length > 1) {
           pgnjson = {
             str: {
@@ -62,7 +66,7 @@ async function uploadpgnfile(req, res) {
       const currentPgn = {
         name: pgn[0],
         pgn_id: uuid.v4(),
-        folder: body.uploadFolderName,
+        folder,
         pgn: parsedPgn,
         moves: '',
         user_id: body.userId,
@@ -81,18 +85,35 @@ async function uploadpgnfile(req, res) {
         whiteRating: pgnjson.str.WhiteElo,
         editable: true,
       };
+      console.log(currentPgn)
       return currentPgn;
     })).then(async (pgnList) => {
-      if (body.uploadFolderName && body.userId) {
-        await cache.existsAsync(`${body.userId}-${body.uploadFolderName}`).then(async (reply) => {
-          const promises = [];
-          // if folder doesnt exist
-          if (reply !== 1) {
-            await cache.saddAsync(`${body.userId}-folder-names`, body.uploadFolderName);
+      if (folder && body.userId) {
+        await cache.existsAsync(`${body.userId}-${folder}`)
+          .then(async (reply) => {
+            const promises = [];
+            if (reply !== 1) {
+              await cache.saddAsync(`${body.userId}-folder-names`, folder);
+              pgnList.forEach((elem) => {
+                promises.push(
+                  cache.hsetAsync(
+                    `${body.userId}-${folder}`,
+                    `${elem.pgn_id}`,
+                    JSON.stringify(elem),
+                  ),
+                );
+              });
+              await Promise.all(promises);
+
+              cache.quit();
+              return res.status(200).end();
+            }
+
+            await cache.saddAsync(`${body.userId}-folder-names`, folder);
             pgnList.forEach((elem) => {
               promises.push(
-                cache.hsetAsync(
-                  `${body.userId}-${body.uploadFolderName}`,
+                cache.hsetnxAsync(
+                  `${body.userId}-${folder}`,
                   `${elem.pgn_id}`,
                   JSON.stringify(elem),
                 ),
@@ -102,23 +123,7 @@ async function uploadpgnfile(req, res) {
 
             cache.quit();
             return res.status(200).end();
-          }
-
-          await cache.saddAsync(`${body.userId}-folder-names`, body.uploadFolderName);
-          pgnList.forEach((elem) => {
-            promises.push(
-              cache.hsetnxAsync(
-                `${body.userId}-${body.uploadFolderName}`,
-                `${elem.pgn_id}`,
-                JSON.stringify(elem),
-              ),
-            );
           });
-          await Promise.all(promises);
-
-          cache.quit();
-          return res.status(200).end();
-        });
       }
     });
   }

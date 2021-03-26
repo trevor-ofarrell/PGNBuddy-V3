@@ -183,8 +183,8 @@ export const LichessImportTabs = ({
             indicator: classes.indicator,
           }}
         >
-          <Tab label="Import PGNs by date" {...a11yProps(0)} />
-          <Tab label="Import PGN by ID or link" {...a11yProps(1)} />
+          <Tab className={classes.textfield} label="Import PGNs by date" {...a11yProps(0)} />
+          <Tab className={classes.textfield} label="Import PGN by ID or link" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <ThemeProvider theme={textFieldTheme}>

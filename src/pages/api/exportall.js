@@ -124,7 +124,6 @@ async function exportAll(req, res) {
             folders.forEach(async (currentFolder) => {
               await cache.existsAsync(`${uid}-${currentFolder}`).then(async (reply) => {
                 const promises = [];
-                // if folder doesnt exist
                 if (reply !== 1) {
                   await cache.saddAsync(`${uid}-folder-names`, currentFolder);
                   pgns.forEach(async (elem) => {

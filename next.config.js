@@ -1,8 +1,9 @@
 const withPWA = require('next-pwa');
 const withOffline = require('next-offline');
+const withImages = require('next-images');
 require('dotenv').config({ path: `./.env.${process.env.ENVIRONMENT}` });
 
-module.exports = withOffline(withPWA({
+module.exports = withImages(withOffline(withPWA({
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.node = {
@@ -11,6 +12,13 @@ module.exports = withOffline(withPWA({
       };
     }
     return config;
+  },
+  images: {
+    deviceSizes: [82, 110, 140, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    domains: [],
+    path: '/_next/image',
+    loader: 'default',
   },
   pwa: {
     disable: process.env.NODE_ENV === 'development',
@@ -37,4 +45,4 @@ module.exports = withOffline(withPWA({
   NEXT_PUBLIC_MESSAGING_SENDER_ID: '207583183616',
   NEXT_PUBLIC_APP_ID: '1:207583183616:web:20b5e65cb049f905fca9e5',
   MEASUREMENT_ID: 'G-LBG9Z3TJ5H',
-}));
+})));

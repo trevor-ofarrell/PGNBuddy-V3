@@ -51,7 +51,7 @@ const PgnViewer = (props) => {
         boardSize: '330px',
         theme: 'brown',
         pieceStyle: 'wikipedia',
-        timerTime: '1000',
+        timerTime: '650',
         locale: 'pl',
         startPlay: 1,
         showResult: true,

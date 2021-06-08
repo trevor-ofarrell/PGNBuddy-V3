@@ -9,7 +9,7 @@ Store, view, analyze, and organize your PGN files from anywhere. On any device.
 ## About
 - The apps front, and back-end are built using Next.JS, and hosted on Vercel.
 - imported PGN data is collected from the <a href="https://lichess.org/api">lichess.org API</a>.
-- The pgn viewer is <a href="https://chessboardjsx.com/">PGNViewer.JS</a>.
+- The pgn viewer is <a href="https://github.com/mliebelt/PgnViewerJS">PGNViewer.JS</a>.
 
 ## Usage
 development:

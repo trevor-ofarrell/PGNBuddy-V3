@@ -30,4 +30,4 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-[A-GPL](https://choosealicense.com/licenses/agpl/)
+[AGPL](https://choosealicense.com/licenses/agpl-3.0/)

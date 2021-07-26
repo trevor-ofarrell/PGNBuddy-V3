@@ -33,7 +33,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center',
     height: '100vh',
     width: '100vw',
+    maxHeight: '100vh',
     background: 'rgb(29, 26, 24)',
+    overflow: 'hidden',
   },
   page: {
     marginTop: 'auto',
@@ -41,10 +43,9 @@ const useStyles = makeStyles((theme) => ({
   },
   pagecontent: {
     paddingRight: '5em',
-    maxHeight: '55vh',
-
+    maxHeight: '100vh',
     [theme.breakpoints.up('lg')]: {
-      marginTop: '4.5em',
+      marginTop: '5em',
     },
     [theme.breakpoints.down('md')]: {
       paddingRight: '0em',
@@ -56,74 +57,68 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   home: {
-    borderRadius: '8px',
+    zIndex: 2,
     fontFamily: 'Aldrich, sans-serif',
     fontSize: '3.6em',
-    color: 'white',
     padding: '1em',
-    marginTop: '5em',
     fontWeight: 'bold',
-    background: 'rgb(29, 26, 24)',
-    textAlign: 'center',
+    color: 'white',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    position: 'relative',
     [theme.breakpoints.down('md')]: {
-      marginTop: '1em',
+      textAlign: 'center',
+      margin: 'auto',
       padding: '1.5em',
-      fontSize: '2.75em',
+      fontSize: '3.5em',
     },
     [theme.breakpoints.down('sm')]: {
-      marginTop: '-0.5em',
       fontSize: '2.75em',
       padding: '2em',
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: '0em',
-      fontSize: '2.1em',
-      padding: '0.6em',
-      paddingTop: '0.5em',
-      paddingBottom: '1.5em',
+      fontSize: '2em',
+      padding: '1em',
     },
 
   },
   cta: {
+    zIndex: 1,
     padding: '1.2em',
     width: '100%',
     fontSize: '1.8em',
     color: 'white',
-    borderColor: 'rgb(39, 36, 34)',
     background: 'rgb(39, 36, 34)',
     fontFamily: 'Aldrich, sans-serif',
     marginTop: '5em',
-    boxShadow: '0px 0px 10px 5px #fafafa',
+    boxShadow: '0px 0px 100px 120px rgb(29, 26, 24)',
+    position: 'relative',
     '&:hover': {
       borderColor: 'rgb(59, 56, 54)',
       background: 'rgb(39, 36, 34)',
-      boxShadow: '0px 0px 20px 12px #fafafa',
+      boxShadow: '0px 0px 20px 20px rgb(29, 26, 24)',
     },
-    [theme.breakpoints.down('md')]: {
-      marginTop: '11.5em',
-      fontSize: '1.4em',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '3vh',
     },
     [theme.breakpoints.down('sm')]: {
       fontSize: '1.2em',
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: '11vh',
       fontSize: '0.8em',
     },
   },
-  logininfo: {
-    zIndex: 1,
-    background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(9,6,4,1) 100%)',
-    width: '100vw',
-    height: '46vh',
-  },
   login: {
+    zIndex: 2,
     marginTop: '1em',
     color: 'white',
     fontFamily: 'Aldrich, sans-serif',
     textAlign: 'center',
     cursor: 'pointer',
     fontSize: '1.4em',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    position: 'relative',
     [theme.breakpoints.down('xs')]: {
       fontSize: '1.1em',
     },
@@ -133,16 +128,34 @@ const useStyles = makeStyles((theme) => ({
   },
   image2: {
     zIndex: 0,
-    paddingRight: '1em',
+    bottom: '25vh',
+    height: '70%',
+    margin: 0,
+    position: 'absolute',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    [theme.breakpoints.down('md')]: {
+      height: '60%',
+      top: '58%',
+      bottom: '0vh',
+    },
   },
   image: {
-    zIndex: -1,
-    paddingRight: '1em',
-    paddingLeft: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    zIndex: 0,
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
-      marginTop: '-3em',
       height: '40vh',
+      marginTop: 'auto',
+      marginBottom: '0em',
+    },
+  },
+  f: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '3vh',
     },
   },
 }));
@@ -167,7 +180,13 @@ export const getServerSideProps = async (ctx) => {
   try {
     const token = await firebaseAdmin.auth().verifyIdToken(cookies.token);
     const { uid, email } = token;
-    return { props: { id: uid, email } };
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/dashboard',
+      },
+      props: {},
+    };
   } catch (error) {
     return { props: {} };
   }
@@ -192,31 +211,11 @@ function App(props, inProp = true) {
                 <div className={classes.pagecontent}>
                   <Grid container>
                     <Grid item lg={1} xl={1} />
-                    <Grid item xs={12} sm={12} md={12} lg={6} xl={7}>
-                      <Card elevation={0} className={classes.home}>
+                    <Grid item xs={12} sm={12} md={12} lg={6} xl={7} className={classes.f}>
+                      <div className={classes.home}>
                         Store, view, and organize your PGN files from anywhere.
                         On any device.
-                      </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={5} xl={4}>
-                      <div className={classes.image}>
-                        <Image
-                          src={pgnbuddymobile}
-                          alt="picture of phone with pgnbuddy dashboard"
-                          width={620.45}
-                          height={725}
-                          layout="intrinsic"
-                          quality={100}
-                          priority
-                          className={classes.image2}
-                        />
                       </div>
-                    </Grid>
-                  </Grid>
-                </div>
-                <div>
-                  <Grid container>
-                    <Grid item xs={12} xl={12} className={classes.logininfo}>
                       <Grid container>
                         <Grid item xs={1} sm={1} md={2} lg={4} xl={4} />
                         <Grid item xs={10} sm={10} md={8} lg={4} xl={4}>
@@ -230,14 +229,25 @@ function App(props, inProp = true) {
                           >
                             sign up
                           </Button>
-                          <Link href="/login">
-                            <Typography className={classes.login}>
-                              Already have an account? Login
-                            </Typography>
-                          </Link>
+
                           <Grid item xs={1} sm={1} md={2} lg={4} xl={4} />
                         </Grid>
                       </Grid>
+                      <Link href="/login">
+                        <Typography className={classes.login}>
+                          Already have an account? Login
+                        </Typography>
+                      </Link>
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={12} lg={5} xl={4}>
+                      <div className={classes.image}>
+                        <img
+                          src={pgnbuddymobile}
+                          alt="phone with pgnbuddy dashboard"
+                          className={classes.image2}
+                        />
+                      </div>
                     </Grid>
                   </Grid>
                 </div>

@@ -153,13 +153,6 @@ export const ResponsiveAppBar = () => {
           </Typography>
         </MenuItem>
       </Link>
-      <Link href="/dashboard">
-        <MenuItem>
-          <Typography variant="h6" className={classes.mobilemenutext}>
-            Dashboard
-          </Typography>
-        </MenuItem>
-      </Link>
       <Link href="/about">
         <MenuItem>
           <Typography variant="h6" className={classes.mobilemenutext}>
@@ -213,11 +206,6 @@ export const ResponsiveAppBar = () => {
               <Link href="/">
                 <Button color="inherit" className={classes.minbutton}>
                   home
-                </Button>
-              </Link>
-              <Link href="/dashboard">
-                <Button color="inherit" className={classes.minbutton}>
-                  dashboard
                 </Button>
               </Link>
               <Link href="/about">

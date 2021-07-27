@@ -7,6 +7,7 @@ import {
   ThemeProvider,
   Card,
   Grow,
+  Fade,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '1em',
     fontWeight: 'bold',
     color: 'white',
-    background: 'rgb(39, 36, 34, 0.9)',
+    background: 'rgb(39, 36, 34, 0.85)',
     margin: 'auto',
     position: 'relative',
     textAlign: 'center',
@@ -107,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
   login: {
     zIndex: 2,
     marginTop: '1em',
+    width: '100%',
     color: 'white',
     fontFamily: 'Aldrich, sans-serif',
     textAlign: 'center',
@@ -128,11 +130,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     pointerEvents: 'none',
     transform: 'translate(-50%, -50%)',
-    top: '50%',
+    marginTop: '-15em',
     [theme.breakpoints.down('md')]: {
-      height: '60%',
-      top: '58%',
-      bottom: '0vh',
+      height: '60vh',
     },
   },
   imagewrapper: {

@@ -600,7 +600,6 @@ const Dashboard = (props) => {
                             ))}
                           </>
                         )}
-
                       </div>
                     </AccordionDetails>
                   </Accordion>

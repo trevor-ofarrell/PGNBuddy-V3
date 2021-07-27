@@ -27,8 +27,6 @@ import pgnbuddymobile from '../../public/pgnbuddymobile.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
     height: '100vh',
     width: '100vw',
     maxHeight: '100vh',
@@ -38,9 +36,6 @@ const useStyles = makeStyles((theme) => ({
   page: {
     marginTop: 'auto',
     marginBottom: 'auto',
-  },
-  pagecontent: {
-    marginTop: '7.5vh',
   },
   home: {
     zIndex: 2,
@@ -70,13 +65,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   hwrapper: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    [theme.breakpoints.up('lg')]: {
-      marginTop: '20vh',
-    },
+    marginTop: '10vh',
     [theme.breakpoints.down('xs')]: {
-      marginTop: '3vh',
+      marginTop: '6vh',
     },
   },
   cta: {
@@ -130,10 +121,12 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     pointerEvents: 'none',
     transform: 'translate(-50%, -50%)',
-    marginTop: '-15em',
+    top: '50%',
     [theme.breakpoints.down('md')]: {
-      height: '60vh',
+      maxWidth: '95vw',
+      maxHeight: '80vh',
     },
+
   },
   imagewrapper: {
     zIndex: 0,
@@ -185,56 +178,50 @@ function App(props, inProp = true) {
         style={{ transformOrigin: '2 0 -5' }}
         {...(inProp ? { timeout: 1000 } : {})}
       >
-        <Grid container className={classes.page}>
-          <Grid item xs={12} md={12} lg={12}>
-            <Box>
-              <ThemeProvider theme={theme}>
-                <div className={classes.pagecontent}>
-                  <Grid container>
-                    <Grid item lg={1} xl={1} />
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className={classes.hwrapper}>
-                      <Card className={classes.home}>
-                        Store, view, and organize your PGN files from anywhere.
-                        On any device.
-                      </Card>
-                      <Grid container>
-                        <Grid item xs={1} sm={1} md={2} lg={4} xl={4} />
-                        <Grid item xs={10} sm={10} md={8} lg={4} xl={4}>
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            className={classes.cta}
-                            onClick={async () => {
-                              Router.push('/signup');
-                            }}
-                          >
-                            sign up
-                          </Button>
+        <ThemeProvider theme={theme}>
+          <div className={classes.page}>
+            <Grid container>
+              <Grid item lg={1} xl={1} />
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className={classes.hwrapper}>
+                <Card className={classes.home}>
+                  Store, view, and organize your PGN files from anywhere.
+                  On any device.
+                </Card>
+                <Grid container>
+                  <Grid item xs={1} sm={1} md={2} lg={4} xl={4} />
+                  <Grid item xs={10} sm={10} md={8} lg={4} xl={4}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      className={classes.cta}
+                      onClick={async () => {
+                        Router.push('/signup');
+                      }}
+                    >
+                      sign up
+                    </Button>
 
-                          <Grid item xs={1} sm={1} md={2} lg={4} xl={4} />
-                        </Grid>
-                      </Grid>
-                      <Link href="/login">
-                        <Typography className={classes.login}>
-                          Already have an account? Login
-                        </Typography>
-                      </Link>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <div className={classes.imagewrapper}>
-                        <img
-                          src={pgnbuddymobile}
-                          alt="phone with pgnbuddy dashboard"
-                          className={classes.image}
-                        />
-                      </div>
-                    </Grid>
+                    <Grid item xs={1} sm={1} md={2} lg={4} xl={4} />
                   </Grid>
+                </Grid>
+                <Link href="/login">
+                  <Typography className={classes.login}>
+                    Already have an account? Login
+                  </Typography>
+                </Link>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <div className={classes.imagewrapper}>
+                  <img
+                    src={pgnbuddymobile}
+                    alt="phone with pgnbuddy dashboard"
+                    className={classes.image}
+                  />
                 </div>
-              </ThemeProvider>
-            </Box>
-          </Grid>
-        </Grid>
+              </Grid>
+            </Grid>
+          </div>
+        </ThemeProvider>
       </Grow>
     </div>
   );

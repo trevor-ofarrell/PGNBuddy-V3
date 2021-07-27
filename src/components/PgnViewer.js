@@ -34,10 +34,11 @@ const useStyles = makeStyles(() => ({
       backgroundColor: 'rgb(79, 76, 74) !important',
       color: 'rgb(179, 176, 174) !important',
       border: 'solid rgb(179, 176, 174) 1px !important',
-      marginTop: '1.5em !important',
+      marginTop: '1em !important',
       marginBottom: '0.5em !important',
       paddingRight: '8px !important',
       paddingLeft: '8px !important',
+      padding: '6px !important',
     },
     'div.buttons > i.button': {
       backgroundColor: 'rgb(79, 76, 74) !important',

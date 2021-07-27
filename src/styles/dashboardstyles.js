@@ -99,16 +99,16 @@ export const useStyles = makeStyles((theme) => ({
     background: 'rgb(39, 36, 34)',
   },
   accordian: {
-    height: '100%',
-    maxHeight: '95vh',
+    height: 'calc(100vh - 65px)',
     overflowY: 'auto',
     width: '100%',
     [theme.breakpoints.down('xs')]: {
-      maxHeight: '92.8vh',
+      height: 'calc(100vh - 55px)',
     },
-    [theme.breakpoints.down('sm')]: {
-      maxHeight: '93.8vh',
-    },
+  },
+  content: {
+    flexGrow: 1,
+    overflow: 'auto',
   },
   dash: {
     display: 'flex',
@@ -144,10 +144,6 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('xl')]: {
       marginTop: '4.545em',
     },
-  },
-  content: {
-    flexGrow: 1,
-    overflow: 'auto',
   },
   sidedrawer: {
     marginLeft: 'auto',

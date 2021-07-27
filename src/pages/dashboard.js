@@ -475,149 +475,147 @@ const Dashboard = (props) => {
         setSearch={setSearch}
         folderList={folderList}
         setFolderList={setFolderList}
+        style={{    height: '10%',
+      }}
       />
       <MuiThemeProvider theme={customBreakpoints}>
-
-        <Box>
-          <div className={classes.dash}>
-            <CssBaseline />
-            <nav className={classes.drawer} aria-label="sideDrawerButton menu">
-              <Hidden only={['xs', 'sm', 'lg', 'xl']}>
-                <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open left side menu">
-                  <MenuOpenIcon style={{ fill: '#ffffff' }} />
-                </Button>
-                <Drawer
-                  variant="temporary"
-                  anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                  open={mobileOpen}
-                  onClose={handleDrawerToggle}
-                  classes={{
-                    paper: classes.drawerPaper,
-                  }}
-                  ModalProps={{
-                    keepMounted: true,
-                  }}
-                >
-                  {drawer}
-                </Drawer>
-              </Hidden>
-              <Hidden mdDown implementation="css">
-                <Drawer
-                  classes={{
-                    paper: classes.drawerPaper,
-                  }}
-                  variant="permanent"
-                  open
-                >
-                  {drawer}
-                </Drawer>
-              </Hidden>
-            </nav>
-            <div className={classes.content}>
-              <div className={classes.accordian}>
-                {folders.length !== 0 ? folderList.map((folder, i) => (
-                  <React.Fragment key={`folder-${uuid()}-${folder}`}>
-                    <Accordion
-                      TransitionProps={{ unmountOnExit: true }}
-                      expanded={expandedFolder === `panel${String(i)}`}
-                      onChange={handleFolderChange(`panel${String(i)}`)}
-                    >
-                      <AccordionSummary aria-controls={`panel${i}a-content`} id={`panel${i}a-content`}>
-                        <FolderOpenIcon style={{
-                          fill: '#fff', marginRight: '1.5vw', marginTop: 'auto', marginBottom: 'auto',
-                        }}
-                        />
-                        <div className={classes.nowrap}>
-                          <Typography noWrap className={classes.foldertext}>{folder}</Typography>
-                        </div>
-                        <div className={classes.grow} />
-                        {getOpenings(folder).length !== 0 && (
-                          <MuiThemeProvider theme={inputTheme}>
-                            <FormControl
-                              size="small"
-                              className={classes.formControl}
-                              variant="outlined"
+        <div className={classes.dash}>
+          <CssBaseline />
+          <nav className={classes.drawer} aria-label="sideDrawerButton menu">
+            <Hidden only={['xs', 'sm', 'lg', 'xl']}>
+              <Button className={classes.menuicon} onClick={handleDrawerToggle} aria-label="open left side menu">
+                <MenuOpenIcon style={{ fill: '#ffffff' }} />
+              </Button>
+              <Drawer
+                variant="temporary"
+                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                ModalProps={{
+                  keepMounted: true,
+                }}
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+            <Hidden mdDown implementation="css">
+              <Drawer
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                variant="permanent"
+                open
+              >
+                {drawer}
+              </Drawer>
+            </Hidden>
+          </nav>
+          <div className={classes.content}>
+            <div className={classes.accordian}>
+              {folders.length !== 0 ? folderList.map((folder, i) => (
+                <React.Fragment key={`folder-${uuid()}-${folder}`}>
+                  <Accordion
+                    TransitionProps={{ unmountOnExit: true }}
+                    expanded={expandedFolder === `panel${String(i)}`}
+                    onChange={handleFolderChange(`panel${String(i)}`)}
+                  >
+                    <AccordionSummary aria-controls={`panel${i}a-content`} id={`panel${i}a-content`}>
+                      <FolderOpenIcon style={{
+                        fill: '#fff', marginRight: '1.5vw', marginTop: 'auto', marginBottom: 'auto',
+                      }}
+                      />
+                      <div className={classes.nowrap}>
+                        <Typography noWrap className={classes.foldertext}>{folder}</Typography>
+                      </div>
+                      <div className={classes.grow} />
+                      {getOpenings(folder).length !== 0 && (
+                        <MuiThemeProvider theme={inputTheme}>
+                          <FormControl
+                            size="small"
+                            className={classes.formControl}
+                            variant="outlined"
+                          >
+                            <InputLabel className={classes.input} id={`${folder}-label`}>opening</InputLabel>
+                            <Select
+                              label="opening"
+                              labelId={`${folder}-select-label`}
+                              id={`${folder}-select-label`}
+                              value={state[[folder]]}
+                              onClick={(event) => event.stopPropagation()}
+                              onFocus={(event) => event.stopPropagation()}
+                              onChange={(e) => {
+                                setState((prevState) => ({
+                                  ...prevState,
+                                  [folder]: e.target.value,
+                                }));
+                              }}
                             >
-                              <InputLabel className={classes.input} id={`${folder}-label`}>opening</InputLabel>
-                              <Select
-                                label="opening"
-                                labelId={`${folder}-select-label`}
-                                id={`${folder}-select-label`}
-                                value={state[[folder]]}
-                                onClick={(event) => event.stopPropagation()}
-                                onFocus={(event) => event.stopPropagation()}
-                                onChange={(e) => {
-                                  setState((prevState) => ({
-                                    ...prevState,
-                                    [folder]: e.target.value,
-                                  }));
+                              {getOpenings(folder).map((item) => (
+                                <MenuItem key={`${item}-menuitem`} value={item}>
+                                  {item}
+                                </MenuItem>
+                              ))}
+                              <MenuItem
+                                value=""
+                                onClick={(e) => {
+                                  if (state[[folder]] !== '') {
+                                    setState((prevState) => ({
+                                      ...prevState,
+                                      [folder]: e.target.value,
+                                    }
+                                    ));
+                                  }
                                 }}
                               >
-                                {getOpenings(folder).map((item) => (
-                                  <MenuItem key={`${item}-menuitem`} value={item}>
-                                    {item}
-                                  </MenuItem>
-                                ))}
-                                <MenuItem
-                                  value=""
-                                  onClick={(e) => {
-                                    if (state[[folder]] !== '') {
-                                      setState((prevState) => ({
-                                        ...prevState,
-                                        [folder]: e.target.value,
-                                      }
-                                      ));
-                                    }
-                                  }}
-                                >
-                                  Clear selection
-                                </MenuItem>
-                              </Select>
-                            </FormControl>
-                          </MuiThemeProvider>
+                                Clear selection
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+                        </MuiThemeProvider>
+                      )}
+                      <div className={classes.actionIcons}>
+                        <DeleteFolderModal folderName={folder} id={id} />
+                      </div>
+                      <div className={classes.actionIcons}>
+                        {pgns.filter((game) => game.folder === folder)
+                          .every((obj) => obj.editable === true) === true && (
+                          <EditModal folderName={folder} id={id} entryName="folder" />
                         )}
-                        <div className={classes.actionIcons}>
-                          <DeleteFolderModal folderName={folder} id={id} />
-                        </div>
-                        <div className={classes.actionIcons}>
-                          {pgns.filter((game) => game.folder === folder)
-                            .every((obj) => obj.editable === true) === true && (
-                            <EditModal folderName={folder} id={id} entryName="folder" />
-                          )}
-                        </div>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <div className={classes.pgns}>
-                          {state[[folder]] !== '' ? (
-                            <>
-                              {pgns.filter((game) => game.folder === folder
-                                && filterPgns(game, folder)).map((pgn, j) => (
-                                  <FolderItems key={`pgn-${uuid()}-${pgn.pgn_id}`} pgn={pgn} folder={folder} j={j} />
-                              ))}
-                            </>
-                          ) : (
-                            <>
-                              {pgns.filter((game) => game.folder === folder).map((pgn, j) => (
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <div className={classes.pgns}>
+                        {state[[folder]] !== '' ? (
+                          <>
+                            {pgns.filter((game) => game.folder === folder
+                              && filterPgns(game, folder)).map((pgn, j) => (
                                 <FolderItems key={`pgn-${uuid()}-${pgn.pgn_id}`} pgn={pgn} folder={folder} j={j} />
-                              ))}
-                            </>
-                          )}
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            {pgns.filter((game) => game.folder === folder).map((pgn, j) => (
+                              <FolderItems key={`pgn-${uuid()}-${pgn.pgn_id}`} pgn={pgn} folder={folder} j={j} />
+                            ))}
+                          </>
+                        )}
 
-                        </div>
-                      </AccordionDetails>
-                    </Accordion>
-                  </React.Fragment>
-                )) : (
-                  <Typography className={classes.nogames}>
-                    <b>No PGN&#39;s saved currently</b>
-                  </Typography>
-                ) }
-              </div>
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
+                </React.Fragment>
+              )) : (
+                <Typography className={classes.nogames}>
+                  <b>No PGN&#39;s saved currently</b>
+                </Typography>
+              ) }
             </div>
           </div>
-        </Box>
+        </div>
       </MuiThemeProvider>
-
     </div>
   );
 };

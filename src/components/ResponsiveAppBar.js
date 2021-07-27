@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   kingsvg: {
-    cursor: 'pointer',
+    pointerEvents: 'none',
     marginTop: '-0.4em',
   },
   flex: {

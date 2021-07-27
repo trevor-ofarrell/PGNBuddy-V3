@@ -225,7 +225,9 @@ const Dashboard = (props) => {
                 setSearch(e.target.value);
                 if (e.target.value !== '') {
                   const foldersCopy = folders;
-                  setFolderList(foldersCopy.filter((folder) => folder.startsWith(e.target.value)));
+                  setFolderList(foldersCopy.filter(
+                    (folder) => folder.toLowerCase().includes(e.target.value.toLowerCase()),
+                  ));
                 } else if (e.target.value === '') {
                   setFolderList(folders);
                 }

@@ -42,33 +42,23 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 'auto',
   },
   pagecontent: {
-    paddingRight: '5em',
-    maxHeight: '100vh',
-    [theme.breakpoints.up('lg')]: {
-      marginTop: '5em',
-    },
-    [theme.breakpoints.down('md')]: {
-      paddingRight: '0em',
-    },
-    [theme.breakpoints.down('sm')]: {
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: '50vh',
-    },
+    marginTop: '7.5vh',
   },
   home: {
     zIndex: 2,
+    width: '70%',
     fontFamily: 'Aldrich, sans-serif',
     fontSize: '3.6em',
     padding: '1em',
     fontWeight: 'bold',
     color: 'white',
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    background: 'rgb(39, 36, 34, 0.9)',
+    margin: 'auto',
     position: 'relative',
+    textAlign: 'center',
+    textShadow: '2px 2px rgb(29, 26, 24)',
+    userSelect: 'none',
     [theme.breakpoints.down('md')]: {
-      textAlign: 'center',
-      margin: 'auto',
       padding: '1.5em',
       fontSize: '3.5em',
     },
@@ -128,11 +118,9 @@ const useStyles = makeStyles((theme) => ({
   },
   image2: {
     zIndex: 0,
-    bottom: '25vh',
-    height: '70%',
-    margin: 0,
     position: 'absolute',
     top: '50%',
+    pointerEvents: 'none',
     transform: 'translate(-50%, -50%)',
     [theme.breakpoints.down('md')]: {
       height: '60%',
@@ -141,8 +129,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   image: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
     zIndex: 0,
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
@@ -154,6 +140,9 @@ const useStyles = makeStyles((theme) => ({
   f: {
     marginTop: 'auto',
     marginBottom: 'auto',
+    [theme.breakpoints.up('lg')]: {
+      marginTop: '20vh',
+    },
     [theme.breakpoints.down('xs')]: {
       marginTop: '3vh',
     },
@@ -211,11 +200,11 @@ function App(props, inProp = true) {
                 <div className={classes.pagecontent}>
                   <Grid container>
                     <Grid item lg={1} xl={1} />
-                    <Grid item xs={12} sm={12} md={12} lg={6} xl={7} className={classes.f}>
-                      <div className={classes.home}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className={classes.f}>
+                      <Card className={classes.home}>
                         Store, view, and organize your PGN files from anywhere.
                         On any device.
-                      </div>
+                      </Card>
                       <Grid container>
                         <Grid item xs={1} sm={1} md={2} lg={4} xl={4} />
                         <Grid item xs={10} sm={10} md={8} lg={4} xl={4}>
@@ -240,12 +229,14 @@ function App(props, inProp = true) {
                       </Link>
                     </Grid>
 
-                    <Grid item xs={12} sm={12} md={12} lg={5} xl={4}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                       <div className={classes.image}>
                         <img
                           src={pgnbuddymobile}
                           alt="phone with pgnbuddy dashboard"
                           className={classes.image2}
+                          height="auto"
+                          width="auto"
                         />
                       </div>
                     </Grid>

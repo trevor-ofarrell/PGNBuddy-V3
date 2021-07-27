@@ -20,13 +20,24 @@ const useStyles = makeStyles(() => ({
     },
     '.brown .blackHeader': {
       fontSize: '1.3em',
+      color: '#fafafa !important',
     },
     '.brown .whiteHeader': {
       fontSize: '1.3em',
+      color: '#fafafa !important',
     },
     '.brown .fen': {
       backgroundColor: 'rgb(69, 66, 64)',
-      color: '#fafafa',
+      color: '#fafafa !important',
+    },
+    '.pgnvjs > div.buttons .pgnvbutton, .pgnvjs div.edit > .pgnvbutton': {
+      backgroundColor: 'rgb(79, 76, 74) !important',
+      color: 'rgb(179, 176, 174) !important',
+      border: 'solid rgb(179, 176, 174) 1px !important',
+      marginTop: '1.5em !important',
+      marginBottom: '0.5em !important',
+      paddingRight: '8px !important',
+      paddingLeft: '8px !important',
     },
     'div.buttons > i.button': {
       backgroundColor: 'rgb(79, 76, 74) !important',

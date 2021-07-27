@@ -475,8 +475,6 @@ const Dashboard = (props) => {
         setSearch={setSearch}
         folderList={folderList}
         setFolderList={setFolderList}
-        style={{    height: '10%',
-      }}
       />
       <MuiThemeProvider theme={customBreakpoints}>
         <div className={classes.dash}>

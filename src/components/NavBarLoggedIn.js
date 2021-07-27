@@ -56,6 +56,12 @@ const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  appbar: {
+    height: '65px',
+    [theme.breakpoints.down('xs')]: {
+      height: '55px',
+    },
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -330,6 +336,7 @@ export const NavBarLoggedIn = ({
         position="static"
         color="transparent"
         elevation={0}
+        className={classes.appbar}
       >
         <Toolbar>
           <Hidden mdUp>

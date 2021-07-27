@@ -27,6 +27,7 @@
     "lru-cache": "^6.0.0",
     "ndjson": "^2.0.0",
     "next": "10.0.2",
+    "next-images": "^1.7.0",
     "next-offline": "^5.0.3",
     "next-pwa": "^5.0.4",
     "nookies": "^2.5.0",

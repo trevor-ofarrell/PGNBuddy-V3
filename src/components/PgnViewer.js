@@ -17,7 +17,6 @@ const useStyles = makeStyles(() => ({
     },
     '.moves .comment': {
       color: 'rgb(179, 176, 174) !important',
-
     },
     '.brown .blackHeader': {
       fontSize: '1.3em',

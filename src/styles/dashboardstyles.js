@@ -1,6 +1,5 @@
 import {
   makeStyles,
-  TextField,
   withStyles,
 } from '@material-ui/core';
 

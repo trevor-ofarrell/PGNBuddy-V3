@@ -4,7 +4,7 @@ import {
   Button,
   Grid,
   Typography,
-  createMuiTheme,
+  createTheme,
   TextField,
   Tooltip,
   Card,
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const textFieldTheme = createMuiTheme({
+const textFieldTheme = createTheme({
   palette: {
     primary: { main: '#fafafa' },
   },

@@ -6,7 +6,7 @@ import {
   Button,
   Card,
   Typography,
-  createMuiTheme,
+  createTheme,
 } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const textFieldTheme = createMuiTheme({
+const textFieldTheme = createTheme({
   palette: {
     primary: { main: '#fafafa' },
   },

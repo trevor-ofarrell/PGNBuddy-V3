@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { AuthProvider } from '../../auth';
 
@@ -19,7 +19,7 @@ export default function SaveApp(props) {
     }
   }, []);
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     breakpoints: {
       values: {
         xs: 0,

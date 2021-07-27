@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core';
 import {
   useTheme,
-  createMuiTheme,
+  createTheme,
   MuiThemeProvider,
 } from '@material-ui/core/styles';
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
@@ -63,7 +63,7 @@ const PgnViewWrapper = dynamic(
 );
 const isBrowser = () => typeof window !== 'undefined';
 
-const customBreakpoints = createMuiTheme({
+const customBreakpoints = createTheme({
   palette: {
     primary: { main: '#fafafa' },
   },
@@ -78,7 +78,7 @@ const customBreakpoints = createMuiTheme({
   },
 });
 
-const inputTheme = createMuiTheme({
+const inputTheme = createTheme({
   palette: {
     type: 'dark',
     primary: { main: '#fafafa' },

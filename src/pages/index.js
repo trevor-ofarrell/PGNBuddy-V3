@@ -3,7 +3,7 @@ import {
   Grid,
   Box,
   Button,
-  createMuiTheme,
+  createTheme,
   ThemeProvider,
   Card,
   Grow,
@@ -12,7 +12,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import Router from 'next/router';
 
 import nookies from 'nookies';
@@ -24,8 +23,6 @@ import {
 } from '../components';
 
 import pgnbuddymobile from '../../public/pgnbuddymobile.png';
-
-//  TODO add nav bar to login/signup pages
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +67,16 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '2em',
       padding: '1em',
     },
-
+  },
+  hwrapper: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    [theme.breakpoints.up('lg')]: {
+      marginTop: '20vh',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '3vh',
+    },
   },
   cta: {
     zIndex: 1,
@@ -109,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     marginLeft: 'auto',
     position: 'relative',
+    userSelect: 'none',
     [theme.breakpoints.down('xs')]: {
       fontSize: '1.1em',
     },
@@ -116,40 +123,25 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'underline',
     },
   },
-  image2: {
+  image: {
     zIndex: 0,
     position: 'absolute',
-    top: '50%',
     pointerEvents: 'none',
     transform: 'translate(-50%, -50%)',
+    top: '50%',
     [theme.breakpoints.down('md')]: {
       height: '60%',
       top: '58%',
       bottom: '0vh',
     },
   },
-  image: {
+  imagewrapper: {
     zIndex: 0,
     textAlign: 'center',
-    [theme.breakpoints.down('md')]: {
-      height: '40vh',
-      marginTop: 'auto',
-      marginBottom: '0em',
-    },
-  },
-  f: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    [theme.breakpoints.up('lg')]: {
-      marginTop: '20vh',
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginTop: '3vh',
-    },
   },
 }));
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: { main: '#FFFFFF' },
   },
@@ -200,7 +192,7 @@ function App(props, inProp = true) {
                 <div className={classes.pagecontent}>
                   <Grid container>
                     <Grid item lg={1} xl={1} />
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className={classes.f}>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} className={classes.hwrapper}>
                       <Card className={classes.home}>
                         Store, view, and organize your PGN files from anywhere.
                         On any device.
@@ -228,15 +220,12 @@ function App(props, inProp = true) {
                         </Typography>
                       </Link>
                     </Grid>
-
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                      <div className={classes.image}>
+                      <div className={classes.imagewrapper}>
                         <img
                           src={pgnbuddymobile}
                           alt="phone with pgnbuddy dashboard"
-                          className={classes.image2}
-                          height="auto"
-                          width="auto"
+                          className={classes.image}
                         />
                       </div>
                     </Grid>

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
   makeStyles,
   useTheme,
-  createMuiTheme,
+  createTheme,
   MuiThemeProvider,
 } from '@material-ui/core/styles';
 
@@ -35,7 +35,7 @@ import { UploadPgnModal, LichessExportModal } from '.';
 
 const drawerWidth = 240;
 
-const inputTheme = createMuiTheme({
+const inputTheme = createTheme({
   palette: {
     type: 'dark',
     primary: { main: '#fafafa' },

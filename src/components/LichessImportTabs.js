@@ -15,7 +15,7 @@ import {
   Tab,
   Typography,
   Box,
-  createMuiTheme,
+  createTheme,
 } from '@material-ui/core';
 import {
   ThemeProvider,
@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const textFieldTheme = createMuiTheme({
+const textFieldTheme = createTheme({
   palette: {
     primary: { main: '#fafafa' },
   },

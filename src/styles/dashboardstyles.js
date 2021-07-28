@@ -108,10 +108,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   dash: {
     display: 'flex',
-    height: 'calc(100% - 65px)',
-    [theme.breakpoints.down('xs')]: {
-      height: 'calc(100% - 55px)',
-    },
+    height: '100%',
   },
   drawer: {
     [theme.breakpoints.up('lg')]: {

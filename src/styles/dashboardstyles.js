@@ -101,7 +101,7 @@ export const useStyles = makeStyles((theme) => ({
   accordian: {
     overflowY: 'auto',
     width: '100%',
-    height: '100%',
+    height: '95vh',
   },
   content: {
     flexGrow: 1,

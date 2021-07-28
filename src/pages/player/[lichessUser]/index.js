@@ -15,6 +15,8 @@ import {
 } from '../../../components';
 import rateLimit from '../../../../utils/ratelimit';
 
+import useWindowSize from '../../../hooks/useWindowSize';
+
 const axios = require('axios');
 
 const limiterHalf = rateLimit({
@@ -167,6 +169,7 @@ const User = (props) => {
   } = props;
 
   const classes = useStyles();
+  const size = useWindowSize();
 
   if (!perfList && !playerData) {
     return <ErrorPage statusCode={404} />;
@@ -176,7 +179,7 @@ const User = (props) => {
     <>
       {pastYearRatingHistory.length && perfList.length
         ? (
-          <div className={classes.root}>
+          <div className={classes.root} style={{ height: size.height }}>
             { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
             <div className={classes.aspect}>
               <a href={`https://lichess.org/@/${JSON.parse(username)}`} className={classes.link}>
@@ -222,7 +225,7 @@ const User = (props) => {
           </div>
         )
         : (
-          <div className={classes.root}>
+          <div className={classes.root} style={{ height: size.height }}>
             { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
             <div className={classes.aspect}>
               <div className={classes.ratelimit}>

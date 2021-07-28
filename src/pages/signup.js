@@ -19,16 +19,13 @@ import {
   ResponsiveAppBar,
 } from '../components';
 
+import useWindowSize from '../hooks/useWindowSize';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     background: 'rgb(29, 26, 24)',
-    height: '100vh',
-    scroll: 'false',
     overflow: 'hidden',
-  },
-  mask: {
     width: '100vw',
-    height: '100vh',
   },
   card: {
     marginTop: '36vh',
@@ -73,16 +70,17 @@ const textFieldTheme = createTheme({
 
 const SignUp = () => {
   const classes = useStyles();
+  const size = useWindowSize();
   const [email, setEmail] = useState('');
   const [lichessUsername, setLichessUser] = useState('');
   const [pass, setPass] = useState('');
   const form = useRef(null);
 
   return (
-    <form ref={form} className={classes.root}>
+    <form ref={form} className={classes.root} style={{ height: size.height }}>
       <ResponsiveAppBar />
       <ThemeProvider theme={textFieldTheme}>
-        <Grid container className={classes.mask}>
+        <Grid container>
           <Grid item xs={1} sm={1} md={3} lg={4} />
           <Grid item xs={10} sm={10} md={6} lg={4}>
             <Card elevation={0} className={classes.card}>

@@ -465,7 +465,7 @@ const Dashboard = (props) => {
   );
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ height: size.height }}>
       <NavBarLoggedIn
         handleDrawerToggle={handleDrawerToggle}
         lichessUsername={lichessUsername}
@@ -512,7 +512,7 @@ const Dashboard = (props) => {
             </Hidden>
           </nav>
           <div className={classes.content}>
-            <div className={classes.accordian}>
+            <div className={classes.accordian} >
               {folders.length !== 0 ? folderList.map((folder, i) => (
                 <React.Fragment key={`folder-${uuid()}-${folder}`}>
                   <Accordion

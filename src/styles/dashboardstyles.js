@@ -6,10 +6,8 @@ import {
 import MuiAccordion from '@material-ui/core/Accordion';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import useWindowSize from '../hooks/useWindowSize';
 
 const drawerWidth = 240;
-const Size = () => useWindowSize();
 
 export const Accordion = withStyles({
   root: {

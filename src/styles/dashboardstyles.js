@@ -94,17 +94,12 @@ export const PgnAccordionDetails = withStyles((theme) => ({
 export const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: 'hidden',
-    height: '-webkit-fill-available',
     width: '100vw',
     background: 'rgb(39, 36, 34)',
   },
   accordian: {
-    height: 'calc(100vh - 65px)',
     overflowY: 'auto',
     width: '100%',
-    [theme.breakpoints.down('xs')]: {
-      height: 'calc(100vh - 55px)',
-    },
   },
   content: {
     flexGrow: 1,
@@ -112,6 +107,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   dash: {
     display: 'flex',
+    height: 'calc(100% - 65px)',
+    [theme.breakpoints.down('xs')]: {
+      height: 'calc(100% - 55px)',
+    },
   },
   drawer: {
     [theme.breakpoints.up('lg')]: {

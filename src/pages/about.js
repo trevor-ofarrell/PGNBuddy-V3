@@ -17,46 +17,13 @@ import {
   NavBarLoggedIn, ResponsiveAppBar,
 } from '../components';
 
-const drawerWidth = 140;
+import useWindowSize from '../hooks/useWindowSize';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
     width: '100vw',
     background: 'rgb(39, 36, 34)',
     overflow: 'hidden',
-  },
-  drawer: {
-    [theme.breakpoints.up('lg')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-      maxHeight: '94vh',
-      marginTop: '6vh',
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  drawerPaper: {
-    marginTop: '4.545em',
-    width: drawerWidth,
-    background: 'transparent',
-    border: 'none',
-    boxShadow: 'none',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    zIndex: '10',
-    marginBottom: 'auto',
-    [theme.breakpoints.down('md')]: {
-      marginTop: '0vh',
-      backgroundColor: 'rgba(12, 12, 12, 0.875)',
-    },
-    [theme.breakpoints.up('xl')]: {
-      marginTop: '4.545em',
-    },
   },
   content: {
     flexGrow: 1,
@@ -66,25 +33,6 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '5vh',
     paddingTop: '1em',
     marginTop: '1em',
-  },
-  sidedrawer: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '90%',
-    [theme.breakpoints.down('md')]: {
-      paddingTop: '0.65vh',
-    },
-    [theme.breakpoints.up('xl')]: {
-      paddingTop: '-3.5vh',
-    },
-  },
-  menuicon: {
-    paddingTop: '45vh',
-    paddingBottom: '45vh',
-    [theme.breakpoints.down('xs')]: {
-      marginLeft: '-2.5vw',
-      marginRight: '-3vw',
-    },
   },
   link: {
     textDecoration: 'underline white',
@@ -159,9 +107,10 @@ export const getServerSideProps = async (ctx) => {
 const About = (props) => {
   const { id, email } = props;
   const classes = useStyles();
+  const size = useWindowSize();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ height: size.height }}>
       { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
       <CssBaseline />
       <div className={classes.content}>

@@ -23,13 +23,13 @@ import {
   NavBarLoggedIn,
 } from '../components';
 
+import useWindowSize from '../hooks/useWindowSize';
+
 import pgnbuddymobile from '../../public/pgnbuddymobile.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
     width: '100vw',
-    maxHeight: '100vh',
     background: 'rgb(29, 26, 24)',
     overflow: 'hidden',
   },
@@ -168,10 +168,11 @@ export const getServerSideProps = async (ctx) => {
 
 function App(props, inProp = true) {
   const classes = useStyles();
+  const size = useWindowSize();
   const { id, email } = props;
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ height: size.height }}>
       { id && email ? <NavBarLoggedIn /> : <ResponsiveAppBar />}
       <Grow
         in

@@ -95,7 +95,7 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: 'hidden',
     width: '100vw',
-    height: '100vh',
+    height: '100%',
     background: 'rgb(39, 36, 34)',
   },
   accordian: {

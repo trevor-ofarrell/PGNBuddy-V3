@@ -109,7 +109,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     height: 'calc(100% - 65px)',
     [theme.breakpoints.down('xs')]: {
-      height: 'calc(100vh - 55px)',
+      height: 'calc(100% - 55px)',
     },
   },
   drawer: {

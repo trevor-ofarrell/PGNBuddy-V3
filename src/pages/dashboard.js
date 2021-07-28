@@ -465,7 +465,7 @@ const Dashboard = (props) => {
   );
 
   return (
-    <div className={classes.root} style={{ height: size.height }}>
+    <div className={classes.root}>
       <NavBarLoggedIn
         handleDrawerToggle={handleDrawerToggle}
         lichessUsername={lichessUsername}

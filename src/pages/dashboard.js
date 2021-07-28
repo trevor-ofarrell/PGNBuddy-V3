@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 
 import {
-  Box,
   CssBaseline,
   Drawer,
   Hidden,
@@ -16,7 +15,6 @@ import {
   Select,
   MenuItem,
   TextField,
-  Input,
 } from '@material-ui/core';
 import {
   useTheme,
@@ -56,6 +54,8 @@ import {
   LichessExportModal,
   EditModal,
 } from '../components';
+
+import useWindowSize from '../hooks/useWindowSize';
 
 const PgnViewWrapper = dynamic(
   () => import('../components/PgnViewWrapper'),
@@ -169,7 +169,7 @@ const Dashboard = (props) => {
   const {
     id, pgns, folders, lichessUsername,
   } = props;
-
+  const size = useWindowSize();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {

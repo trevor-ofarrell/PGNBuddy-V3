@@ -94,7 +94,7 @@ export const PgnAccordionDetails = withStyles((theme) => ({
 export const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: 'hidden',
-    height: '100vh',
+    height: '-webkit-fill-available',
     width: '100vw',
     background: 'rgb(39, 36, 34)',
   },

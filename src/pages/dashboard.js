@@ -169,7 +169,7 @@ const Dashboard = (props) => {
   const {
     id, pgns, folders, lichessUsername,
   } = props;
-  //const size = useWindowSize();
+  const size = useWindowSize();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -465,7 +465,7 @@ const Dashboard = (props) => {
   );
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ height: size.height }}>
       <NavBarLoggedIn
         handleDrawerToggle={handleDrawerToggle}
         lichessUsername={lichessUsername}

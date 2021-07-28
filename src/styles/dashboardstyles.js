@@ -101,6 +101,7 @@ export const useStyles = makeStyles((theme) => ({
   accordian: {
     overflowY: 'auto',
     width: '100%',
+    height: '100%',
   },
   content: {
     flexGrow: 1,
@@ -108,7 +109,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   dash: {
     display: 'flex',
-    height: '100%',
+
   },
   drawer: {
     [theme.breakpoints.up('lg')]: {

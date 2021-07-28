@@ -169,7 +169,7 @@ const Dashboard = (props) => {
   const {
     id, pgns, folders, lichessUsername,
   } = props;
-  const size = useWindowSize();
+  //const size = useWindowSize();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {

@@ -142,13 +142,15 @@ export const FenToDiagramModal = () => {
   };
 
   const createDiagram = () => {
-    const checkedFEN = FEN.split(',').filter(
-      (fen) => new Chess().load(fen) === true,
-    ).map((item) => {
-      const chess = new Chess();
-      chess.load(item);
-      return [item, chess.turn()];
-    }).slice(0, 10);
+    const checkedFEN = FEN.replace(', ', ',')
+      .split(',')
+      .filter((fen) => new Chess().load(fen) === true)
+      .map((item) => {
+        const chess = new Chess();
+        chess.load(item);
+        return [item, chess.turn()];
+      })
+      .slice(0, 10);
 
     fetch(`https://d9.wtf/screenshot?fen=${checkedFEN}`)
       .then((response) => response.blob())

@@ -21,11 +21,11 @@ const axios = require('axios');
 
 const limiterHalf = rateLimit({
   interval: 30 * 1000, // 30 seconds
-  uniqueTokenPerInterval: 1, // a max of 1 user can request per second
+  uniqueTokenPerInterval: 5, // a max of 1 user can request per second
 });
 const limiterFull = rateLimit({
   interval: 65 * 1000,
-  uniqueTokenPerInterval: 1,
+  uniqueTokenPerInterval: 5,
 });
 
 export const getServerSideProps = async (ctx) => {
@@ -60,44 +60,41 @@ export const getServerSideProps = async (ctx) => {
         const perfList = [];
         const pastYearRatingHistory = [];
 
-        JSON.parse(response2.data).forEach((timeControl) => {
-          try {
-            if (timeControl.points.length > 0) {
-              const timeControlName = timeControl.name;
-              const currentDate = new Date();
-              const month = currentDate.getUTCMonth();
-              const year = currentDate.getUTCFullYear();
-              const startYear = year - 1;
+        response2.data.forEach((timeControl) => {
+          if (timeControl.points?.length > 0) {
+            const timeControlName = timeControl.name;
+            const currentDate = new Date();
+            const month = currentDate.getUTCMonth();
+            const year = currentDate.getUTCFullYear();
+            const startYear = year - 1;
 
-              const pastYearData = timeControl.points.filter((point) => {
-                const refrenceDateStart = new Date(startYear, month, 1);
-                const refrenceDateEnd = new Date(year, month, 1);
-                const pointDate = new Date(point[0], point[1], point[2]);
-                return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);
-              });
-              const averages = {};
+            const pastYearData = timeControl.points.filter((point) => {
+              const refrenceDateStart = new Date(startYear, month, 1);
+              const refrenceDateEnd = new Date(year, month, 1);
+              const pointDate = new Date(point[0], point[1], point[2]);
+              return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);
+            });
+            const averages = {};
 
-              pastYearData.forEach((row) => {
-                if (!averages[row[1]]) { averages[row[1]] = []; }
-                averages[row[1]].push(parseInt(row[3], 10));
-              });
+            pastYearData.forEach((row) => {
+              if (!averages[row[1]]) { averages[row[1]] = []; }
+              averages[row[1]].push(parseInt(row[3], 10));
+            });
 
-              Object.keys(averages).forEach(
-                (m) => averages[m] = averages[m].reduce((v, i) => v + i, 0) / averages[m].length,
-              );
+            Object.keys(averages).forEach(
+              (m) => averages[m] = averages[m].reduce((v, i) => v + i, 0) / averages[m].length,
+            );
 
-              if (Object.keys(averages).length > 1) {
-                pastYearRatingHistory.push({ [timeControlName]: averages });
-              }
+            if (Object.keys(averages).length > 1) {
+              pastYearRatingHistory.push({ [timeControlName]: averages });
             }
-          } catch (err) {
-            return false;
           }
         });
 
         perfs.forEach((elem) => {
           perfList.push({ [elem]: response.data.perfs[elem] });
         });
+
         const playerData = response.data.count;
 
         if (uid && email) {
@@ -122,7 +119,7 @@ export const getServerSideProps = async (ctx) => {
             lichessUsername,
           },
         };
-      } catch {
+      } catch (err) {
         resp.statusCode = 404;
         return {
           props: {},
@@ -165,7 +162,7 @@ export const getServerSideProps = async (ctx) => {
 
 const User = (props) => {
   const {
-    perfList, playerData, username, pastYearRatingHistory, lichessUsername, id, email,
+    perfList, playerData, username, pastYearRatingHistory, id, email,
   } = props;
 
   const classes = useStyles();

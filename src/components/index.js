@@ -9,5 +9,6 @@ export * from './modals/UploadPgnModal';
 export * from './FileUploadButton';
 export * from './LichessImportTabs';
 export * from './modals/LichessExportModal';
+export * from './modals/FenToDiagramModal';
 export * from './modals/EditModal';
 export * from './PgnUploadTabs';

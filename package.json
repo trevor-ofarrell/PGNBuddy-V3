@@ -16,6 +16,7 @@
     "bluebird": "^3.7.2",
     "chart.js": "^2.9.4",
     "chartjs-plugin-datalabels": "^0.7.0",
+    "chess.js": "^0.12.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -47,5 +48,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react-hooks": "^4.2.0"
-  }
+  },
+  "proxy": "https://d9.wtf.com"
 }

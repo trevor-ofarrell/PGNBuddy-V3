@@ -53,6 +53,7 @@ import {
   UploadPgnModal,
   LichessExportModal,
   EditModal,
+  FenToDiagramModal,
 } from '../components';
 
 import useWindowSize from '../hooks/useWindowSize';
@@ -258,16 +259,20 @@ const Dashboard = (props) => {
             lichessUsername={lichessUsername}
           />
         </Grid>
-        {lichessUsername
-            && (
-            <Grid item xs={12} sm={12} lg={12}>
-              <Link href={playerLink}>
-                <Button className={classes.sideDrawerButton}>
-                  View my lichess stats
-                </Button>
-              </Link>
-            </Grid>
-            )}
+        {lichessUsername && (
+          <Grid item xs={12} sm={12} lg={12}>
+            <Link href={playerLink}>
+              <Button className={classes.sideDrawerButton}>
+                View my lichess stats
+              </Button>
+            </Link>
+          </Grid>
+        )}
+        <Grid item xs={12} sm={12} lg={12}>
+          <FenToDiagramModal
+            label="Create PNG diagram from FEN string"
+          />
+        </Grid>
       </Grid>
     </div>
   );

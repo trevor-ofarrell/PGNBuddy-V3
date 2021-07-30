@@ -64,7 +64,7 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
 
       // rotate array to have the current month at the right,
       // and farthest month to the left of the chart.
-      months = months.splice(month).concat(months);
+      months = months.splice(month + 1).concat(months);
 
       months.forEach((keyName) => {
         if (Number.isNaN(timeControlData[[timeControlName]][keyName])) {

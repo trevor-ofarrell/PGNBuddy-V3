@@ -91,7 +91,6 @@ export const getServerSideProps = async (ctx) => {
             if (Object.keys(averages).length > 1) {
               pastYearRatingHistory.push({ [timeControlName]: averages });
             }
-            console.log(pastYearRatingHistory);
           }
         });
 

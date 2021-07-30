@@ -69,7 +69,7 @@ export const getServerSideProps = async (ctx) => {
             const startYear = year - 1;
 
             const pastYearData = timeControl.points.filter((point) => {
-              const refrenceDateStart = new Date(startYear, month, 1);
+              const refrenceDateStart = new Date(startYear, month + 1, 1);
               const refrenceDateEnd = new Date(year, month, 1);
               const pointDate = new Date(point[0], point[1], point[2]);
               return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);

@@ -75,9 +75,12 @@ export const getServerSideProps = async (ctx) => {
               return (pointDate >= refrenceDateStart && pointDate <= refrenceDateEnd);
             });
             const averages = {};
-
+            // example data [ 2020, 6, 17, 1975 ]
+            // row 0, 1, 2, 3 are the year, month, day, and rating
             pastYearData.forEach((row) => {
+              // check if given month is in the averages object, if not initialise as []
               if (!averages[row[1]]) { averages[row[1]] = []; }
+              // add the ratings to the averages object
               averages[row[1]].push(parseInt(row[3], 10));
             });
 

@@ -54,32 +54,33 @@ export const LineChart = ({ pastYearRatingHistory, playerUsername }) => {
   const allChartData = [];
   let index = 0;
 
-  pastYearRatingHistory.map((ele) => {
+  pastYearRatingHistory.map((timeControlData) => {
     const dataSet = [];
 
-    Object.keys(ele).forEach((elem) => {
-      let monthKeys = Object.keys(ele[[elem]]);
-
+    Object.keys(timeControlData).forEach((timeControlName) => {
+      let months = Object.keys(timeControlData[[timeControlName]]);
       const currentDate = new Date();
       const month = currentDate.getUTCMonth();
 
       // rotate array to have the current month at the right,
       // and farthest month to the left of the chart.
-      monthKeys = monthKeys.splice(month).concat(monthKeys);
+      months = months.splice(month).concat(months);
 
-      monthKeys.forEach((keyName) => {
-        if (Number.isNaN(ele[[elem]][keyName])) {
-          delete ele[[elem]][keyName];
+      months.forEach((keyName) => {
+        if (Number.isNaN(timeControlData[[timeControlName]][keyName])) {
+          delete timeControlData[[timeControlName]][keyName];
         } else {
-          const item = { [monthNumberToLabelMap[keyName]]: Math.round(ele[[elem]][keyName]) };
+          const item = {
+            [monthNumberToLabelMap[keyName]]: Math.round(timeControlData[[timeControlName]][keyName])
+          };
           dataSet.push(item);
         }
       });
 
-      dataSets.push({ [elem]: dataSet });
+      dataSets.push({ [timeControlName]: dataSet });
 
       const chartData = {
-        label: elem,
+        label: timeControlName,
         fill: false,
         lineTension: 0.099,
         backgroundColor: 'rgba(75,192,192,0.1)',

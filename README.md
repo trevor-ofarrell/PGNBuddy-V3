@@ -3,7 +3,7 @@
 Store, view, analyze, and organize your PGN files from anywhere. On any device.
 
 <p align="center"> 
-  <img src="/client/public/mac.gif" alt="My Project GIF" width="auto" height="auto">
+  <img src="/client/public/project.gif" alt="My Project GIF" width="auto" height="auto">
 </p>
 
 ## About
